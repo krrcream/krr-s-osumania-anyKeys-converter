@@ -7,5 +7,5 @@ The elderly have learned python by themselves for a week, and there may be bugs.
 
 Environment:python3.12 + Pyqt5 + Numpy
 
-
-[Readme](https://docs.qq.com/aio/DUXlZS2tYdXZXdnJs?from_page=doc_home_gw_product&templateId=gqa966yujp83587sz7eth7xydc&create_type=2&aid_position=templatemall&aid_pos=templatemall&p=L9BXUFFFFgFLeFRZ5bvqs0&client_hint=0)         [Readme(EN)](https://docs.qq.com/aio/DUXlZS2tYdXZXdnJs?from_page=doc_home_gw_product&templateId=gqa966yujp83587sz7eth7xydc&create_type=2&aid_position=templatemall&aid_pos=templatemall&p=zsy2KRXWddpeuvB4tLdjIb&client_hint=0)
+[Bilibili](https://space.bilibili.com/)
+[Readme](https://docs.qq.com/aio/DUXlZS2tYdXZXdnJs?from_page=doc_home_gw_product&templateId=gqa966yujp83587sz7eth7xydc&create_type=2&aid_position=templatemall&aid_pos=templatemall&p=L9BXUFFFFgFLeFRZ5bvqs0&client_hint=0)         [Readme(EN)](https://docs.qq.com/aio/DUXlZS2tYdXZXdnJs?from_page=doc_home_gw_product&templateId=gqa966yujp83587sz7eth7xydc&create_type=2&aid_position=templatemall&aid_pos=templatemall&p=zsy2KRXWddpeuvB4tLdjIb&client_hint=0)        
