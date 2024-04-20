@@ -11,12 +11,14 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
+
+
 class Ui_krr_anyKeys_convertor(object):
     def setupUi(self, krr_anyKeys_convertor):
         krr_anyKeys_convertor.setObjectName("krr_anyKeys_convertor")
         krr_anyKeys_convertor.setWindowModality(QtCore.Qt.NonModal)
         krr_anyKeys_convertor.setEnabled(True)
-        krr_anyKeys_convertor.resize(518, 350)
+        krr_anyKeys_convertor.resize(518, 289)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -39,7 +41,7 @@ class Ui_krr_anyKeys_convertor(object):
         self.splitter_8.setOrientation(QtCore.Qt.Vertical)
         self.splitter_8.setObjectName("splitter_8")
         self.splitter_5 = QtWidgets.QSplitter(self.centralwidget)
-        self.splitter_5.setGeometry(QtCore.QRect(10, 10, 497, 311))
+        self.splitter_5.setGeometry(QtCore.QRect(10, 10, 497, 249))
         self.splitter_5.setOrientation(QtCore.Qt.Vertical)
         self.splitter_5.setObjectName("splitter_5")
         self.layoutWidget = QtWidgets.QWidget(self.splitter_5)
@@ -262,30 +264,28 @@ class Ui_krr_anyKeys_convertor(object):
         self.label_10.setObjectName("label_10")
         self.layoutWidget1 = QtWidgets.QWidget(self.splitter_5)
         self.layoutWidget1.setObjectName("layoutWidget1")
-        self.formLayout = QtWidgets.QFormLayout(self.layoutWidget1)
-        self.formLayout.setLabelAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.formLayout.setContentsMargins(0, 0, 0, 0)
-        self.formLayout.setObjectName("formLayout")
-        self.NtoNC = QtWidgets.QRadioButton(self.layoutWidget1)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout = QtWidgets.QGridLayout(self.layoutWidget1)
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout.setObjectName("gridLayout")
+        self.to4kdpc = QtWidgets.QRadioButton(self.layoutWidget1)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.NtoNC.sizePolicy().hasHeightForWidth())
-        self.NtoNC.setSizePolicy(sizePolicy)
-        self.NtoNC.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
-        self.NtoNC.setChecked(True)
-        self.NtoNC.setAutoRepeat(False)
-        self.NtoNC.setObjectName("NtoNC")
-        self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.NtoNC)
+        sizePolicy.setHeightForWidth(self.to4kdpc.sizePolicy().hasHeightForWidth())
+        self.to4kdpc.setSizePolicy(sizePolicy)
+        self.to4kdpc.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
+        self.to4kdpc.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.to4kdpc.setObjectName("to4kdpc")
+        self.gridLayout.addWidget(self.to4kdpc, 0, 1, 2, 1)
         self.simplecomvertmod = QtWidgets.QRadioButton(self.layoutWidget1)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.simplecomvertmod.sizePolicy().hasHeightForWidth())
         self.simplecomvertmod.setSizePolicy(sizePolicy)
         self.simplecomvertmod.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         self.simplecomvertmod.setObjectName("simplecomvertmod")
-        self.formLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.simplecomvertmod)
+        self.gridLayout.addWidget(self.simplecomvertmod, 2, 0, 1, 1)
         self.convert_list = QtWidgets.QLineEdit(self.layoutWidget1)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -294,16 +294,38 @@ class Ui_krr_anyKeys_convertor(object):
         self.convert_list.setSizePolicy(sizePolicy)
         self.convert_list.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         self.convert_list.setObjectName("convert_list")
-        self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.convert_list)
-        self.to4kdpc = QtWidgets.QRadioButton(self.layoutWidget1)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        self.gridLayout.addWidget(self.convert_list, 2, 1, 1, 2)
+        self.NtoNC = QtWidgets.QRadioButton(self.layoutWidget1)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.to4kdpc.sizePolicy().hasHeightForWidth())
-        self.to4kdpc.setSizePolicy(sizePolicy)
-        self.to4kdpc.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
-        self.to4kdpc.setObjectName("to4kdpc")
-        self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.to4kdpc)
+        sizePolicy.setHeightForWidth(self.NtoNC.sizePolicy().hasHeightForWidth())
+        self.NtoNC.setSizePolicy(sizePolicy)
+        self.NtoNC.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
+        self.NtoNC.setChecked(True)
+        self.NtoNC.setAutoRepeat(False)
+        self.NtoNC.setObjectName("NtoNC")
+        self.gridLayout.addWidget(self.NtoNC, 0, 0, 2, 1)
+        self.splitter_14 = QtWidgets.QSplitter(self.layoutWidget1)
+        self.splitter_14.setOrientation(QtCore.Qt.Horizontal)
+        self.splitter_14.setObjectName("splitter_14")
+        self.langlab = QtWidgets.QLabel(self.splitter_14)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.langlab.sizePolicy().hasHeightForWidth())
+        self.langlab.setSizePolicy(sizePolicy)
+        self.langlab.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.langlab.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.langlab.setObjectName("langlab")
+        self.pushButton = QtWidgets.QPushButton(self.splitter_14)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
+        self.pushButton.setSizePolicy(sizePolicy)
+        self.pushButton.setObjectName("pushButton")
+        self.gridLayout.addWidget(self.splitter_14, 0, 2, 2, 1)
         self.label_9 = QtWidgets.QLabel(self.splitter_5)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -326,13 +348,46 @@ class Ui_krr_anyKeys_convertor(object):
         self.statusbar = QtWidgets.QStatusBar(krr_anyKeys_convertor)
         self.statusbar.setObjectName("statusbar")
         krr_anyKeys_convertor.setStatusBar(self.statusbar)
-
+        self.label_lst = [self.label, self.label_2, self.label_3, self.versionmod, self.label_6, self.label_7,
+                          self.label_8,
+                          self.label_5, self.NtoNC, self.to4kdpc, self.simplecomvertmod, self.langlab, self.pushButton,
+                          self.label_4, self.label_9]
+        self.pushButton.clicked.connect(self.switchLanguage)
         self.retranslateUi(krr_anyKeys_convertor)
+
         QtCore.QMetaObject.connectSlotsByName(krr_anyKeys_convertor)
+
+
+    def switchLanguage(self):
+        _translate = QtCore.QCoreApplication.translate
+        lang = [["保存路径:", "标   题:", "艺 术 家:", "用包名命名Title", "步距:", "时间步距:", "目标键数:", "删子弹等级:",
+                 "[任意键狂风插入]", "[四键混沌裤衩]", "[简单矩阵转换]","当前语言:中文","中文","说明",
+                 "示例①4KDP[0,1,2,3,0,1,2,3] ②7k快速删空to6K[0,1,2,4,5,6]  不带方括号。"],
+                ["Save path:", "Title:", "Artist:", "Name version by title", "Stap:", "Time stap:", "Target keys:",
+                 "Jack deletion LV:",
+                 "[NToNC]", "[4To8DPC]", "[NToNS]",
+                 "Language:EN","EN","Instructions","E.g:①4KDP[0,1,2,3,0,1,2,3] ②7kdelete space to6K[0,1,2,4,5,6] without""[]""."]]
+
+        if self.langlab.text() == "当前语言:中文":
+            for i in range(15):
+                self.label_lst[i].setText(lang[1][i])
+                self.label_9.setText(_translate("krr_anyKeys_convertor",
+                                                "<html><head/><body><p><span style=\" font-size:10pt;\">E.g:①4KDP[0,1,2,3,0,1,2,3] ②7kdelete space to6K[0,1,2,4,5,6] without""[]""</span></p></body></html>"))
+                self.label_12.setText(_translate("krr_anyKeys_convertor",
+                                                 "<html><head/><body><p><a href=\"https://docs.qq.com/aio/DUXlZS2tYdXZXdnJs\"><span style=\" text-decoration: underline; color:#0000ff;\">Document</span></a></p></body></html>"))
+
+
+
+        else:
+            for i in range(15):
+                self.label_lst[i].setText(lang[0][i])
+                self.label_9.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><span style=\" font-size:10pt;\">示例①4KDP[0,1,2,3,0,1,2,3] ②7k快速删空to6K[0,1,2,4,5,6]  不带方括号。</span></p></body></html>"))
+                self.label_12.setText(_translate("krr_anyKeys_convertor",
+                                                 "<html><head/><body><p><a href=\"https://docs.qq.com/aio/DUXlZS2tYdXZXdnJs\"><span style=\" text-decoration: underline; color:#0000ff;\">在线文档</span></a></p></body></html>"))
 
     def retranslateUi(self, krr_anyKeys_convertor):
         _translate = QtCore.QCoreApplication.translate
-        krr_anyKeys_convertor.setWindowTitle(_translate("krr_anyKeys_convertor", "Krrcream的任意Keys转换器V0.1"))
+        krr_anyKeys_convertor.setWindowTitle(_translate("krr_anyKeys_convertor", "Krrcream的任意Keys转换器V0.2"))
         krr_anyKeys_convertor.setWhatsThis(_translate("krr_anyKeys_convertor", "<html><head/><body><p>这是krrcream写的任意Keys转换器。</p></body></html>"))
         self.label.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p align=\"right\">保存路径：</p></body></html>"))
         self.label_2.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p align=\"right\">标 题：</p></body></html>"))
@@ -349,12 +404,12 @@ class Ui_krr_anyKeys_convertor(object):
         self.label_11.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><span style=\" font-weight:600;\">by:</span></p></body></html>"))
         self.krrcream.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><a href=\"https://space.bilibili.com/276844\"><span style=\" font-weight:600; text-decoration: underline; color:#0000ff;\">@krrcream</span></a></p></body></html>"))
         self.label_4.setText(_translate("krr_anyKeys_convertor", "说明:"))
-        self.label_12.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><a href=\"https://docs.qq.com/aio/DUXlZS2tYdXZXdnJs?p=L9BXUFFFFgFLeFRZ5bvqs0&client_hint=0\"><span style=\" text-decoration: underline; color:#0000ff;\">在线文档</span></a></p></body></html>"))
-        self.label_10.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><a href=\"https://www.bilibili.com/read/preview/33867680\"><span style=\" text-decoration: underline; color:#0000ff;\">Bilibili</span></a></p></body></html>"))
-        self.NtoNC.setText(_translate("krr_anyKeys_convertor", "任意键狂风插入"))
-        self.simplecomvertmod.setText(_translate("krr_anyKeys_convertor", "简单矩阵转换："))
+        self.label_12.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><a href=\"https://docs.qq.com/aio/DUXlZS2tYdXZXdnJs\"><span style=\" text-decoration: underline; color:#0000ff;\">在线文档</span></a></p></body></html>"))
+        self.label_10.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><a href=\"https://docs.qq.com/aio/DUXlZS2tYdXZXdnJs\"><span style=\" text-decoration: underline; color:#0000ff;\">Bilibili</span></a></p></body></html>"))
         self.to4kdpc.setText(_translate("krr_anyKeys_convertor", "四键混沌裤衩"))
-        self.label_9.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><span style=\" font-size:11pt;\">示例①4KDP[0,1,2,3,0,1,2,3] ②7k快速删空to6K[0,1,2,4,5,6]  不带方括号。</span></p></body></html>"))
-        self.label_12.setOpenExternalLinks(True)
-        self.label_10.setOpenExternalLinks(True)
-        self.krrcream.setOpenExternalLinks(True)
+        self.simplecomvertmod.setText(_translate("krr_anyKeys_convertor", "简单矩阵转换："))
+        self.NtoNC.setText(_translate("krr_anyKeys_convertor", "任意键狂风插入"))
+        self.langlab.setText(_translate("krr_anyKeys_convertor", "当前语言:中文"))
+        self.pushButton.setText(_translate("krr_anyKeys_convertor", "EN"))
+        self.label_9.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><span style=\" font-size:10pt;\">示例①4KDP[0,1,2,3,0,1,2,3] ②7k快速删空to6K[0,1,2,4,5,6]  不带方括号。</span></p></body></html>"))
+

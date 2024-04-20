@@ -55,7 +55,7 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
     # ——————保存内容和下次载入————————
     def loadSettings(self):
         settings = QtCore.QSettings("String.fq", QtCore.QSettings.IniFormat)
-        self.lineEdit_savepath.setText(settings.value("savepath", "请输入你的songs目录的一个文件夹(如需更多8K资源，请联系我加QQ群)"))
+        self.lineEdit_savepath.setText(settings.value("savepath", "请输入你的songs目录(如需更多8K资源，请联系我加QQ群)"))
         self.lineEdit_title.setText(settings.value("title", ""))
         self.lineEdit_artist.setText(settings.value("artist", "V.A"))
         self.stap.setText(settings.value("stap", "16"))
@@ -294,3 +294,4 @@ if __name__ == '__main__':
     window.show()
     sys.exit(app.exec_())
 # ---------------
+
