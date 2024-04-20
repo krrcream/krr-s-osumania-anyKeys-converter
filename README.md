@@ -14,5 +14,5 @@ Environment:python3.12 + Pyqt5 + Numpy
 V0.2 2024/4/20
 ①更换转换方法，增加应对删子弹时空行的自动补键策略。
 ②增加英语。
-①Change the conversion method and add the auto-add key strategy to deal with the deleted jack space row.
+①Change the conversion method and add the auto-add notes strategy to deal with the convert space rows.
 ②Add English.
