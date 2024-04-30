@@ -35,6 +35,11 @@ def who_zero_more(row_0, row_2):
         return 1
 
 
+def judge_time(row_0_start_time, start_time_list: List[int], limitation):
+    differences = [abs(row_0_start_time - start_time) for start_time in start_time_list]
+    return all(diff < limitation for diff in differences)
+
+
 def are_rows_different(row1, row2):
     for i in range(len(row1)):
         if row1[i] != row2[i]:
@@ -77,29 +82,46 @@ def jack_deletion_by_dif_indecis(row_0, row_1, dif_lst, time=0):
                 row_1[index][1] = ""
 
 
-def blank_column_check(row_0, row_1, row_2, row_1_starttime):
+def blank_column_check(row_0, row_1, row_2, row_1_start_time, start_time_list: List[int], limitation=150.0):
     # 将note多的移动到少的那里或者无法移动时则自己填
     indices_of_zeros = [i for i, x in enumerate(row_1) if x[0] == 0]
     if len(indices_of_zeros) >= len(row_1) - 2:
         common_zeros = [index for index, (value1, value2) in enumerate(zip(row_0, row_2)) if
                         value1[0] == 0 and value2[0] == 0]
         indices1 = random.sample(common_zeros, math.ceil(len(common_zeros) / 4 * 3))
+        if  judge_time(row_1_start_time, start_time_list, limitation):
+            pass
+        else:
+            for index in indices1:
+                row_1[index][0] = 1
+                # print(index)
+                row_1[index][0] = 1
+                row_1[index][1] = gen_simple_note_string(row_1_start_time)
+                row_0[index][0] = 0
+                row_0[index][1] = ""
+                row_2[index][0] = 0
+                row_2[index][1] = ""
+            lst = [x for x in range(len(row_1))]
+            set1 = set(lst)
+            set2 = set(indices1)
+            tozeroindices = set1 - set2
+            for index1 in tozeroindices:
+                row_1[index1][0] = 0
+                row_1[index1][1] = ""
 
-        for index in indices1:
-            print(index)
-            row_1[index][0] = 1
-            row_1[index][1] = gen_simple_note_string(row_1_starttime)
-            row_0[index][0] = 0
-            row_0[index][1] = ""
-            row_2[index][0] = 0
-            row_2[index][1] = ""
-        lst = [x for x in range(len(row_1))]
-        set1 = set(lst)
-        set2 = set(indices1)
-        tozeroindices = set1 - set2
-        for index1 in tozeroindices:
-            row_1[index1][0] = 0
-            row_1[index1][1] = ""
+def blank_column_checkV2(row_0:RowOfNotes,row_rim:List[RowOfNotes],limitation=150.0,con_indices:List[int]=None):
+    if not row_rim:
+        pass
+    else:
+        indices_of_zeros = [i for i, x in enumerate(row_0.row) if x[0] == 0]
+        if len(indices_of_zeros) >= len(row_0.row) - 2:
+            sample_size = math.ceil(len(indices_of_zeros) / 3)
+            sampled_list = random.sample(indices_of_zeros, sample_size)
+            if all(abs((row_0.start_time - sT.start_time)) > limitation for sT in row_rim):
+                for index in con_indices:
+                    if all(sT.row[index][0] == 0 for sT in row_rim):
+                        row_0.row[index][0] = 1
+                        row_0.row[index][1] = gen_simple_note_string(row_0.start_time)
 
 # def blank_column_check(row_0,row_1,row_1_starttime):
 #     # 将note多的移动到少的那里或者无法移动时则自己填
@@ -116,10 +138,10 @@ def blank_column_check(row_0, row_1, row_2, row_1_starttime):
 #             row_0[index][1] = ""
 
 
-def wblank_addnotes(row_0, row_1, row_2, row_1_starttime):  # 双空校验，加键
+def wblank_addnotes(row_0, row_1, row_2, row_1_starttime, jack_del_limitation=150):  # 双空校验，加键
     wzero_indices = [i for i, (note_0, note_2) in enumerate(zip(row_0, row_2)) if note_0[0] == 0 and note_2[0] == 0]
     if len(wzero_indices) > 0:
-        wzero_indices = random.sample(wzero_indices, math.ceil(len(wzero_indices) * 2 / 3))
+        wzero_indices = random.sample(wzero_indices, math.ceil(len(wzero_indices) * 1 / 3))
         for index in wzero_indices:
             row_1[index][0] = 1
             row_1[index][1] = gen_simple_note_string(row_1_starttime)
@@ -202,14 +224,16 @@ def convert(matrix_merged: List[RowOfNotes],
         for each in temp:
             matrix_convert[k].row.append(each)
 
+    delflag = 0
     for i in range(len(matrix_convert) - 2):
         if are_rows_different(convert_list_matrix[i], convert_list_matrix[i + 1]):
-            temp_row_num = i
-
+            flag = 4
+            dif_lst = different_indices(convert_list_matrix[i], convert_list_matrix[i + 1])
             if matrix_convert[i + 1].start_time - matrix_convert[i].start_time > jack_del_limitation * 7 / 4:
                 continue
             else:
-                flag = 4
+
+                temp_row_num = i
                 limitation = jack_del_limitation * 7 / 4
                 k = 0
                 if deljackLV == 3:
@@ -224,16 +248,32 @@ def convert(matrix_merged: List[RowOfNotes],
                 elif deljackLV == 0:
                     flag = 0
                     limitation = jack_del_limitation * 1 / 2
+                if limitation < 77:
+                    limitation = 77
+                if limitation > 200:
+                    limitation = 200
+                while flag > 0 and (matrix_convert[temp_row_num + 1 + k].start_time - matrix_convert[
+                    temp_row_num].start_time < limitation) and temp_row_num + 1 + k < len(matrix_convert):
+                    jack_deletion_by_dif_indecis(matrix_convert[temp_row_num].row,
+                                                 matrix_convert[temp_row_num + 1 + k].row,
+                                                 dif_lst)
 
-                while flag > 0 and (matrix_convert[i + 1].start_time - matrix_convert[
-                    temp_row_num].start_time < limitation) and i + 1 + k < len(matrix_convert):
-                    jack_deletion_by_dif_indecis(matrix_convert[temp_row_num].row, matrix_convert[i + 1 + k].row,
-                                                 different_indices(convert_list_matrix[i + 1 + k],
-                                                                   convert_list_matrix[temp_row_num]))
-                    print(f"{i + k + 1}行，时间是{matrix_convert[i + k + 1].start_time}第{flag}的flag")
+                    #组合start_time_list
+                    start_time_list = []
+                    for c in range(4, 0, -1):
+                        try:
+                            start_time_list.append(matrix_convert[temp_row_num + k + 1 - c])
+                        except IndexError:
+                            pass
 
-                    blank_column_check(matrix_convert[i + k].row, matrix_convert[i + k + 1].row,
-                                       matrix_convert[i + k + 2].row, matrix_convert[i + k + 1].start_time)
+                    # 处理 i+1 到 i+4 的索引
+                    for c in range(1, 5):
+                        try:
+                            start_time_list.append(matrix_convert[temp_row_num + k + 1 + c])
+                        except IndexError:
+                            pass
+
+                    blank_column_checkV2(matrix_convert[temp_row_num + k], start_time_list, limitation, dif_lst)
 
                     k += 1
                     flag -= 1

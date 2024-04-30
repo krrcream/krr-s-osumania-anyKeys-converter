@@ -92,22 +92,7 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         self.toNkNkflag = checked
         # print(self.toNkNkflag)
 
-    def dragEnterEvent(self, a0: QtGui.QDragEnterEvent) -> None:
-        # 判断有没有接受到内容
-        if a0.mimeData().hasUrls():
-            # 如果接收到内容了，就把它存在事件中
-            a0.accept()
-        else:
-            # 没接收到内容就忽略
-            a0.ignore()
-
-    def dropEvent(self, a0: QtGui.QDropEvent) -> None:
-        if a0:
-            for i in a0.mimeData().urls():
-                # print(i.path())
-                file_path = i.path()[1:]
-                self.lineEdit.setText(file_path)
-        file_path = file_path.replace('\\', '/')
+    def convert(self,file_path):
         directory = os.path.dirname(file_path)
         save_path = ""
         title = ""
@@ -122,7 +107,6 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         tokeys = int(self.tokeys.text())
         stap = int(self.stap.text())
         timestap = int(self.timestap.text())
-
 
         if self.convert_list.text() != "":
             simple_convert_list = [int(num) for num in self.convert_list.text().split(',')]
@@ -143,11 +127,9 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         lines_file_metadata = file_metadata.splitlines()
         lines_note_objs = note_objs.strip().splitlines()
 
-        a_quarter_beat = int((float(calculatebeat(lines_file_metadata))/4))+3
+        a_quarter_beat = int((float(calculatebeat(lines_file_metadata)) / 4)) + 3
         if a_quarter_beat < 90:
             a_quarter_beat = 90
-
-
 
         lines_file_metadata.append(lines_note_objs.pop(0))
 
@@ -185,13 +167,15 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
             matadata.meta_alter("CircleSize", tokeys)
             # 操作矩阵
             matrix = matrix_convert.matrix_merge(matrix)
-            matrix = matrix_convert.convert(matrix, convert_list.to_4KDPChaos_list, stap, timestap, a_quarter_beat, self.del_jack_lv)
+            matrix = matrix_convert.convert(matrix, convert_list.to_4KDPChaos_list, stap, timestap, a_quarter_beat,
+                                            self.del_jack_lv)
             matrix_str = matrix_convert.write_notes(matrix)
             version_tag = f"[{int(matadata.data["CircleSize"][0])}To8DPC]"
-        elif self.simple_convert_flag == True :
+        elif self.simple_convert_flag == True:
             matadata.meta_alter("CircleSize", len(simple_convert_list))
             matrix = matrix_convert.matrix_merge(matrix)
-            matrix = matrix_convert.convert(matrix, simple_convert_list, stap, timestap, a_quarter_beat, self.del_jack_lv)
+            matrix = matrix_convert.convert(matrix, simple_convert_list, stap, timestap, a_quarter_beat,
+                                            self.del_jack_lv)
             matrix_str = matrix_convert.write_notes(matrix)
             version_tag = f"[{int(matadata.data["CircleSize"][0])}To{len(simple_convert_list)}S]"
 
@@ -205,7 +189,7 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
 
         if not os.path.exists(save_path):
             os.makedirs(save_path)
-        old_title = matadata.data["ArtistUnicode"][0]
+        old_title = matadata.data["Artist"][0]
         new_version = ""
         old_creator = remove_invalid_filename_chars(matadata.data["Creator"][0])
         old_version = remove_invalid_filename_chars(matadata.data["Version"][0])
@@ -219,26 +203,23 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
             new_BG_file_name = remove_invalid_filename_chars(
                 temp_str1 + os.path.splitext(BG_file)[1])
         elif self.version_flag == True:
-            new_version = remove_invalid_filename_chars(matadata.data["TitleUnicode"][0])
+            new_version = remove_invalid_filename_chars(matadata.data["Title"][0])
             new_version += f"({old_creator})[{old_version}]"
-            temp_str2 = random_num_add(matadata.data["TitleUnicode"][0][:10])
+            temp_str2 = random_num_add(matadata.data["Title"][0][:10])
             new_audio_file_name = remove_invalid_filename_chars(temp_str2 + os.path.splitext(audio_file)[1])
             new_BG_file_name = remove_invalid_filename_chars(temp_str2 + os.path.splitext(BG_file)[1])
         # --------------------------------
-        new_audio_file_name=new_audio_file_name.lstrip()
-        new_BG_file_name=new_BG_file_name.lstrip()
+        new_audio_file_name = new_audio_file_name.lstrip()
+        # new_BG_file_name = new_BG_file_name.lstrip()
+
         # ____________________________改matadata________________________________________
         matadata.meta_alter("AudioFilename", new_audio_file_name)
-
-        if matadata.data["Background"] != "null":
-            matadata.mata_new[matadata.data["Background"][1]] = f"0,0,\"{new_BG_file_name}\",0,0"
-
+        matadata.meta_alter("Background", new_BG_file_name)
         if title != "":
-            matadata.meta_alter("TitleUnicode", title)
-            matadata.mata_new[matadata.data["TitleUnicode"][1] - 1] = f"Title:{title}"
+            matadata.meta_alter("Title", title)
         if artist != "":
-            matadata.meta_alter("ArtistUnicode", artist)
-            matadata.mata_new[matadata.data["ArtistUnicode"][1] - 1] = f"Title:{artist}"
+            matadata.meta_alter("Artist", artist)
+
         matadata.meta_alter("BeatmapID", 0)
         matadata.meta_alter("BeatmapSetID", -1)
 
@@ -269,10 +250,8 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         new_osu_file_path = os.path.join(save_path, new_version + ".osu").replace('\\', '/')
 
         # --------------转谱--------------------
-        # 修BUG
-        matadata_str = matadata.artist_bug_repair(matadata_str)
-        # 生成osu
 
+        # 生成osu
 
         name, extension = os.path.splitext(os.path.basename(new_osu_file_path))
         osu_new_name = f"{artist} - {title} (krrcream) [{version_tag + new_version}]"
@@ -282,6 +261,42 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
             file.write(matadata_str + "\n" + matrix_str)
 
         self.lineEdit.setText(f"成功！ → {new_file_path}")
+
+    def dragEnterEvent(self, files: QtGui.QDragEnterEvent) -> None:
+        # 判断有没有接受到内容
+        if files.mimeData().hasUrls():
+            # 如果接收到内容了，就把它存在事件中
+            files.accept()
+        else:
+            # 没接收到内容就忽略
+            files.ignore()
+
+    def dropEvent(self, files: QtGui.QDropEvent) -> None:
+        if files:
+            file_paths = []
+            for url in files.mimeData().urls():
+                file_path = url.path()[1:]
+                file_path = file_path.replace('\\', '/')
+                if os.path.isdir(file_path):
+                    for root, dirs, files in os.walk(file_path):
+                        for file in files:
+                            if file.endswith(".osu"):
+                                osu_file_path = os.path.join(root, file)
+                                file_paths.append(osu_file_path)
+                else:
+                    file_paths.append(file_path)
+
+
+            for file_path in file_paths:
+                try:
+                    # 处理每个文件路径的逻辑
+                    self.convert(file_path)
+                    # 其他操作...
+                except Exception as e:
+                    print(f"An error occurred while processing {file_path}: {e}. Skipping to the next file.")
+                    continue
+
+        # 处理每个文件路径的逻辑
 # ----------------------------------------------------
 
 
