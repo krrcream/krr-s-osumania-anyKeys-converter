@@ -16,3 +16,9 @@ V0.2 2024/4/20
 ②增加英语。
 ①Change the conversion method and add the auto-add notes strategy to deal with the convert space rows.
 ②Add English.
+
+V0.3 2024/5/1
+①重写matadata逻辑，减少文件名BUG。
+②改善自动加键功能，修复加键后又出现子弹的问题。
+①Rewrite metadata logic to reduce file name bugs。
+②Improved auto-add note function, fixed an issue where new jack appeared after the notes was added.
