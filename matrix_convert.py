@@ -214,10 +214,13 @@ def convert(matrix_merged: List[RowOfNotes],
             time_flag += (matrix_merged[i + 1].start_time - matrix_merged[i].start_time)
         step_flag += 1  # 完成一行，增加步距
 
-    for k, row1 in enumerate(matrix_merged):
+    for k, row1 in enumerate(matrix_merged):#生成新的矩阵
         temp = []
         for each_as_index in convert_list_matrix[k]:
-            temp.append(matrix_merged[k].row[each_as_index])
+            if each_as_index == -1:
+                temp.append([0, ""])
+            else:
+                temp.append(matrix_merged[k].row[each_as_index])
 
         matrix_convert.append(matrix_merged[k])
         matrix_convert[k].row.clear()
@@ -225,7 +228,7 @@ def convert(matrix_merged: List[RowOfNotes],
             matrix_convert[k].row.append(each)
 
     delflag = 0
-    for i in range(len(matrix_convert) - 2):
+    for i in range(len(matrix_convert) - 2):#处理子弹
         if are_rows_different(convert_list_matrix[i], convert_list_matrix[i + 1]):
             flag = 4
             dif_lst = different_indices(convert_list_matrix[i], convert_list_matrix[i + 1])

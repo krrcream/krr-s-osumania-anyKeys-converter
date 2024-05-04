@@ -39,7 +39,7 @@ class MataData:
                 lines.insert(index+1, f'0,0,"{bg_file}",0,0')
                 self.data["Background"] = [bg_file, index]
 
-        print(self.data["Background"])
+        # print(self.data["Background"])
     @property
     def data(self):
         return self._data

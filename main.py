@@ -14,7 +14,7 @@ import matrix_convert
 import windows
 from row_of_notes import RowOfNotes
 from matadata import MataData
-
+import everything_and_traning_series
 
 def random_num_add(file_name_str):
     extension = os.path.splitext(file_name_str)[1]
@@ -51,7 +51,12 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         self.to4kdpc.toggled.connect(self.to4kDPCChange)
         self.toNkNkflag = True
         self.NtoNC.toggled.connect(self.toNkNkCChange)
-
+        self.everything_to_jack_flag = False
+        self.everything_to_jack.toggled.connect(self.everythingToJackChange)
+        self.everything_to_stream_flag = False
+        self.everything_to_stream.toggled.connect(self.everythingToStreamChange)
+        self.jack_world_flag = False
+        self.label_jack.toggled.connect(self.jackWorldChange)
     # ——————保存内容和下次载入————————
     def loadSettings(self):
         settings = QtCore.QSettings("String.fq", QtCore.QSettings.IniFormat)
@@ -78,7 +83,7 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
     # 滑块和单选框关联
     def updateDelJackLv(self, value):
         self.del_jack_lv = value
-
+        # print(f"del_jack_lv:{self.del_jack_lv}")
     def versionFlagChange(self, checked):
         self.version_flag = checked
 
@@ -92,6 +97,17 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         self.toNkNkflag = checked
         # print(self.toNkNkflag)
 
+    def everythingToJackChange(self, checked):
+        self.everything_to_jack_flag = checked
+        # print(f"everything_to_jack_flag:{self.everything_to_jack_flag}")
+    def everythingToStreamChange(self, checked):
+        self.everything_to_stream_flag = checked
+        # print(f"everything_to_stream_flag:{self.everything_to_stream_flag}")
+    def jackWorldChange(self, checked):
+        self.jack_world_flag = checked
+        # print(f"jack_world_flag:{self.jack_world_flag}")
+
+
     def convert(self,file_path):
         directory = os.path.dirname(file_path)
         save_path = ""
@@ -100,6 +116,7 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         tokeys = 8
         stap = 16
         timestap = 1000
+        add_blank = 0
         simple_convert_list = []
         save_path = self.lineEdit_savepath.text()
         title = self.lineEdit_title.text()
@@ -107,7 +124,9 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         tokeys = int(self.tokeys.text())
         stap = int(self.stap.text())
         timestap = int(self.timestap.text())
-
+        jackstap = int(self.jack_interval.text())
+        jacknum = int(self.jack_nums.text())
+        add_blank = int(self.blank_columns.text())
         if self.convert_list.text() != "":
             simple_convert_list = [int(num) for num in self.convert_list.text().split(',')]
 
@@ -127,9 +146,9 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         lines_file_metadata = file_metadata.splitlines()
         lines_note_objs = note_objs.strip().splitlines()
 
-        a_quarter_beat = int((float(calculatebeat(lines_file_metadata)) / 4)) + 3
-        if a_quarter_beat < 90:
-            a_quarter_beat = 90
+        a_quarter_beat = int((float(calculatebeat(lines_file_metadata)) / 4))   # 四分音符的时间
+        if a_quarter_beat < 75:
+            a_quarter_beat = 75
 
         lines_file_metadata.append(lines_note_objs.pop(0))
 
@@ -150,36 +169,59 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         #       matrix = matrix_convert.convert(matrix, modified_method, 16, 1000)
         #       matrix_convert.print_matrix(matrix)
         # ---------------------------
-
-        # _______________判断是几K____________________#
+        matrix_str = ""
         version_tag = ""
+        org_keys = int(matadata.data["CircleSize"][0])
+        # _______________判断是用哪个转换方式_____________________#
         if self.toNkNkflag == True:
             matadata.meta_alter("CircleSize", tokeys)
+            matrix = matrix_convert.matrix_merge(matrix)
             # 操作矩阵，修改convert_list里的的默认参数
             modified_method = partial(convert_list.to_lowKeys_2_highKeys_addkeys_chaos,
-                                      keys=int(matadata.data["CircleSize"][0]),
-                                      add_columns=tokeys - int(matadata.data["CircleSize"][0]))
-            matrix = matrix_convert.matrix_merge(matrix)
+                                      keys=int(org_keys),
+                                      add_columns=tokeys - org_keys - add_blank , add_blank=add_blank)
+
             matrix = matrix_convert.convert(matrix, modified_method, stap, timestap, a_quarter_beat, self.del_jack_lv)
             matrix_str = matrix_convert.write_notes(matrix)
-            version_tag = f"[{int(matadata.data["CircleSize"][0])}To{tokeys}C]"
-        elif self.to4kdpcflag == True and int(matadata.data["CircleSize"][0]) == 4:  # 4kdpchaos
+            version_tag = f"[{org_keys}To{tokeys}C]"
+        elif self.to4kdpcflag == True and int(org_keys) == 4:  # 4kdpchaos
             matadata.meta_alter("CircleSize", tokeys)
             # 操作矩阵
             matrix = matrix_convert.matrix_merge(matrix)
             matrix = matrix_convert.convert(matrix, convert_list.to_4KDPChaos_list, stap, timestap, a_quarter_beat,
                                             self.del_jack_lv)
             matrix_str = matrix_convert.write_notes(matrix)
-            version_tag = f"[{int(matadata.data["CircleSize"][0])}To8DPC]"
+            version_tag = f"[{org_keys}To8DPC]"
         elif self.simple_convert_flag == True:
             matadata.meta_alter("CircleSize", len(simple_convert_list))
             matrix = matrix_convert.matrix_merge(matrix)
             matrix = matrix_convert.convert(matrix, simple_convert_list, stap, timestap, a_quarter_beat,
                                             self.del_jack_lv)
             matrix_str = matrix_convert.write_notes(matrix)
-            version_tag = f"[{int(matadata.data["CircleSize"][0])}To{len(simple_convert_list)}S]"
+            version_tag = f"[{org_keys}To{len(simple_convert_list)}S]"
+        elif self.everything_to_jack_flag == True:
+            matrix = matrix_convert.matrix_merge(matrix)
+            matadata.meta_alter("CircleSize", tokeys)
+            start_time_list, jack_matrix = everything_and_traning_series.everthing_to_jacks(org_keys,matrix,tokeys,a_quarter_beat-4)
+            everything_and_traning_series.row_of_notes_matrix_generation(start_time_list, jack_matrix)
+            matrix_str = everything_and_traning_series.write_notes_to_str(jack_matrix)
+            version_tag = f"[ETJ{tokeys}K]"
+        elif self.everything_to_stream_flag == True:
+            matrix = matrix_convert.matrix_merge(matrix)
+            matadata.meta_alter("CircleSize", tokeys)
+            start_time_list1, stream_matrix = everything_and_traning_series.everthing_to_stream(org_keys,matrix,tokeys,a_quarter_beat-4)
+            everything_and_traning_series.row_of_notes_matrix_generation(start_time_list1, stream_matrix)
+            matrix_str = everything_and_traning_series.write_notes_to_str(stream_matrix)
+            version_tag = f"[ETS{tokeys}K]"
+        elif self.jack_world_flag == True:
+            matrix = matrix_convert.matrix_merge(matrix)
+            start_time_list, matrix = everything_and_traning_series.jacks_in_stream(matrix,jackstap,jacknum,a_quarter_beat-4,1)
+            everything_and_traning_series.row_of_notes_matrix_generation(start_time_list, matrix)
+            matrix_str = everything_and_traning_series.write_notes_to_str(matrix)
+            version_tag = f"[JinS]"
 
-        # ------------------需要复制和创建的的文件------------------------------
+        # ------------------需要复制和创建的的文件----------------------------
+        # --
         new_audio_file_name = ""
         new_BG_file_name = ""
 
@@ -197,7 +239,8 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         BG_file = str(matadata.data["Background"][0]).lstrip()
         if self.version_flag == False:
             new_version = f"[{old_version}]"
-            temp_str1 = random_num_add(title)
+            # temp_str1 = random_num_add(title)
+            temp_str1 = title
             new_audio_file_name = remove_invalid_filename_chars(
                 temp_str1 + os.path.splitext(audio_file)[1])
             new_BG_file_name = remove_invalid_filename_chars(
@@ -205,13 +248,14 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         elif self.version_flag == True:
             new_version = remove_invalid_filename_chars(matadata.data["Title"][0])
             new_version += f"({old_creator})[{old_version}]"
-            temp_str2 = random_num_add(matadata.data["Title"][0][:10])
+            # temp_str2 = random_num_add(matadata.data["Title"][0][:10])
+            temp_str2 = matadata.data["Title"][0][:10]
             new_audio_file_name = remove_invalid_filename_chars(temp_str2 + os.path.splitext(audio_file)[1])
             new_BG_file_name = remove_invalid_filename_chars(temp_str2 + os.path.splitext(BG_file)[1])
         # --------------------------------
         new_audio_file_name = new_audio_file_name.lstrip()
         # new_BG_file_name = new_BG_file_name.lstrip()
-
+        # print(f"new_BG_file_name:{new_BG_file_name}")
         # ____________________________改matadata________________________________________
         matadata.meta_alter("AudioFilename", new_audio_file_name)
         matadata.meta_alter("Background", new_BG_file_name)
@@ -239,14 +283,18 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         new_audio_file_path = os.path.join(save_path, new_audio_file_name).replace('\\', '/')
         # print(old_audio_file_path)
         # print(new_audio_file_path)
-        shutil.copy(old_audio_file_path, new_audio_file_path)
+        if not os.path.exists(new_audio_file_path):
+            shutil.copy(old_audio_file_path, new_audio_file_path)
 
         old_BG_file_path = os.path.join(directory, BG_file).replace('\\', '/')
         new_BG_file_path = os.path.join(save_path, new_BG_file_name).replace('\\', '/')
         # print(old_BG_file_path)
         # print(new_BG_file_path)
-        shutil.copy(old_BG_file_path, new_BG_file_path)
-
+        if not os.path.exists(new_BG_file_path):
+            try:
+                shutil.copy(old_BG_file_path, new_BG_file_path)
+            except FileNotFoundError:
+                print(f"背景文件{old_BG_file_path}不存在，请检查路径")
         new_osu_file_path = os.path.join(save_path, new_version + ".osu").replace('\\', '/')
 
         # --------------转谱--------------------
@@ -288,13 +336,13 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
 
 
             for file_path in file_paths:
-                try:
+                # try:
                     # 处理每个文件路径的逻辑
                     self.convert(file_path)
                     # 其他操作...
-                except Exception as e:
-                    print(f"An error occurred while processing {file_path}: {e}. Skipping to the next file.")
-                    continue
+                # except Exception as e:
+                #     print(f"An error occurred while processing {file_path}: {e}. Skipping to the next file.")
+                #     continue
 
         # 处理每个文件路径的逻辑
 # ----------------------------------------------------
