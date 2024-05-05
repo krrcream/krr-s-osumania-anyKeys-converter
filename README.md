@@ -32,3 +32,18 @@ V0.5 2024/5/4
 ② Increase the function of [Everything to Jack] [Everything to Stream] [Jack world]
 ③ Increase the function of inserting empty columns to better control the density
 ④ Batch transfer spectrum, support to drag multiple files and folders
+
+E.g①:7to8
+![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/1-7to8.png)
+
+E.g②:7to14
+![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/2%207to14k.png)
+
+E.g②:7to10
+![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/3%207to10k.png)
+
+E.g④:Everything to Jack And Stream(It's not much use just for fun)
+![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/4%20Everything.png)
+
+E.g⑤:Jack World(Jack Stream Traner)
+![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/5%20Jack%20world.png)
