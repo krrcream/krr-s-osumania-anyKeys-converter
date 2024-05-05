@@ -45,5 +45,5 @@ E.g②:7to10
 E.g④:Everything to Jack And Stream(It's not much use just for fun)
 ![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/4%20Everything.png)
 
-E.g⑤:Jack World(Jack Stream Traner)
+E.g⑤:Jack World(Jack Stream trainer)
 ![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/5%20Jack%20world.png)
