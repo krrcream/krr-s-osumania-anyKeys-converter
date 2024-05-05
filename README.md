@@ -1,6 +1,6 @@
 # krr-s-osumania-anyKeys-converter
 
-## Matrix based anyKeys-converter,More free transformation.基于矩阵变换的任意keys转换器，你能更自由的转谱。
+## Matrix based anyKeys-converter,Supports 4-20keys arbitrary conversion.基于矩阵变换的任意keys转换器，支持4-20键转谱。
 
 Supports 4-20keys arbitrary conversion. If you encounter bugs, please understand or contact me.
 支持4到20键任意转谱，可能会有BUG，如遇到BUG请谅解或者联系我。
