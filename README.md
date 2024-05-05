@@ -28,7 +28,7 @@ V0.5 2024/5/4
 ②增加万物化叠，万物化切，杰克世界功能
 ③增加插入空列的功能，更好地控制密度
 ④批量转谱，支持拖入多个文件以及文件夹
-① Support high to low, to achieve any keys spectrum
+① Support column more to column less change, to achieve any keys spectrum
 ② Increase the function of [Everything to Jack] [Everything to Stream] [Jack world]
 ③ Increase the function of inserting empty columns to better control the density
 ④ Batch transfer spectrum, support to drag multiple files and folders
