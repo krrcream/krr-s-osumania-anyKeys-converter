@@ -28,10 +28,12 @@ V0.5 2024/5/4
 ②增加万物化叠，万物化切，杰克世界功能
 ③增加插入空列的功能，更好地控制密度
 ④批量转谱，支持拖入多个文件以及文件夹
+⑤修复BG和Audio同名错误问题
 ① Support column more to column less change, to achieve any keys spectrum
 ② Increase the function of [Everything to Jack] [Everything to Stream] [Jack world]
 ③ Increase the function of inserting empty columns to better control the density
 ④ Supports drag-and-drop file or folder batch converter
+⑤ Fixed a bug with the same name for BG and Audio
 
 E.g①:7to8
 ![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/1-7to8.png)
