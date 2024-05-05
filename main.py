@@ -253,6 +253,8 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
             new_audio_file_name = remove_invalid_filename_chars(temp_str2 + os.path.splitext(audio_file)[1])
             new_BG_file_name = remove_invalid_filename_chars(temp_str2 + os.path.splitext(BG_file)[1])
         # --------------------------------
+        new_audio_file_name = random_num_add(new_audio_file_name)
+        new_BG_file_name = random_num_add(new_BG_file_name)
         new_audio_file_name = new_audio_file_name.lstrip()
         # new_BG_file_name = new_BG_file_name.lstrip()
         # print(f"new_BG_file_name:{new_BG_file_name}")
