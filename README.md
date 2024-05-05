@@ -31,7 +31,7 @@ V0.5 2024/5/4
 ① Support column more to column less change, to achieve any keys spectrum
 ② Increase the function of [Everything to Jack] [Everything to Stream] [Jack world]
 ③ Increase the function of inserting empty columns to better control the density
-④ Batch transfer spectrum, support to drag multiple files and folders
+④ Supports drag-and-drop file or folder batch converter
 
 E.g①:7to8
 ![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/1-7to8.png)
