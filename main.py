@@ -16,6 +16,7 @@ from row_of_notes import RowOfNotes
 from matadata import MataData
 import everything_and_traning_series
 
+
 def random_num_add(file_name_str):
     extension = os.path.splitext(file_name_str)[1]
     base_filename = os.path.splitext(file_name_str)[0]
@@ -23,13 +24,15 @@ def random_num_add(file_name_str):
     new_filename = f"{base_filename}_{random_number}{extension}"
     return new_filename
 
-def calculatebeat(text_line:List[str]):
+
+def calculatebeat(text_line: List[str]):
     index = 0
     for i, line in enumerate(text_line):
         if line.startswith("[TimingPoints]"):
             index = i + 1
             break
     return text_line[index].split(",")[1]
+
 
 class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
     def __init__(self):
@@ -57,6 +60,7 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         self.everything_to_stream.toggled.connect(self.everythingToStreamChange)
         self.jack_world_flag = False
         self.label_jack.toggled.connect(self.jackWorldChange)
+
     # ——————保存内容和下次载入————————
     def loadSettings(self):
         settings = QtCore.QSettings("String.fq", QtCore.QSettings.IniFormat)
@@ -84,15 +88,18 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
     def updateDelJackLv(self, value):
         self.del_jack_lv = value
         # print(f"del_jack_lv:{self.del_jack_lv}")
+
     def versionFlagChange(self, checked):
         self.version_flag = checked
 
     def simpleFlagChange(self, checked):
         self.simple_convert_flag = checked
         # print(self.simple_convert_flag)
+
     def to4kDPCChange(self, checked):
         self.to4kdpcflag = checked
         # print(self.to4kdpcflag)
+
     def toNkNkCChange(self, checked):
         self.toNkNkflag = checked
         # print(self.toNkNkflag)
@@ -100,15 +107,35 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
     def everythingToJackChange(self, checked):
         self.everything_to_jack_flag = checked
         # print(f"everything_to_jack_flag:{self.everything_to_jack_flag}")
+
     def everythingToStreamChange(self, checked):
         self.everything_to_stream_flag = checked
         # print(f"everything_to_stream_flag:{self.everything_to_stream_flag}")
+
     def jackWorldChange(self, checked):
         self.jack_world_flag = checked
         # print(f"jack_world_flag:{self.jack_world_flag}")
 
+    # 安全复制
+    def safe_copy(self,src, dst, error_log: List[str]):
 
-    def convert(self,file_path):
+        try:
+            shutil.copy(src, dst)
+            print(f"文件已成功复制: {src} -> {dst}")
+        except FileNotFoundError:
+            error_message = f"文件未找到: {src}"
+            print(error_message)
+            error_log.append(error_message)
+        except PermissionError:
+            error_message = f"权限错误，无法访问: {src}"
+            print(error_message)
+            error_log.append(error_message)
+        except Exception as e:
+            error_message = f"复制文件时发生错误: {src} - {e}"
+            print(error_message)
+            error_log.append(error_message)
+
+    def convert(self, file_path):
         directory = os.path.dirname(file_path)
         save_path = ""
         title = ""
@@ -146,7 +173,7 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         lines_file_metadata = file_metadata.splitlines()
         lines_note_objs = note_objs.strip().splitlines()
 
-        a_quarter_beat = int((float(calculatebeat(lines_file_metadata)) / 4))   # 四分音符的时间
+        a_quarter_beat = int((float(calculatebeat(lines_file_metadata)) / 4))  # 四分音符的时间
         if a_quarter_beat < 75:
             a_quarter_beat = 75
 
@@ -156,9 +183,11 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         matadata = MataData(lines_file_metadata)
         # 生成原始列表以备用
         matrix = []
-        for line in lines_note_objs:
-            matrix.append(RowOfNotes.new_row_from_original_str_line(line, int(matadata.data["CircleSize"][0])))
-
+        try:
+            for line in lines_note_objs:
+                matrix.append(RowOfNotes.new_row_from_original_str_line(line, int(matadata.data["CircleSize"][0])))
+        except Exception:
+            pass
         # -----------断点测试处-----
         #       matrix = matrix_convert.matrix_merge(matrix)
         #       matrix_convert.print_matrix(matrix)
@@ -179,7 +208,7 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
             # 操作矩阵，修改convert_list里的的默认参数
             modified_method = partial(convert_list.to_lowKeys_2_highKeys_addkeys_chaos,
                                       keys=int(org_keys),
-                                      add_columns=tokeys - org_keys - add_blank , add_blank=add_blank)
+                                      add_columns=tokeys - org_keys - add_blank, add_blank=add_blank)
 
             matrix = matrix_convert.convert(matrix, modified_method, stap, timestap, a_quarter_beat, self.del_jack_lv)
             matrix_str = matrix_convert.write_notes(matrix)
@@ -201,21 +230,31 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
             version_tag = f"[{org_keys}To{len(simple_convert_list)}S]"
         elif self.everything_to_jack_flag == True:
             matrix = matrix_convert.matrix_merge(matrix)
+            print(len(matrix))
             matadata.meta_alter("CircleSize", tokeys)
-            start_time_list, jack_matrix = everything_and_traning_series.everthing_to_jacks(org_keys,matrix,tokeys,a_quarter_beat-4)
+            start_time_list, jack_matrix = everything_and_traning_series.everthing_to_choadjacks(org_keys, matrix,
+                                                                                                 tokeys,
+                                                                                                 a_quarter_beat - 4)
             everything_and_traning_series.row_of_notes_matrix_generation(start_time_list, jack_matrix)
+            print(len(start_time_list))
+            print(len(jack_matrix))
             matrix_str = everything_and_traning_series.write_notes_to_str(jack_matrix)
-            version_tag = f"[ETJ{tokeys}K]"
+            version_tag = f"[ETBJ{tokeys}K]"
+            matadata.meta_alter("HPDrainRate", 0)
+            matadata.meta_alter("OverallDifficulty", 10)
         elif self.everything_to_stream_flag == True:
             matrix = matrix_convert.matrix_merge(matrix)
             matadata.meta_alter("CircleSize", tokeys)
-            start_time_list1, stream_matrix = everything_and_traning_series.everthing_to_stream(org_keys,matrix,tokeys,a_quarter_beat-4)
+            start_time_list1, stream_matrix = everything_and_traning_series.everthing_to_stream(org_keys, matrix,
+                                                                                                tokeys,
+                                                                                                a_quarter_beat - 4)
             everything_and_traning_series.row_of_notes_matrix_generation(start_time_list1, stream_matrix)
             matrix_str = everything_and_traning_series.write_notes_to_str(stream_matrix)
             version_tag = f"[ETS{tokeys}K]"
         elif self.jack_world_flag == True:
             matrix = matrix_convert.matrix_merge(matrix)
-            start_time_list, matrix = everything_and_traning_series.jacks_in_stream(matrix,jackstap,jacknum,a_quarter_beat-4,1)
+            start_time_list, matrix = everything_and_traning_series.jacks_in_stream(matrix, jackstap, jacknum,
+                                                                                    a_quarter_beat - 4, 1)
             everything_and_traning_series.row_of_notes_matrix_generation(start_time_list, matrix)
             matrix_str = everything_and_traning_series.write_notes_to_str(matrix)
             version_tag = f"[JinS]"
@@ -233,14 +272,14 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
             os.makedirs(save_path)
         old_title = matadata.data["Artist"][0]
         new_version = ""
-        old_creator = remove_invalid_filename_chars(matadata.data["Creator"][0])
-        old_version = remove_invalid_filename_chars(matadata.data["Version"][0])
+        old_creator = matadata.data["Creator"][0]
+        old_version = matadata.data["Version"][0]
         audio_file = str(matadata.data["AudioFilename"][0]).lstrip()
         BG_file = str(matadata.data["Background"][0]).lstrip()
         if self.version_flag == False:
-            new_version = f"[{old_version}]"
+            new_version = f"({old_creator})[{old_version}]"
             # temp_str1 = random_num_add(title)
-            temp_str1 = title
+            temp_str1 = old_title[:4] + "_" + new_version[:6]
             new_audio_file_name = remove_invalid_filename_chars(
                 temp_str1 + os.path.splitext(audio_file)[1])
             new_BG_file_name = remove_invalid_filename_chars(
@@ -253,8 +292,8 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
             new_audio_file_name = remove_invalid_filename_chars(temp_str2 + os.path.splitext(audio_file)[1])
             new_BG_file_name = remove_invalid_filename_chars(temp_str2 + os.path.splitext(BG_file)[1])
         # --------------------------------
-        new_audio_file_name = random_num_add(new_audio_file_name)
-        new_BG_file_name = random_num_add(new_BG_file_name)
+        # new_audio_file_name = random_num_add(new_audio_file_name)
+        # new_BG_file_name = random_num_add(new_BG_file_name)
         new_audio_file_name = new_audio_file_name.lstrip()
         # new_BG_file_name = new_BG_file_name.lstrip()
         # print(f"new_BG_file_name:{new_BG_file_name}")
@@ -280,23 +319,19 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         # ____________________________生成文件________________________________________
         # print(new_audio_file_name)
         # print(new_BG_file_name)
-
+        error_log = []
         old_audio_file_path = os.path.join(directory, audio_file).replace('\\', '/')
         new_audio_file_path = os.path.join(save_path, new_audio_file_name).replace('\\', '/')
         # print(old_audio_file_path)
         # print(new_audio_file_path)
         if not os.path.exists(new_audio_file_path):
-            shutil.copy(old_audio_file_path, new_audio_file_path)
-
+            self.safe_copy(old_audio_file_path, new_audio_file_path,error_log)
         old_BG_file_path = os.path.join(directory, BG_file).replace('\\', '/')
         new_BG_file_path = os.path.join(save_path, new_BG_file_name).replace('\\', '/')
         # print(old_BG_file_path)
         # print(new_BG_file_path)
         if not os.path.exists(new_BG_file_path):
-            try:
-                shutil.copy(old_BG_file_path, new_BG_file_path)
-            except FileNotFoundError:
-                print(f"背景文件{old_BG_file_path}不存在，请检查路径")
+            self.safe_copy(old_BG_file_path, new_BG_file_path,error_log)
         new_osu_file_path = os.path.join(save_path, new_version + ".osu").replace('\\', '/')
 
         # --------------转谱--------------------
@@ -336,27 +371,29 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
                 else:
                     file_paths.append(file_path)
 
-
             for file_path in file_paths:
                 # try:
-                    # 处理每个文件路径的逻辑
+                # 处理每个文件路径的逻辑
+                try:
                     self.convert(file_path)
-                    # 其他操作...
-                # except Exception as e:
-                #     print(f"An error occurred while processing {file_path}: {e}. Skipping to the next file.")
-                #     continue
+                except Exception:
+                    pass# 其他操作...
+            # except Exception as e:
+            #     print(f"An error occurred while processing {file_path}: {e}. Skipping to the next file.")
+            #     continue
 
         # 处理每个文件路径的逻辑
+
+
 # ----------------------------------------------------
 
 
 if __name__ == '__main__':
     QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
-# ----------------
+    # ----------------
     app = QtWidgets.QApplication(sys.argv)
     window = my_window()
     window.setFixedSize(window.size())
     window.show()
     sys.exit(app.exec_())
 # ---------------
-

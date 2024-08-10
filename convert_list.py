@@ -94,15 +94,15 @@ def to_lowKeys_2_highKeys_addkeys_chaos(keys, add_columns, add_blank=0):  #ä»»æ„
         random_index = random.randint(0, len(temp))
         while add_flag > 0:
             temp.insert(random_index, -1)
-            if random_index > len(temp)/2:
+            if random_index+1 > len(temp)/2:
                 random_index = random.randint(0, math.floor(len(temp)/2))
-                print(random_index)
-            elif random_index < len(temp)/2:
+                # print(random_index)
+            elif random_index+1 < len(temp)/2:
                 random_index = random.randint(math.ceil(len(temp)/2), len(temp))
-                print(random_index)
-            elif random_index == len(temp)/2:
+                # print(random_index)
+            elif random_index+1 == len(temp)/2:
                 random_index = random.randint(0, len(temp))
-                print(random_index)
+                # print(random_index)
             add_flag -= 1
     return temp
 

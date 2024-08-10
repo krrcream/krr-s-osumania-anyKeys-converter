@@ -63,16 +63,57 @@ def everthing_to_jacks(keys, matrix_merged: List[RowOfNotes], to_keys, BPM_org_l
         if flag == 1:
             adjustment = random.randint(0, 2)  # 随机增加或减少±to_keys/4
         elif flag == 0:
-            adjustment = random.randint(-2, 0)  # 随机增加或减少±to_keys/4
+            adjustment = random.randint(-1, 1)  # 随机增加或减少±to_keys/4
         num_ones += adjustment
-        num_ones = max(1, min(num_ones, to_keys))  # 限制最小为1，最大为8
-        for _ in range(num_ones):
-            index = random.randint(0, to_keys - 1)  # 随机选择下标
+        num_ones = max(5, min(num_ones, to_keys))  # 限制最小为1，最大为8
+        one_index = np.random.choice(to_keys, num_ones, replace=False)  # 随机选择1的下标
+        for index in one_index:
             row[index] = 1
         new_matrix.append(row)
     return start_time_list1, new_matrix
 
+def everthing_to_choadjacks(keys, matrix_merged: List[RowOfNotes], to_keys, BPM_org_limitation=100.0,flag=1):
+    object_matrix = [[note[0] for note in obj.row] for obj in matrix_merged]
+    start_time_list = [obj.start_time for obj in matrix_merged]
+    # start_time_list1,probability_list1,matrix_blocks = create_matrix_blocks(start_time_list, object_matrix, BPM_org_limitation-10.0)
+    new_matrix = []
+    index_list = list(range(to_keys))
+    for note_row in object_matrix:
+        counts = note_row.count(1)
+        row = [1] * to_keys
+        if counts == 1:
+            s = np.random.choice([3, 2], p=[0.15, 0.85])
+            zero_index = np.random.choice(index_list, size=s, replace=False)
+            for index in zero_index:
+                row[index] = 0
+        elif counts == 2:
+            s = np.random.choice([3, 2, 1], p=[0.10, 0.80, 0.10])
+            zero_index = np.random.choice(index_list, size=s, replace=False)
+            for index in zero_index:
+                row[index] = 0
+        elif counts >= 3:
+            s = np.random.choice([3, 2, 1], p=[0.0, 0.45, 0.55])
+            zero_index = np.random.choice(index_list, size=s, replace=False)
+            for index in zero_index:
+                row[index] = 0
+        if len(new_matrix) > 0:
+            flag = any(x == 0 and y == 0 for x, y in zip(row, new_matrix[-1])) or not_consecutive_zero(row)
+            while flag:
+                row = [1] * to_keys
+                zero_index = np.random.choice(index_list, size=3, replace=False)
+                for index in zero_index:
+                    row[index] = 0
+                flag =any(x == 0 and y == 0 for x, y in zip(row, new_matrix[-1])) or not_consecutive_zero(row)
+        new_matrix.append(row)
+    return start_time_list, new_matrix
 
+def not_consecutive_zero(arr):
+    has_consecutive_zero = False
+    for i in range(len(arr) - 1):
+        if arr[i] == 0 and arr[i + 1] == 0:
+            has_consecutive_zero = True
+            break
+    return has_consecutive_zero
 
 def adjust_rows(row1, row2):
     for i in range(len(row1)):
@@ -150,7 +191,7 @@ def write_notes_to_str(matrix_ok):
 
 
 
-#e.p
+# # e.p
 # notes = """9,192,110,5,0,0:0:0:0:
 # 448,192,110,1,0,0:0:0:0:
 # 228,192,110,1,0,0:0:0:0:
@@ -166,16 +207,19 @@ def write_notes_to_str(matrix_ok):
 # for line in lines_note_objs:
 #     matrix.append(RowOfNotes.new_row_from_original_str_line(line,7))
 # matrix = matrix_merge(matrix)
-#
-# start_time_list, matrix = jacks_in_stream(matrix)
-# row_of_notes_matrix_generation(start_time_list, matrix)
-# str = write_notes_to_str(matrix)
-# print(str)
-# # —————————————万物化系列e.p———————————————
-# # # start_time_list, jack_matrix = everthing_to_jacks(4,matrix,8)
-# # # # row_of_notes_matrix_generation(start_time_list, jack_matrix)
-# # # jack_str = write_notes_to_str(jack_matrix)
-# # # print(jack_str)
+# # #
+# # # start_time_list, matrix = jacks_in_stream(matrix)
+# # # row_of_notes_matrix_generation(start_time_list, matrix)
+# # # str = write_notes_to_str(matrix)
+# # # print(str)
+# # # —————————————万物化系列e.p———————————————
+# start_time_list, jack_matrix = everthing_to_choadjacks(4,matrix,8)
+# row_of_notes_matrix_generation(start_time_list, jack_matrix)
+# jack_str = write_notes_to_str(jack_matrix)
+# for row in jack_matrix:
+#     for note in row:
+#         print(note,end=" ")
+#     print()
 # # start_time_list1, stream_matrix = everthing_to_stream(4,matrix,8)
 # # row_of_notes_matrix_generation(start_time_list1, stream_matrix)
 # # stream_str = write_notes_to_str(stream_matrix)
