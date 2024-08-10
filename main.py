@@ -278,7 +278,7 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         BG_file = str(matadata.data["Background"][0]).lstrip()
         if self.version_flag == False:
             new_version = f"({old_creator})[{old_version}]"
-            # temp_str1 = random_num_add(title)
+            temp_str1 = random_num_add(title)
             temp_str1 = old_title[:4] + "_" + new_version[:6]
             new_audio_file_name = remove_invalid_filename_chars(
                 temp_str1 + os.path.splitext(audio_file)[1])
