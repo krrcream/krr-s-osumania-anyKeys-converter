@@ -78,13 +78,14 @@ E.g④:Everything to Jack And Stream(It's not much use just for fun)
 E.g⑤:Jack World(Jack Stream trainer)
 ![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/5%20Jack%20world.png)
 
+V0.7 2024/8/10
+1. 跳过文件出错避免崩坏
+1. Skip file errors to avoid crash
+
 V0.3 2024/5/1
 
 1. 重写 matadata 逻辑，减少文件名 BUG。
 2. 改善自动加键功能，修复加键后又出现子弹的问题。
-
-English version:
-
 1. Rewrite metadata logic to reduce file name bugs。
 2. Improved auto-add note function, fixed an issue where new jack appeared after the notes was added.
 
@@ -92,8 +93,5 @@ V0.2 2024/4/20
 
 1. 更换转换方法，增加应对删子弹时空行的自动补键策略。
 2. 增加英语支持。
-
-English version:
-
 1. Change the conversion method and add the auto-add notes strategy to deal with the convert space rows.
 2. Add English support.
