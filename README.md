@@ -1,4 +1,4 @@
-# krr-s-osumania-anyKeys-converter
+![image](https://github.com/user-attachments/assets/61ac27ec-5485-4a3c-9559-a22f0e79b5b8)# krr-s-osumania-anyKeys-converter
 
 > Matrix based anyKeys-converter, Supports 4-20keys arbitrary conversion.
 > 基于矩阵变换的任意keys转换器，支持4-20键转谱
@@ -80,13 +80,13 @@ V0.8 2024/8/18
 -------
 1. Added the function of saving to the original path, generating only new.osu files, not audio and background files
 2. Fixed some issues with note arrangement logic
-3. Fixed the issue where the program would crash due to problems with filenames.
+3. Fixed the issue where the program would crash due to problems with filenames
 
 
 V0.7 2024/8/10
-1. 跳过文件出错避免崩坏
+1. 一些格式不正确的[metadata]和一些格式不正确的notes，它们与当前的官方.osu文件格式不匹配会导致程序崩溃。唯一的解决办法就是在游戏中重新保存文件格式。我实现了一个功能，跳过无法解决的错误，以避免崩溃
 -------
-1. Skip file errors to avoid crash
+1. Some incorrectly formatted [metadata] and some incorrectly formatted notes , which don't match the current official .osu file format,will cause the program crash. The only solution for this is to refresh the file format by resaving it in the game. I implemented a feature that skip the unsolvable errors to avoid crash
 
 
 V0.5 2024/5/4
