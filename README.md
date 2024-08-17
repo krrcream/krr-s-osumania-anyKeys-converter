@@ -72,7 +72,21 @@ E.g⑤:Jack World(Jack Stream trainer)
 
 -------
 ## Changelog 更新日志
+V0.81 2024/8/18
+1. 修复了一些[HitObjects]格式问题，使程序能正确处理一些特殊的谱面(其他转谱器的铺面)。
+-------
+1. Fixed some [HitObjects] formatting issues, allowing the program to correctly handle some special beatmap files(other converter's layout).
+<details> 
+<summary>像这些(like this):</summary> 
+<pre>
+ "192,192,9974,1,0"
+ " "
+ "100,100,12600,6,1,B|200:200|250:200|250:200|300:150,2,310.123,2|1|2,0:0|0:0|0:2,0:0:0:0:"
+ "155.60000000000002,192,17423,128,0,17659:0:0:0:0:"
+</pre> 
+</details>
 
+-------
 V0.8 2024/8/18
 1. 增加保存到原路径的功能，只生成新的.osu文件，不生成音频及背景文件
 2. 修复一些NOTE排列的逻辑问题
@@ -84,7 +98,7 @@ V0.8 2024/8/18
 
 -------
 V0.7 2024/8/10
-1. 一些格式不正确的[metadata]和一些格式不正确的notes，它们与当前的官方.osu文件格式不匹配会导致程序崩溃。唯一的解决办法就是在游戏中重新保存文件格式。我实现了一个功能，跳过无法解决的错误，以避免崩溃
+1. 一些格式不正确的[metadata]和一些格式不正确的[HitObjects] ，它们与当前的官方.osu文件格式不匹配会导致程序崩溃。唯一的解决办法就是在游戏中重新保存文件格式。我实现了一个功能，跳过无法解决的错误，以避免崩溃
 -------
 1. Some incorrectly formatted [metadata] and some incorrectly formatted notes , which don't match the current official .osu file format,will cause the program crash. The only solution for this is to refresh the file format by resaving it in the game. I implemented a feature that skip the unsolvable errors to avoid crash
 
