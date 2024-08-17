@@ -31,8 +31,10 @@ python main.py
 
 #### 使用说明 Instructions
 
-1. 填好目录，或者选择保存到原路径 
-2. 把谱面文件.osu或者包含谱面的文件夹拖入到程序窗口中，程序会自动识别并转换。  
+1. 填好目录，或者选择保存到原路径
+1. Fill in the directory address, or select Save to the original path
+2. 把谱面文件.osu或者包含谱面的文件夹拖入到程序窗口中，程序会自动识别并转换
+2. Drag the beatmap files .osu or folder containing beatmap files into the program window, the program will automatically recognize and convert
 <details> 
 <summary>3. V0.5版本使用案例图(V0.5 case diagram)</summary> 
 <pre>
