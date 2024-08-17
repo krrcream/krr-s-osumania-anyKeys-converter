@@ -9,6 +9,19 @@ Supports 4-20keys arbitrary conversion. If you encounter bugs, please [create an
 支持 4-20 键任意转谱。程序可能会有 BUG，如遇到 BUG 请[提出 Issue](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/issues/new/choose) 或者用下面列出联系方式联系我，感谢您的支持！
 
 ### How to use? 如何使用？
+
+#### Windows
+
+Download the built binary (with .exe extension) from [Google Drive](https://drive.google.com/drive/folders/15aLQ7iQLbkQ_ynVnyI92QTk3DfA7QcrP) or [Baidu Netdisk](https://pan.baidu.com/share/init?surl=VBhS-RCG402KkjoX9obQNw&pwd=kr8k) and run it.  
+从[百度网盘](https://pan.baidu.com/share/init?surl=VBhS-RCG402KkjoX9obQNw&pwd=kr8k)或 [Google Drive](https://drive.google.com/drive/folders/15aLQ7iQLbkQ_ynVnyI92QTk3DfA7QcrP) 下载构建好的二进制文件（以 .exe 为后缀）后运行即可
+
+#### MacOS & Linux
+
+Download the project source code and go to the project root directory. After deploying the Python environment locally, and run the following commands. You can run the project from the source code.  
+下载项目源码，然后进入到项目根目录。在本地部署 Python 环境后，运行以下指令。即可从源码运行此项目。
+
+#### 使用说明 Instructions
+
 1. 填好目录，或者选择保存到原路径 
 2. 把谱面文件.osu或者包含谱面的文件夹拖入到程序窗口中，程序会自动识别并转换。  
 <details> 
@@ -31,19 +44,6 @@ E.g⑤:Jack World(Jack Stream trainer)
 
 </pre> 
 </details>
-
-
-
-#### Windows
-
-Download the built binary (with .exe extension) from [Google Drive](https://drive.google.com/drive/folders/15aLQ7iQLbkQ_ynVnyI92QTk3DfA7QcrP) or [Baidu Netdisk](https://pan.baidu.com/share/init?surl=VBhS-RCG402KkjoX9obQNw&pwd=kr8k) and run it.  
-从[百度网盘](https://pan.baidu.com/share/init?surl=VBhS-RCG402KkjoX9obQNw&pwd=kr8k)或 [Google Drive](https://drive.google.com/drive/folders/15aLQ7iQLbkQ_ynVnyI92QTk3DfA7QcrP) 下载构建好的二进制文件（以 .exe 为后缀）后运行即可
-
-#### MacOS & Linux
-
-Download the project source code and go to the project root directory. After deploying the Python environment locally, and run the following commands. You can run the project from the source code.  
-下载项目源码，然后进入到项目根目录。在本地部署 Python 环境后，运行以下指令。即可从源码运行此项目。
-
 ```bash
 pip install -r requirements.txt
 ```
