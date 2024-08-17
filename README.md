@@ -37,7 +37,8 @@ python main.py
 <summary>3. V0.5版本使用案例图(case diagram)</summary> 
 <pre>
 E.g①:7to8
-![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/1%207to8.png])
+
+  ![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/1-7to8.png)
 
 E.g②:7to14
 ![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/2%207to14k.png)
@@ -62,14 +63,6 @@ E.g⑤:Jack World(Jack Stream trainer)
 
 [Bilibili](https://space.bilibili.com/), [Osu!](https://osu.ppy.sh/users/14769563)
 
-## Getting started 开始此项目的开发
-
-Install package.  
-安装项目所需的包。
-
-```bash
-pip install -r requirements.txt
-```
 
 ## Changelog 更新日志
 
