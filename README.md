@@ -37,7 +37,7 @@ python main.py
 <summary>3. V0.5版本使用案例图(case diagram)</summary> 
 <pre>
 E.g①:7to8
-![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/1%207to8.png)
+![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/1%207to8.png])
 
 E.g②:7to14
 ![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/2%207to14k.png)
