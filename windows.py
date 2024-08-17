@@ -498,7 +498,7 @@ class Ui_krr_anyKeys_convertor(object):
                 self.label_9.setText(_translate("krr_anyKeys_convertor",
                                                 "<html><head/><body><p><span style=\" font-size:10pt;\">E.g:①4KDP:0,1,2,3,0,1,2,3 ②7kdelspacek:0,1,2,4,5,6""</span></p></body></html>"))
                 self.label_12.setText(_translate("krr_anyKeys_convertor",
-                                                 "<html><head/><body><p><a href=\"https://docs.qq.com/aio/p/scf5e4mtkkcz3mt?p=zsly2KRXWddpeuvB4tLdjIb\"><span style=\" text-decoration: underline; color:#0000ff;\">Document</span></a></p></body></html>"))
+                                                 "<html><head/><body><p><a href=\"https://github.com/krrcream/krr-s-osumania-anyKeys-converter\"><span style=\" text-decoration: underline; color:#0000ff;\">github</span></a></p></body></html>"))
                 self.label_16.setText(_translate("krr_anyKeys_convertor",
                                                  "<html><head/><body><p><span style=\" font-size:9pt;\">Jack World and [NToNS] does not require target keys</span></p></body></html>"))
 
@@ -508,7 +508,7 @@ class Ui_krr_anyKeys_convertor(object):
                 self.label_lst[i].setText(lang[0][i])
                 self.label_9.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><span style=\" font-size:10pt;\">示例①4KDP:0,1,2,3,0,1,2,3 ②7k快速删空to6k 0,1,2,4,5,6</span></p></body></html>"))
                 self.label_12.setText(_translate("krr_anyKeys_convertor",
-                                                 "<html><head/><body><p><a href=\"https://docs.qq.com/aio/p/scf5e4mtkkcz3mt?p=L9lBXUFFFFgFLeFRZ5bvqs0\"><span style=\" text-decoration: underline; color:#0000ff;\">在线文档</span></a></p></body></html>"))
+                                                 "<html><head/><body><p><a href=\"https://github.com/krrcream/krr-s-osumania-anyKeys-converter\"><span style=\" text-decoration: underline; color:#0000ff;\">github</span></a></p></body></html>"))
                 self.label_16.setText(_translate("krr_anyKeys_convertor",
                                                  "<html><head/><body><p><span style=\" font-size:9pt;\">杰克世界和简单矩阵转换，目标键数会失效</span></p></body></html>"))
 
@@ -548,8 +548,8 @@ class Ui_krr_anyKeys_convertor(object):
         self.label_11.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><span style=\" font-weight:600;\">by:</span></p></body></html>"))
         self.krrcream.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><a href=\"https://space.bilibili.com/276844\"><span style=\" font-weight:600; text-decoration: underline; color:#0000ff;\">@krrcream</span></a></p></body></html>"))
         self.label_4.setText(_translate("krr_anyKeys_convertor", "说明:"))
-        self.label_12.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><a href=\"https://docs.qq.com/aio/DUXlZS2tYdXZXdnJs\"><span style=\" text-decoration: underline; color:#0000ff;\">在线文档</span></a></p></body></html>"))
-        self.label_10.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><a href=\"https://docs.qq.com/aio/DUXlZS2tYdXZXdnJs\"><span style=\" text-decoration: underline; color:#0000ff;\">Bilibili</span></a></p></body></html>"))
+        self.label_12.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><a href=\"https://github.com/krrcream/krr-s-osumania-anyKeys-converter\"><span style=\" text-decoration: underline; color:#0000ff;\">github</span></a></p></body></html>"))
+        self.label_10.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><a href=\"https://www.bilibili.com/video/BV1Tt421F7xw\"><span style=\" text-decoration: underline; color:#0000ff;\">Bilibili</span></a></p></body></html>"))
         self.label_10.setOpenExternalLinks(True)
         self.label_12.setOpenExternalLinks(True)
         self.krrcream.setOpenExternalLinks(True)

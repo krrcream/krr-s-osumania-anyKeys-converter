@@ -19,13 +19,26 @@ class RowOfNotes:
         """
         输入物件字符串来构建行
         :param note_str: 一行物件的字符串，如 "96,192,43790,128,0,43887:0:0:0:0:"
+        # 192,192,1659,128,0,0:0:0:0:
+        # 320,192,1700,128,0,2684:0:0:0:0:
+        # 192,192,9974,1,0
+        # 100,100,12600,6,1,B|200:200|250:200|250:200|300:150,2,310.123,2|1|2,0:0|0:0|0:2,0:0:0:0:
         :param keys: 当前谱面的keys，用来计算下标，默认值7，如果是其他模式的谱则要填写
         """
         parts = note_str.split(',')
         start_time = int(parts[2])
-        holding_time = int(parts[5].split(':', 1)[0])
+        if len(parts) > 5:
+            temp = parts[5].split(':', 1)[0]
+            # 如果temp是数字则holding_time为temp，否则为0
+            if temp.isdigit():
+                holding_time = int(temp)
+            else:
+                holding_time = 0
+        else:
+            holding_time = 0
         temp = [[0, ""] for _ in range(keys)]
-        index = int(math.floor(int(parts[0]) * keys / 512))
+        column_value = int(float(parts[0]))
+        index = int(math.floor(column_value * keys / 512))
         temp[index][0] = 1
         temp[index][1] = note_str[note_str.find(',') + 1:]
         row = temp

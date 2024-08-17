@@ -189,6 +189,8 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         matrix = []
         try:
             for line in lines_note_objs:
+                if line.isspace() or line == "":
+                    continue
                 matrix.append(RowOfNotes.new_row_from_original_str_line(line, int(matadata.data["CircleSize"][0])))
         except Exception:
             pass
@@ -208,6 +210,12 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         # _______________判断是用哪个转换方式_____________________#
         if self.toNkNkflag == True:
             matadata.meta_alter("CircleSize", tokeys)
+            # try:
+            #     # 尝试合并矩阵
+            #     matrix = matrix_convert.matrix_merge(matrix)
+            # except Exception as e:
+            #     # 如果发生错误，打印错误信息
+            #     print(f"合并矩阵时发生错误，文件是: {file_path}, 错误信息: {e}")
             matrix = matrix_convert.matrix_merge(matrix)
             # 操作矩阵，修改convert_list里的的默认参数
             modified_method = partial(convert_list.to_lowKeys_2_highKeys_addkeys_chaos,
