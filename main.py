@@ -60,6 +60,8 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         self.everything_to_stream.toggled.connect(self.everythingToStreamChange)
         self.jack_world_flag = False
         self.label_jack.toggled.connect(self.jackWorldChange)
+        self.org_dir_flag = False
+        self.org_dir.toggled.connect(self.orgFlagChange)
 
     # ——————保存内容和下次载入————————
     def loadSettings(self):
@@ -116,23 +118,25 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         self.jack_world_flag = checked
         # print(f"jack_world_flag:{self.jack_world_flag}")
 
+    def orgFlagChange(self, checked):
+        self.org_dir_flag = checked
     # 安全复制
     def safe_copy(self,src, dst, error_log: List[str]):
 
         try:
             shutil.copy(src, dst)
-            print(f"文件已成功复制: {src} -> {dst}")
+            # print(f"文件已成功复制: {src} -> {dst}")
         except FileNotFoundError:
             error_message = f"文件未找到: {src}"
-            print(error_message)
+            # print(error_message)
             error_log.append(error_message)
         except PermissionError:
             error_message = f"权限错误，无法访问: {src}"
-            print(error_message)
+            # print(error_message)
             error_log.append(error_message)
         except Exception as e:
             error_message = f"复制文件时发生错误: {src} - {e}"
-            print(error_message)
+            # print(error_message)
             error_log.append(error_message)
 
     def convert(self, file_path):
@@ -270,16 +274,19 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
 
         if not os.path.exists(save_path):
             os.makedirs(save_path)
-        old_title = matadata.data["Artist"][0]
+        old_title = matadata.data["Title"][0]
         new_version = ""
         old_creator = matadata.data["Creator"][0]
         old_version = matadata.data["Version"][0]
         audio_file = str(matadata.data["AudioFilename"][0]).lstrip()
         BG_file = str(matadata.data["Background"][0]).lstrip()
+        old_tags = matadata.data["Tags"][0]
+        new_tags = "krrcream_s_convertor " + old_tags
+        matadata.meta_alter("Tags", new_tags)
+
         if self.version_flag == False:
             new_version = f"({old_creator})[{old_version}]"
-            temp_str1 = random_num_add(title)
-            temp_str1 = old_title[:4] + "_" + new_version[:6]
+            temp_str1 = old_title[:2]+ old_title[-1:] + "_" + old_version[:6] + "_" + old_version[-6:]
             new_audio_file_name = remove_invalid_filename_chars(
                 temp_str1 + os.path.splitext(audio_file)[1])
             new_BG_file_name = remove_invalid_filename_chars(
@@ -288,60 +295,82 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
             new_version = remove_invalid_filename_chars(matadata.data["Title"][0])
             new_version += f"({old_creator})[{old_version}]"
             # temp_str2 = random_num_add(matadata.data["Title"][0][:10])
-            temp_str2 = matadata.data["Title"][0][:10]
+            temp_str2 = old_title[:6] + "_" + old_version[:6] + "_" + old_version[-3:]
             new_audio_file_name = remove_invalid_filename_chars(temp_str2 + os.path.splitext(audio_file)[1])
             new_BG_file_name = remove_invalid_filename_chars(temp_str2 + os.path.splitext(BG_file)[1])
         # --------------------------------
         # new_audio_file_name = random_num_add(new_audio_file_name)
         # new_BG_file_name = random_num_add(new_BG_file_name)
         new_audio_file_name = new_audio_file_name.lstrip()
-        # new_BG_file_name = new_BG_file_name.lstrip()
+        new_BG_file_name = new_BG_file_name.lstrip()
         # print(f"new_BG_file_name:{new_BG_file_name}")
         # ____________________________改matadata________________________________________
-        matadata.meta_alter("AudioFilename", new_audio_file_name)
-        matadata.meta_alter("Background", new_BG_file_name)
-        if title != "":
-            matadata.meta_alter("Title", title)
-        if artist != "":
-            matadata.meta_alter("Artist", artist)
+        if self.org_dir_flag == False:
+            if title != "":
+                matadata.meta_alter("Title", title)
+            if artist != "":
+                matadata.meta_alter("Artist", artist)
 
         matadata.meta_alter("BeatmapID", 0)
         matadata.meta_alter("BeatmapSetID", -1)
 
-        matadata.meta_alter("Creator", "krrcream")
-        matadata.meta_alter("Version", version_tag + new_version)
+        matadata.meta_alter("Creator", "krrcream's convertor")
+
+        if self.org_dir_flag == True:
+            matadata.meta_alter("Version", version_tag + old_version)
+        else:
+            matadata.meta_alter("AudioFilename", new_audio_file_name)
+            matadata.meta_alter("Background", new_BG_file_name)
+            matadata.meta_alter("Version", version_tag + new_version)
+            # ____________________________生成文件________________________________________
+            # print(new_audio_file_name)
+            # print(new_BG_file_name)
+            error_log = []
+            old_audio_file_path = os.path.join(directory, audio_file).replace('\\', '/')
+            new_audio_file_path = os.path.join(save_path, new_audio_file_name).replace('\\', '/')
+            # print(old_audio_file_path)
+            # print(new_audio_file_path)
+            if not os.path.exists(new_audio_file_path):
+                self.safe_copy(old_audio_file_path, new_audio_file_path, error_log)
+            old_BG_file_path = os.path.join(directory, BG_file).replace('\\', '/')
+            new_BG_file_path = os.path.join(save_path, new_BG_file_name).replace('\\', '/')
+            # print(old_BG_file_path)
+            # print(new_BG_file_path)
+            if not os.path.exists(new_BG_file_path):
+                self.safe_copy(old_BG_file_path, new_BG_file_path, error_log)
+
+
         # ____________________________写入字符串________________________________________
 
         lines = matadata.get_new_lines()
 
         matadata_str = "\n".join(lines)
-
-        # ____________________________生成文件________________________________________
-        # print(new_audio_file_name)
-        # print(new_BG_file_name)
-        error_log = []
-        old_audio_file_path = os.path.join(directory, audio_file).replace('\\', '/')
-        new_audio_file_path = os.path.join(save_path, new_audio_file_name).replace('\\', '/')
-        # print(old_audio_file_path)
-        # print(new_audio_file_path)
-        if not os.path.exists(new_audio_file_path):
-            self.safe_copy(old_audio_file_path, new_audio_file_path,error_log)
-        old_BG_file_path = os.path.join(directory, BG_file).replace('\\', '/')
-        new_BG_file_path = os.path.join(save_path, new_BG_file_name).replace('\\', '/')
-        # print(old_BG_file_path)
-        # print(new_BG_file_path)
-        if not os.path.exists(new_BG_file_path):
-            self.safe_copy(old_BG_file_path, new_BG_file_path,error_log)
-        new_osu_file_path = os.path.join(save_path, new_version + ".osu").replace('\\', '/')
-
         # --------------转谱--------------------
+        old_version = remove_invalid_filename_chars(old_version)
+        new_version = remove_invalid_filename_chars(new_version)
+        # new_osu_file_path = os.path.join(save_path, new_version + ".osu").replace('\\', '/')
 
         # 生成osu
-
-        name, extension = os.path.splitext(os.path.basename(new_osu_file_path))
-        osu_new_name = f"{artist} - {title} (krrcream) [{version_tag + new_version}]"
-        new_file_path = os.path.join(os.path.dirname(new_osu_file_path), osu_new_name + extension)
-
+        if self.org_dir_flag == True:
+            extension = ".osu"
+            osu_new_name = f"{matadata.data["Artist"][0]} - {matadata.data["Title"][0]} (krrcream) [{version_tag + old_version}]"
+            new_file_path = os.path.join(directory, osu_new_name + extension).replace('\\', '/')
+            if len(new_file_path) > 250:
+                # 计算需要删除的字符数量
+                excess_length = len(new_file_path) - 250
+                # 剪掉excess_length个字符
+                osu_new_name = osu_new_name[:-excess_length]
+                new_file_path = os.path.join(directory, osu_new_name + extension).replace('\\', '/')
+        else:
+            extension = ".osu"
+            osu_new_name = f"{artist} - {title} (krrcream) [{version_tag + new_version}]"
+            new_file_path = os.path.join(save_path, osu_new_name + extension).replace('\\', '/')
+            if len(new_file_path) > 250:
+                # 计算需要删除的字符数量
+                excess_length = len(new_file_path) - 250
+                # 剪掉excess_length个字符
+                osu_new_name = osu_new_name[:-excess_length]
+                new_file_path = os.path.join(save_path, osu_new_name + extension).replace('\\', '/')
         with open(new_file_path, 'w', encoding='utf-8') as file:
             file.write(matadata_str + "\n" + matrix_str)
 
@@ -371,9 +400,11 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
                 else:
                     file_paths.append(file_path)
 
+
             for file_path in file_paths:
-                # try:
+
                 # 处理每个文件路径的逻辑
+                # self.convert(file_path)
                 try:
                     self.convert(file_path)
                 except Exception:

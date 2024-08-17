@@ -16,7 +16,7 @@ class Ui_krr_anyKeys_convertor(object):
         krr_anyKeys_convertor.setObjectName("krr_anyKeys_convertor")
         krr_anyKeys_convertor.setWindowModality(QtCore.Qt.NonModal)
         krr_anyKeys_convertor.setEnabled(True)
-        krr_anyKeys_convertor.resize(370, 470)
+        krr_anyKeys_convertor.resize(370, 483)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -99,6 +99,10 @@ class Ui_krr_anyKeys_convertor(object):
         self.lineEdit_artist.setText("")
         self.lineEdit_artist.setObjectName("lineEdit_artist")
         self.formLayout_5.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.splitter_7)
+        self.org_dir = QtWidgets.QRadioButton(self.layoutWidget)
+        self.org_dir.setObjectName("org_dir")
+        self.org_dir.setChecked(False)
+        self.formLayout_5.setWidget(1, QtWidgets.QFormLayout.SpanningRole, self.org_dir)
         self.splitter_13 = QtWidgets.QSplitter(self.splitter_15)
         self.splitter_13.setOrientation(QtCore.Qt.Horizontal)
         self.splitter_13.setObjectName("splitter_13")
@@ -235,7 +239,6 @@ class Ui_krr_anyKeys_convertor(object):
         self.NtoNC.setSizePolicy(sizePolicy)
         self.NtoNC.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         self.NtoNC.setChecked(True)
-        self.NtoNC.setAutoRepeat(False)
         self.NtoNC.setObjectName("NtoNC")
         self.buttonGroup = QtWidgets.QButtonGroup(krr_anyKeys_convertor)
         self.buttonGroup.setObjectName("buttonGroup")
@@ -434,18 +437,18 @@ class Ui_krr_anyKeys_convertor(object):
         self.statusbar = QtWidgets.QStatusBar(krr_anyKeys_convertor)
         self.statusbar.setObjectName("statusbar")
         krr_anyKeys_convertor.setStatusBar(self.statusbar)
-        self.label_lst = [self.label, self.label_2, self.label_3, self.versionmod, self.label_6, self.label_7,
+        self.label_lst = [self.org_dir, self.label, self.label_2, self.label_3, self.versionmod, self.label_6, self.label_7,
                           self.label_8,
                           self.label_5, self.NtoNC, self.to4kdpc, self.simplecomvertmod, self.langlab, self.pushButton,
-                          self.label_4, self.label_9,self.everything_to_jack, self.everything_to_stream, self.label_jack,
-                          self.label_14,self.label_15,self.label_13]
+                          self.label_4, self.label_9, self.everything_to_jack, self.everything_to_stream, self.label_jack,
+                          self.label_14, self.label_15, self.label_13]
         self.pushButton.clicked.connect(self.switchLanguage)
         self.retranslateUi(krr_anyKeys_convertor)
         QtCore.QMetaObject.connectSlotsByName(krr_anyKeys_convertor)
-
     def switchLanguage(self):
         _translate = QtCore.QCoreApplication.translate
-        lang = [["保存路径:",
+        lang = [["保存到原路径(以上3参数失效)",
+                 "保存路径:",
                  "标   题:",
                  "艺 术 家:",
                  "用包名命名Title",
@@ -466,7 +469,8 @@ class Ui_krr_anyKeys_convertor(object):
                  "步距:",
                  "数量:",
                  "随机空列数:"],
-                ["Save path:",
+                ["Save to the original path (the above are invalid)",
+                 "Save path:",
                  "Title:",
                  "Artist:",
                  "Name version by title",
@@ -508,16 +512,14 @@ class Ui_krr_anyKeys_convertor(object):
                 self.label_16.setText(_translate("krr_anyKeys_convertor",
                                                  "<html><head/><body><p><span style=\" font-size:9pt;\">杰克世界和简单矩阵转换，目标键数会失效</span></p></body></html>"))
 
-
-
-
     def retranslateUi(self, krr_anyKeys_convertor):
         _translate = QtCore.QCoreApplication.translate
-        krr_anyKeys_convertor.setWindowTitle(_translate("krr_anyKeys_convertor", "Krrcream的任意Keys转换器V0.5"))
+        krr_anyKeys_convertor.setWindowTitle(_translate("krr_anyKeys_convertor", "Krrcream的任意Keys转换器V0.8"))
         krr_anyKeys_convertor.setWhatsThis(_translate("krr_anyKeys_convertor", "<html><head/><body><p>这是krrcream写的任意Keys转换器。</p></body></html>"))
         self.label.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p align=\"right\">保存路径：</p></body></html>"))
         self.label_2.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p align=\"right\">标 题：</p></body></html>"))
         self.label_3.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p align=\"right\">艺 术 家：</p></body></html>"))
+        self.org_dir.setText(_translate("krr_anyKeys_convertor", "保存到原路径(以上3个参数无效)"))
         self.versionmod.setText(_translate("krr_anyKeys_convertor", "用包名命名version"))
         self.label_6.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p align=\"right\"><span style=\" font-size:11pt;\">步距:</span></p></body></html>"))
         self.stap.setText(_translate("krr_anyKeys_convertor", "16"))
@@ -529,8 +531,8 @@ class Ui_krr_anyKeys_convertor(object):
         self.blank_columns.setText(_translate("krr_anyKeys_convertor", "0"))
         self.label_5.setToolTip(_translate("krr_anyKeys_convertor", "<html><head/><body><p><br/></p></body></html>"))
         self.label_5.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p align=\"right\"><span style=\" font-size:11pt;\">删子弹等级:</span></p></body></html>"))
-        self.NtoNC.setText(_translate("krr_anyKeys_convertor", "狂风插入      支持4-20键任意转换"))
-        self.to4kdpc.setText(_translate("krr_anyKeys_convertor", "混沌裤衩      仅4键转8键"))
+        self.NtoNC.setText(_translate("krr_anyKeys_convertor", "狂风插入      支持4-20keys任意转换"))
+        self.to4kdpc.setText(_translate("krr_anyKeys_convertor", "混沌裤衩      仅支持4to8keys"))
         self.everything_to_jack.setText(_translate("krr_anyKeys_convertor", "万物化叠      仅需目标键数"))
         self.everything_to_stream.setText(_translate("krr_anyKeys_convertor", "万物化切      仅需目标键数"))
         self.label_jack.setText(_translate("krr_anyKeys_convertor", "杰克世界"))
@@ -546,8 +548,8 @@ class Ui_krr_anyKeys_convertor(object):
         self.label_11.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><span style=\" font-weight:600;\">by:</span></p></body></html>"))
         self.krrcream.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><a href=\"https://space.bilibili.com/276844\"><span style=\" font-weight:600; text-decoration: underline; color:#0000ff;\">@krrcream</span></a></p></body></html>"))
         self.label_4.setText(_translate("krr_anyKeys_convertor", "说明:"))
-        self.label_12.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><a href=\"https://docs.qq.com/aio/p/scf5e4mtkkcz3mt?p=L9lBXUFFFFgFLeFRZ5bvqs0\"><span style=\" text-decoration: underline; color:#0000ff;\">在线文档</span></a></p></body></html>"))
-        self.label_10.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><a href=\"https://www.bilibili.com/video/BV1Tt421F7xw\"><span style=\" text-decoration: underline; color:#0000ff;\">Bilibili</span></a></p></body></html>"))
+        self.label_12.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><a href=\"https://docs.qq.com/aio/DUXlZS2tYdXZXdnJs\"><span style=\" text-decoration: underline; color:#0000ff;\">在线文档</span></a></p></body></html>"))
+        self.label_10.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><a href=\"https://docs.qq.com/aio/DUXlZS2tYdXZXdnJs\"><span style=\" text-decoration: underline; color:#0000ff;\">Bilibili</span></a></p></body></html>"))
         self.label_10.setOpenExternalLinks(True)
         self.label_12.setOpenExternalLinks(True)
         self.krrcream.setOpenExternalLinks(True)
