@@ -8,6 +8,7 @@
 Supports 4-20keys arbitrary conversion. If you encounter bugs, please [create an issue](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/issues/new/choose) or contact me. Thank you for your support!  
 支持 4-20 键任意转谱。程序可能会有 BUG，如遇到 BUG 请[提出 Issue](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/issues/new/choose) 或者用下面列出联系方式联系我，感谢您的支持！
 
+-------
 ### How to use? 如何使用？
 
 #### Windows
@@ -59,26 +60,34 @@ E.g⑤:Jack World(Jack Stream trainer)
 </pre> 
 </details>
 
+-------
 ### Other presentations about this project 此项目的其他介绍
 
 [腾讯文档](https://docs.qq.com/aio/DUXlZS2tYdXZXdnJs?from_page=doc_home_gw_product&templateId=gqa966yujp83587sz7eth7xydc&create_type=2&aid_position=templatemall&aid_pos=templatemall&p=L9BXUFFFFgFLeFRZ5bvqs0&client_hint=0), [Document(English)](https://docs.qq.com/aio/DUXlZS2tYdXZXdnJs?from_page=doc_home_gw_product&templateId=gqa966yujp83587sz7eth7xydc&create_type=2&aid_position=templatemall&aid_pos=templatemall&p=zsy2KRXWddpeuvB4tLdjIb&client_hint=0), [Bilibili video](https://www.bilibili.com/video/BV1Tt421F7xw/)
 
+-------
 ### How to find me 如何联系我
 
 [Bilibili](https://space.bilibili.com/), [Osu!](https://osu.ppy.sh/users/14769563)
 
-
+-------
 ## Changelog 更新日志
 
 V0.8 2024/8/18
 1. 增加保存到原路径的功能，只生成新的.osu文件，不生成音频及背景文件
 2. 修复一些NOTE排列的逻辑问题
+3. 修复因为文件名等程序崩溃的问题
+-------
 1. Added the function of saving to the original path, generating only new.osu files, not audio and background files
 2. Fixed some issues with note arrangement logic
+3. Fixed the issue where the program would crash due to problems with filenames.
+
 
 V0.7 2024/8/10
 1. 跳过文件出错避免崩坏
+-------
 1. Skip file errors to avoid crash
+
 
 V0.5 2024/5/4
 1. 支持高转低，实现任意 keys 转谱
@@ -86,6 +95,7 @@ V0.5 2024/5/4
 3. 增加插入空列的功能，更好地控制密度
 4. 批量转谱，支持拖入多个文件以及文件夹
 5. 修复 BG 和 Audio 同名错误问题
+-------
 1. Support column more to column less change, to achieve any keys spectrum
 2. Increase the function of [Everything to Jack] [Everything to Stream] [Jack world]
 3. Increase the function of inserting empty columns to better control the density
@@ -95,12 +105,15 @@ V0.5 2024/5/4
 V0.3 2024/5/1
 1. 重写 matadata 逻辑，减少文件名 BUG。
 2. 改善自动加键功能，修复加键后又出现子弹的问题。
+-------
 1. Rewrite metadata logic to reduce file name bugs。
 2. Improved auto-add note function, fixed an issue where new jack appeared after the notes was added.
+
 
 V0.2 2024/4/20
 1. 更换转换方法，增加应对删子弹时空行的自动补键策略。
 2. 增加英语支持。
+-------
 1. Change the conversion method and add the auto-add notes strategy to deal with the convert space rows.
 2. Add English support.
 
