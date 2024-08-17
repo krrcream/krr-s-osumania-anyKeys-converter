@@ -9,6 +9,30 @@ Supports 4-20keys arbitrary conversion. If you encounter bugs, please [create an
 支持 4-20 键任意转谱。程序可能会有 BUG，如遇到 BUG 请[提出 Issue](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/issues/new/choose) 或者用下面列出联系方式联系我，感谢您的支持！
 
 ### How to use? 如何使用？
+1. 填好目录，或者选择保存到原路径 
+2. 把谱面文件.osu或者包含谱面的文件夹拖入到程序窗口中，程序会自动识别并转换。  
+<details> 
+<summary>3. V0.5版本使用案例图(case diagram)</summary> 
+<pre>
+E.g①:7to8
+![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/1-7to8.png)
+
+E.g②:7to14
+![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/2%207to14k.png)
+
+E.g②:7to10
+![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/3%207to10k.png)
+
+E.g④:Everything to Jack And Stream(It's not much use just for fun)
+![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/4%20Everything.png)
+
+E.g⑤:Jack World(Jack Stream trainer)
+![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/5%20Jack%20world.png)
+
+</pre> 
+</details>
+
+
 
 #### Windows
 
@@ -46,11 +70,12 @@ pip install -r requirements.txt
 ```
 
 ## Changelog 更新日志
-V0.8 2024/8/17
-1.增加保存到原路径的功能，只生成新的.osu文件，不生成音频及背景文件
-2.修复一些NOTE排列的逻辑问题
-1.Added the function of saving to the original path, generating only new.osu files, not audio and background files
-2.Fixed some issues with note arrangement logic
+
+V0.8 2024/8/18
+1. 增加保存到原路径的功能，只生成新的.osu文件，不生成音频及背景文件
+2. 修复一些NOTE排列的逻辑问题
+1. Added the function of saving to the original path, generating only new.osu files, not audio and background files
+2. Fixed some issues with note arrangement logic
 
 V0.7 2024/8/10
 1. 跳过文件出错避免崩坏
@@ -79,20 +104,5 @@ V0.2 2024/4/20
 2. 增加英语支持。
 1. Change the conversion method and add the auto-add notes strategy to deal with the convert space rows.
 2. Add English support.
-
-E.g①:7to8
-![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/1-7to8.png)
-
-E.g②:7to14
-![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/2%207to14k.png)
-
-E.g②:7to10
-![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/3%207to10k.png)
-
-E.g④:Everything to Jack And Stream(It's not much use just for fun)
-![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/4%20Everything.png)
-
-E.g⑤:Jack World(Jack Stream trainer)
-![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/5%20Jack%20world.png)
 
 
