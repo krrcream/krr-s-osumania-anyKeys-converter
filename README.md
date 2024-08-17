@@ -20,8 +20,6 @@ Download the built binary (with .exe extension) from [Google Drive](https://driv
 Download the project source code and go to the project root directory. After deploying the Python environment locally, and run the following commands. You can run the project from the source code.  
 下载项目源码，然后进入到项目根目录。在本地部署 Python 环境后，运行以下指令。即可从源码运行此项目。
 
-</pre> 
-</details>
 ```bash
 pip install -r requirements.txt
 ```
@@ -29,6 +27,7 @@ pip install -r requirements.txt
 ```bash
 python main.py
 ```
+
 
 #### 使用说明 Instructions
 
@@ -38,7 +37,7 @@ python main.py
 <summary>3. V0.5版本使用案例图(case diagram)</summary> 
 <pre>
 E.g①:7to8
-![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/1-7to8.png)
+![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/1%207to8.png)
 
 E.g②:7to14
 ![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/2%207to14k.png)
@@ -52,7 +51,8 @@ E.g④:Everything to Jack And Stream(It's not much use just for fun)
 E.g⑤:Jack World(Jack Stream trainer)
 ![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/5%20Jack%20world.png)
 
-
+</pre> 
+</details>
 
 ### Other presentations about this project 此项目的其他介绍
 
