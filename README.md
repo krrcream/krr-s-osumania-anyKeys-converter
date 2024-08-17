@@ -34,7 +34,7 @@ python main.py
 1. 填好目录，或者选择保存到原路径 
 2. 把谱面文件.osu或者包含谱面的文件夹拖入到程序窗口中，程序会自动识别并转换。  
 <details> 
-<summary>3. V0.5版本使用案例图(case diagram)</summary> 
+<summary>3. V0.5版本使用案例图(V0.5 case diagram)</summary> 
 <pre>
 E.g①:7to8
 
