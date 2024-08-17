@@ -46,22 +46,39 @@ pip install -r requirements.txt
 ```
 
 ## Changelog 更新日志
+V0.8 2024/8/17
+1.增加保存到原路径的功能，只生成新的.osu文件，不生成音频及背景文件
+2.修复一些NOTE排列的逻辑问题
+1.Added the function of saving to the original path, generating only new.osu files, not audio and background files
+2.Fixed some issues with note arrangement logic
+
+V0.7 2024/8/10
+1. 跳过文件出错避免崩坏
+1. Skip file errors to avoid crash
 
 V0.5 2024/5/4
-
 1. 支持高转低，实现任意 keys 转谱
 2. 增加万物化叠，万物化切，杰克世界功能
 3. 增加插入空列的功能，更好地控制密度
 4. 批量转谱，支持拖入多个文件以及文件夹
 5. 修复 BG 和 Audio 同名错误问题
-
-English version:
-
 1. Support column more to column less change, to achieve any keys spectrum
 2. Increase the function of [Everything to Jack] [Everything to Stream] [Jack world]
 3. Increase the function of inserting empty columns to better control the density
 4. Supports drag-and-drop file or folder batch converter
 5. Fixed a bug with the same name for BG and Audio
+
+V0.3 2024/5/1
+1. 重写 matadata 逻辑，减少文件名 BUG。
+2. 改善自动加键功能，修复加键后又出现子弹的问题。
+1. Rewrite metadata logic to reduce file name bugs。
+2. Improved auto-add note function, fixed an issue where new jack appeared after the notes was added.
+
+V0.2 2024/4/20
+1. 更换转换方法，增加应对删子弹时空行的自动补键策略。
+2. 增加英语支持。
+1. Change the conversion method and add the auto-add notes strategy to deal with the convert space rows.
+2. Add English support.
 
 E.g①:7to8
 ![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/1-7to8.png)
@@ -78,20 +95,4 @@ E.g④:Everything to Jack And Stream(It's not much use just for fun)
 E.g⑤:Jack World(Jack Stream trainer)
 ![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/5%20Jack%20world.png)
 
-V0.7 2024/8/10
-1. 跳过文件出错避免崩坏
-1. Skip file errors to avoid crash
 
-V0.3 2024/5/1
-
-1. 重写 matadata 逻辑，减少文件名 BUG。
-2. 改善自动加键功能，修复加键后又出现子弹的问题。
-1. Rewrite metadata logic to reduce file name bugs。
-2. Improved auto-add note function, fixed an issue where new jack appeared after the notes was added.
-
-V0.2 2024/4/20
-
-1. 更换转换方法，增加应对删子弹时空行的自动补键策略。
-2. 增加英语支持。
-1. Change the conversion method and add the auto-add notes strategy to deal with the convert space rows.
-2. Add English support.
