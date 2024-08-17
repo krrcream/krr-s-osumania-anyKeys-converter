@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/61ac27ec-5485-4a3c-9559-a22f0e79b5b8)# krr-s-osumania-anyKeys-converter
+# krr-s-osumania-anyKeys-converter
 
 > Matrix based anyKeys-converter, Supports 4-20keys arbitrary conversion.
 > 基于矩阵变换的任意keys转换器，支持4-20键转谱
@@ -82,13 +82,13 @@ V0.8 2024/8/18
 2. Fixed some issues with note arrangement logic
 3. Fixed the issue where the program would crash due to problems with filenames
 
-
+-------
 V0.7 2024/8/10
 1. 一些格式不正确的[metadata]和一些格式不正确的notes，它们与当前的官方.osu文件格式不匹配会导致程序崩溃。唯一的解决办法就是在游戏中重新保存文件格式。我实现了一个功能，跳过无法解决的错误，以避免崩溃
 -------
 1. Some incorrectly formatted [metadata] and some incorrectly formatted notes , which don't match the current official .osu file format,will cause the program crash. The only solution for this is to refresh the file format by resaving it in the game. I implemented a feature that skip the unsolvable errors to avoid crash
 
-
+-------
 V0.5 2024/5/4
 1. 支持高转低，实现任意 keys 转谱
 2. 增加万物化叠，万物化切，杰克世界功能
@@ -101,7 +101,7 @@ V0.5 2024/5/4
 3. Increase the function of inserting empty columns to better control the density
 4. Supports drag-and-drop file or folder batch converter
 5. Fixed a bug with the same name for BG and Audio
-
+-------
 V0.3 2024/5/1
 1. 重写 matadata 逻辑，减少文件名 BUG。
 2. 改善自动加键功能，修复加键后又出现子弹的问题。
@@ -109,7 +109,7 @@ V0.3 2024/5/1
 1. Rewrite metadata logic to reduce file name bugs。
 2. Improved auto-add note function, fixed an issue where new jack appeared after the notes was added.
 
-
+-------
 V0.2 2024/4/20
 1. 更换转换方法，增加应对删子弹时空行的自动补键策略。
 2. 增加英语支持。
