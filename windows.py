@@ -16,7 +16,7 @@ class Ui_krr_anyKeys_convertor(object):
         krr_anyKeys_convertor.setObjectName("krr_anyKeys_convertor")
         krr_anyKeys_convertor.setWindowModality(QtCore.Qt.NonModal)
         krr_anyKeys_convertor.setEnabled(True)
-        krr_anyKeys_convertor.resize(370, 483)
+        krr_anyKeys_convertor.resize(370, 510)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -433,6 +433,19 @@ class Ui_krr_anyKeys_convertor(object):
         self.lineEdit.setText("")
         self.lineEdit.setEchoMode(QtWidgets.QLineEdit.Normal)
         self.lineEdit.setObjectName("lineEdit")
+        self.seed = QtWidgets.QSplitter(self.centralwidget)
+        self.seed.setGeometry(QtCore.QRect(10, 460, 351, 22))
+        self.seed.setOrientation(QtCore.Qt.Horizontal)
+        self.seed.setObjectName("seed")
+        self.seed_check = QtWidgets.QCheckBox(self.seed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.seed_check.sizePolicy().hasHeightForWidth())
+        self.seed_check.setSizePolicy(sizePolicy)
+        self.seed_check.setObjectName("seed_check")
+        self.seed_line = QtWidgets.QLineEdit(self.seed)
+        self.seed_line.setObjectName("seed_line")
         krr_anyKeys_convertor.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(krr_anyKeys_convertor)
         self.statusbar.setObjectName("statusbar")
@@ -441,7 +454,7 @@ class Ui_krr_anyKeys_convertor(object):
                           self.label_8,
                           self.label_5, self.NtoNC, self.to4kdpc, self.simplecomvertmod, self.langlab, self.pushButton,
                           self.label_4, self.label_9, self.everything_to_jack, self.everything_to_stream, self.label_jack,
-                          self.label_14, self.label_15, self.label_13]
+                          self.label_14, self.label_15, self.label_13,self.seed_check]
         self.pushButton.clicked.connect(self.switchLanguage)
         self.retranslateUi(krr_anyKeys_convertor)
         QtCore.QMetaObject.connectSlotsByName(krr_anyKeys_convertor)
@@ -468,7 +481,8 @@ class Ui_krr_anyKeys_convertor(object):
                  "杰克世界",
                  "步距:",
                  "数量:",
-                 "随机空列数:"],
+                 "随机空列数:",
+                 "固定种子    种子:"],
                 ["Save to the original path (the above are invalid)",
                  "Save path:",
                  "Title:",
@@ -490,10 +504,11 @@ class Ui_krr_anyKeys_convertor(object):
                  "Jack World",
                  "JStap:",
                  "Quantity:",
-                 "Random blank:"]]
+                 "Random blank:",
+                 "Fixed seed    Seed:"]]
 
         if self.langlab.text() == "当前语言:中文":
-            for i in range(21):
+            for i in range(23):
                 self.label_lst[i].setText(lang[1][i])
                 self.label_9.setText(_translate("krr_anyKeys_convertor",
                                                 "<html><head/><body><p><span style=\" font-size:10pt;\">E.g:①4KDP:0,1,2,3,0,1,2,3 ②7kdelspacek:0,1,2,4,5,6""</span></p></body></html>"))
@@ -502,19 +517,21 @@ class Ui_krr_anyKeys_convertor(object):
                 self.label_16.setText(_translate("krr_anyKeys_convertor",
                                                  "<html><head/><body><p><span style=\" font-size:9pt;\">Jack World and [NToNS] does not require target keys</span></p></body></html>"))
 
-
+                self.setWindowTitle(
+                    _translate("krr_anyKeys_convertor", "Krrcream's_anyKeys_Converter V0.90"))
         else:
-            for i in range(21):
+            for i in range(23):
                 self.label_lst[i].setText(lang[0][i])
                 self.label_9.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><span style=\" font-size:10pt;\">示例①4KDP:0,1,2,3,0,1,2,3 ②7k快速删空to6k 0,1,2,4,5,6</span></p></body></html>"))
                 self.label_12.setText(_translate("krr_anyKeys_convertor",
                                                  "<html><head/><body><p><a href=\"https://github.com/krrcream/krr-s-osumania-anyKeys-converter\"><span style=\" text-decoration: underline; color:#0000ff;\">github</span></a></p></body></html>"))
                 self.label_16.setText(_translate("krr_anyKeys_convertor",
                                                  "<html><head/><body><p><span style=\" font-size:9pt;\">杰克世界和简单矩阵转换，目标键数会失效</span></p></body></html>"))
-
+                self.setWindowTitle(
+                    _translate("krr_anyKeys_convertor", "Krrcream的任意Keys转换器 V0.90"))
     def retranslateUi(self, krr_anyKeys_convertor):
         _translate = QtCore.QCoreApplication.translate
-        krr_anyKeys_convertor.setWindowTitle(_translate("krr_anyKeys_convertor", "Krrcream的任意Keys转换器V0.8"))
+        krr_anyKeys_convertor.setWindowTitle(_translate("krr_anyKeys_convertor", "Krrcream的任意Keys转换器 V0.90"))
         krr_anyKeys_convertor.setWhatsThis(_translate("krr_anyKeys_convertor", "<html><head/><body><p>这是krrcream写的任意Keys转换器。</p></body></html>"))
         self.label.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p align=\"right\">保存路径：</p></body></html>"))
         self.label_2.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p align=\"right\">标 题：</p></body></html>"))
@@ -548,6 +565,7 @@ class Ui_krr_anyKeys_convertor(object):
         self.label_11.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><span style=\" font-weight:600;\">by:</span></p></body></html>"))
         self.krrcream.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><a href=\"https://space.bilibili.com/276844\"><span style=\" font-weight:600; text-decoration: underline; color:#0000ff;\">@krrcream</span></a></p></body></html>"))
         self.label_4.setText(_translate("krr_anyKeys_convertor", "说明:"))
+        self.seed_check.setText(_translate("krr_anyKeys_convertor", "固定种子    种子:"))
         self.label_12.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><a href=\"https://github.com/krrcream/krr-s-osumania-anyKeys-converter\"><span style=\" text-decoration: underline; color:#0000ff;\">github</span></a></p></body></html>"))
         self.label_10.setText(_translate("krr_anyKeys_convertor", "<html><head/><body><p><a href=\"https://www.bilibili.com/video/BV1Tt421F7xw\"><span style=\" text-decoration: underline; color:#0000ff;\">Bilibili</span></a></p></body></html>"))
         self.label_10.setOpenExternalLinks(True)

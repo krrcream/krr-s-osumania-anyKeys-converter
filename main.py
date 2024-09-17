@@ -1,14 +1,14 @@
 import os
 import random
+import numpy as np
 import shutil
 import string
 import sys
 from functools import partial
 from typing import List
-
 from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtCore import Qt, QCoreApplication
-from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit
 import convert_list
 import matrix_convert
 import windows
@@ -16,6 +16,15 @@ from row_of_notes import RowOfNotes
 from matadata import MataData
 import everything_and_traning_series
 
+def set_seed(seed):
+    seed_int = int(seed)
+    # 检查是否超出最大值
+    if seed_int > 4294967294:
+        # 如果超出范围，截取最后9个字符
+        seed = seed[-9:]
+    seed = int(seed)
+    np.random.seed(seed)  # 设置numpy的种子
+    random.seed(seed)  # 设置random的种子
 
 def random_num_add(file_name_str):
     extension = os.path.splitext(file_name_str)[1]
@@ -23,6 +32,18 @@ def random_num_add(file_name_str):
     random_number = str(random.randint(1, 99999)).zfill(5)
     new_filename = f"{base_filename}_{random_number}{extension}"
     return new_filename
+
+def generate_seed(): # 生成随机种子
+    # 生成随机长度
+    seed_length = random.randint(6, 16)
+
+    # 确保第一个字符不为0
+    first_digit = str(random.randint(1, 9))  # 生成1到9之间随机数字
+    remaining_digits = ''.join(random.choices('0123456789', k=seed_length - 1))  # 生成剩余的随机数字
+
+    # 组合成最终的种子字符串
+    seed = first_digit + remaining_digits
+    return seed
 
 
 def calculatebeat(text_line: List[str]):
@@ -41,8 +62,6 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         self.setupUi(self)
         # 允许窗体接受拖拽
         self.setAcceptDrops(True)
-        # ————————————————————————————————
-        self.loadSettings()  # 加载之前保存的设置
         # ————————————————————————————————
         self.del_jack_lv = 2
         self.del_jack_lv_slider.valueChanged.connect(self.updateDelJackLv)
@@ -63,6 +82,13 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         self.org_dir_flag = False
         self.org_dir.toggled.connect(self.orgFlagChange)
 
+        self.seed = None
+        self.loadSettings()  # 加载之前保存的设置
+        self.seed_check.toggled.connect(self.seedcheckChange)
+
+
+
+
     # ——————保存内容和下次载入————————
     def loadSettings(self):
         settings = QtCore.QSettings("String.fq", QtCore.QSettings.IniFormat)
@@ -71,7 +97,9 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         self.lineEdit_artist.setText(settings.value("artist", "V.A"))
         self.stap.setText(settings.value("stap", "16"))
         self.timestap.setText(settings.value("timestap", "1000"))
-
+        self.seed_line.setText(settings.value("seed", ""))
+        self.seed_check.setChecked(settings.value("seed_check", False, type=bool))
+        self.org_dir.setChecked(settings.value("org_dir_flag", False, type=bool))
     def saveSettings(self):
         settings = QtCore.QSettings("String.fq", QtCore.QSettings.IniFormat)
         settings.setValue("savepath", self.lineEdit_savepath.text())
@@ -79,6 +107,9 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
         settings.setValue("artist", self.lineEdit_artist.text())
         settings.setValue("stap", self.stap.text())
         settings.setValue("timestap", self.timestap.text())
+        settings.setValue("seed", self.seed_line.text())
+        settings.setValue("seed_check", self.seed_check.isChecked())
+        settings.setValue("org_dir_flag", self.org_dir.isChecked())
 
     def closeEvent(self, event):
         self.saveSettings()  # 在窗口关闭时保存设置
@@ -120,6 +151,11 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
 
     def orgFlagChange(self, checked):
         self.org_dir_flag = checked
+
+    def seedcheckChange(self, checked): # 生成种子以及显示
+        self.seed_line.setText(generate_seed())
+
+
     # 安全复制
     def safe_copy(self,src, dst, error_log: List[str]):
 
@@ -394,6 +430,9 @@ class my_window(QtWidgets.QMainWindow, windows.Ui_krr_anyKeys_convertor):
             files.ignore()
 
     def dropEvent(self, files: QtGui.QDropEvent) -> None:
+        if self.seed_check.isChecked():
+            self.seed = self.seed_line.text()
+            set_seed(self.seed)
         if files:
             file_paths = []
             for url in files.mimeData().urls():
