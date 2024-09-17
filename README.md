@@ -36,7 +36,7 @@ python main.py
 Fill in the directory address, or select Save to the original path
 
 把谱面文件.osu或者包含谱面的文件夹拖入到程序窗口中，程序会自动识别并转换
-Drag the beatmap files .osu or folder containing beatmap files into the program window, the program will automatically recognize and convert
+Drag the beatmap .osu files or folder containing beatmap files into the program window, the program will automatically recognize and convert
 
 <details> 
 <summary>V0.5版本使用案例图(V0.5 case diagram)</summary> 
@@ -72,6 +72,13 @@ E.g⑤:Jack World(Jack Stream trainer)
 
 -------
 ## Changelog 更新日志
+
+V0.90 2024/9/18
+1. 更新种子功能，使用相同的种子值进行多次谱面转换，将确保每次得到的谱面结果保持一致性。
+-------
+1. Update the seed feature, using the same seed value for multiple beatmap conversions ensures that the resulting beatmaps are consistent each time.
+
+-------
 V0.81 2024/8/18
 1. 修复了一些[HitObjects]格式问题，使程序能正确处理一些特殊的谱面(其他转谱器的铺面)。
 -------
