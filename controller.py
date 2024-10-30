@@ -204,6 +204,7 @@ class Controller:
         about_window = AboutGUI(self.language)
         about_window.grab_set()
 
+
     # def preset_change(self):
     #     print(self.preset_value.get())
 

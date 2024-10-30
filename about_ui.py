@@ -249,3 +249,15 @@ class WinGUI(Toplevel):
         text.config(state=DISABLED)
         text.place(x=10, y=102, width=429, height=557)
         return text
+
+class MyGUI:
+    def __init__(self, master):
+        pass
+    def open_about_window(self):
+        about_window = WinGUI(language='zh')
+        about_window.grab_set()
+
+if __name__ == "__main__":
+    root = Tk()
+    my_gui = MyGUI(root)
+    root.mainloop()
