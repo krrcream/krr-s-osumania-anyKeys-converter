@@ -61,37 +61,6 @@ pip install -r requirements.txt
 python main.py
 ```
 
-
-#### 使用说明 Instructions
-
-填好目录，或者选择保存到原路径
-Fill in the directory address, or select Save to the original path
-
-把谱面文件.osu或者包含谱面的文件夹拖入到程序窗口中，程序会自动识别并转换
-Drag the beatmap .osu files or folder containing beatmap files into the program window, the program will automatically recognize and convert
-
-<details> 
-<summary>V0.5版本使用案例图(V0.5 case diagram)</summary> 
-<pre>
-E.g①:7to8
-
-  ![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/1-7to8.png)
-
-E.g②:7to14
-![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/2%207to14k.png)
-
-E.g②:7to10
-![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/3%207to10k.png)
-
-E.g④:Everything to Jack And Stream(It's not much use just for fun)
-![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/4%20Everything.png)
-
-E.g⑤:Jack World(Jack Stream trainer)
-![image](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/main/img(External%20link%20use)/5%20Jack%20world.png)
-
-</pre> 
-</details>
-
 -------
 ### Other presentations about this project 此项目的其他介绍
 
@@ -104,6 +73,11 @@ E.g⑤:Jack World(Jack Stream trainer)
 
 -------
 ## Changelog 更新日志
+V1.0.0 2024/10/30
+1. Rewritten the window using TK in version 1.0.0, optimized the code, and added preset methods so that even those who are not familiar with the setup can easily get started.
+-------
+1. V1.0.0 用TK重新写了窗口，对代码进行优化，增加了预设方法，不会设置的人也可以直接上手。
+
 
 V0.90 2024/9/18
 1. 更新种子功能，使用相同的种子值进行多次谱面转换，将确保每次得到的谱面结果保持一致性。
