@@ -4,9 +4,7 @@
 > 基于矩阵变换的任意keys转换器，支持4-20键转谱
 
 ## Introduce 介绍
-
-Supports 4-20keys arbitrary conversion. If you encounter bugs, please [create an issue](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/issues/new/choose) or contact me. Thank you for your support!  
-支持 4-20 键任意转谱。程序可能会有 BUG，如遇到 BUG 请[提出 Issue](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/issues/new/choose) 或者用下面列出联系方式联系我，感谢您的支持！
+Quickly batch convert beatmaps to your desired keys, supporting 4 to 20 keys. Simply drag and drop folders or files into the window for conversion. With preset options, even beginners can easily use it.If you encounter bugs, please [create an issue](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/issues/new/choose) or contact me. Thank you for your support!  快速，批量转换beatmaps成你想要的keys，支持4到20keys. 只需要把文件夹或者文件们拖拽入窗口即可完成转谱。有预设方法，即使不会设置的人也能轻松上手。程序可能会有 BUG，如遇到 BUG 请[提出 Issue](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/issues/new/choose) 或者用下面列出联系方式联系我，感谢您的支持！
 
 -------
 ### How to use? 如何使用？
@@ -45,8 +43,8 @@ Usage: Drag and drop your.osu file or folder containing.osu files into this prog
 6. 杰克世界：这也是一个试验性功能，它在原谱的基础上，通过横向和纵向增加note，进一步加入jack元素（大便）
 #### Windows
 
-Download the built binary (with .exe extension) from [Google Drive](https://drive.google.com/drive/folders/15aLQ7iQLbkQ_ynVnyI92QTk3DfA7QcrP) or [Baidu Netdisk](https://pan.baidu.com/share/init?surl=VBhS-RCG402KkjoX9obQNw&pwd=kr8k) and run it.  
-从[百度网盘](https://pan.baidu.com/share/init?surl=VBhS-RCG402KkjoX9obQNw&pwd=kr8k)或 [Google Drive](https://drive.google.com/drive/folders/15aLQ7iQLbkQ_ynVnyI92QTk3DfA7QcrP) 下载构建好的二进制文件（以 .exe 为后缀）后运行即可
+Download the packaged .exe file from [Google Drive](https://drive.google.com/drive/folders/15aLQ7iQLbkQ_ynVnyI92QTk3DfA7QcrP) or [Baidu Netdisk](https://pan.baidu.com/share/init?surl=VBhS-RCG402KkjoX9obQNw&pwd=kr8k) and run it.  
+从[百度网盘](https://pan.baidu.com/share/init?surl=VBhS-RCG402KkjoX9obQNw&pwd=kr8k)或 [Google Drive](https://drive.google.com/drive/folders/15aLQ7iQLbkQ_ynVnyI92QTk3DfA7QcrP) 下载构建好的程序后运行即可
 
 #### MacOS & Linux
 
