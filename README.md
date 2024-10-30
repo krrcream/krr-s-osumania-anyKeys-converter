@@ -75,6 +75,7 @@ python main.py
 ## Changelog 更新日志
 V1.0.0 2024/10/30
 Rewritten the window using TK in version 1.0.0, optimized the code, and added preset methods so that even those who are not familiar with the setup can easily get started.
+
 用TK重新写了窗口，对代码进行优化，增加了预设方法，不会设置的人也可以直接上手。
 
 -------
