@@ -10,7 +10,39 @@ Supports 4-20keys arbitrary conversion. If you encounter bugs, please [create an
 
 -------
 ### How to use? 如何使用？
+Usage: Drag and drop your.osu file or folder containing.osu files into this program window to convert them all.
+1. Presets: Multiple preset options are provided for quick setup. If you are not familiar with detailed settings, you can directly choose a preset to operate.
+2. Upper Half of theProgram interface: 
+    2.1. OD and HP settings: If you want to keep the original OD and HP values, leave them empty. If you need to modify them, enter the new values.
+    2.2. Save Path: Check 'Save to Original Path' to generate new maps in the original location. If you want to store all converted maps in a folder, uncheck it and specify a new folder path.
+    2.3. Seed Function: Use the same number as the seed to get the same converted result (most of the time).
+3. Gale Insertion (NtoNC): 
+    3.1. Conversion Speed: The larger the value, the faster the arrangement changes, and the arrangement becomes more random. The smaller the value, the less randomness.
+    3.2. Target Keys: Specify the number of keys you want to generate.
+    3.3. Insert blank Columns: If you feel that the density of the map is too high, you can use this to insert empty columns in the map.
+    3.4. Density Adjustment: This is an experimental function that reduces the density of the map may remove some details of the original map.
+    3.5. Delete generated jacks: In different arrangement changes, MiniJacks may be generated. If you want to keep these Jacks, please uncheck this option.
+    3.6. Filter: This function can automatically identify and filter out the specified keys in batch processing.
+4. Simple Matrix (NtoNS): Please refer to the detailed explanation in the tab.
+5. Everything to Jack or Stream: These are two experimental functions, which extract the start_time of the original map and randomly generate a slice or unravel (poop).
+6. Jack World: This is also an experimental function, which adds notes horizontally and vertically based on the original map, further adding jack elements (poop).
 
+使用方法：只需将.osu文件或包含.osu文件的文件夹拖入本程序窗口，即可完成批量转谱操作
+1. 预设功能：提供了多种预设选项，方便您快速上手。如果您不熟悉详细设置，可以直接选择预设进行操作
+2. 程序界面上半部分：
+    2.1. OD和HP设置：如果您希望保留原谱的OD（Overall Difficulty）和HP（Hurt Points）值，请留空；如需修改，请输入新的数值并保存
+    2.2. 保存路径：勾选“保存到原路径”将在原谱文件所在位置生成新谱；若您希望将所有转谱文件集中存储，请取消勾选并指定新的文件夹路径
+    2.3. Seed功能：使用相同的数字作为seed，将得到相同的转谱结果（大部分情况下）
+3. 狂风插入：
+    3.1. 转换速度：该数值越大，排列变换速度越快，排列越随机；数值越小，随机性越小
+    3.2. 目标键数：指定您希望生成的键数
+    3.3. 插入空列：如果您觉得谱面密度过高，可以使用此功能在谱中插入空白列
+    3.4. 密度调整：这是一个试验性功能，降低密度可能会移除原谱的一些细节
+    3.5. Jack处理：在不同排列变换过程中可能会生成MiniJack，如果您希望保留这些Jack，请取消勾选
+    3.6. 筛选器：在批量处理文件时，此功能可以自动识别并筛选出您指定的键数
+4. 简单矩阵：请查看选项卡中的详细说明
+5. 万物化叠和万物化切：这是两个试验性功能，它们会取原谱的start_time，并随机生成切或叠（大便）
+6. 杰克世界：这也是一个试验性功能，它在原谱的基础上，通过横向和纵向增加note，进一步加入jack元素（大便）
 #### Windows
 
 Download the built binary (with .exe extension) from [Google Drive](https://drive.google.com/drive/folders/15aLQ7iQLbkQ_ynVnyI92QTk3DfA7QcrP) or [Baidu Netdisk](https://pan.baidu.com/share/init?surl=VBhS-RCG402KkjoX9obQNw&pwd=kr8k) and run it.  
