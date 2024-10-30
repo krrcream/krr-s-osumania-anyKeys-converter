@@ -74,11 +74,11 @@ python main.py
 -------
 ## Changelog 更新日志
 V1.0.0 2024/10/30
-1. Rewritten the window using TK in version 1.0.0, optimized the code, and added preset methods so that even those who are not familiar with the setup can easily get started.
+Rewritten the window using TK in version 1.0.0, optimized the code, and added preset methods so that even those who are not familiar with the setup can easily get started.
+用TK重新写了窗口，对代码进行优化，增加了预设方法，不会设置的人也可以直接上手。
+
 -------
-1. V1.0.0 用TK重新写了窗口，对代码进行优化，增加了预设方法，不会设置的人也可以直接上手。
-
-
+Old version
 V0.90 2024/9/18
 1. 更新种子功能，使用相同的种子值进行多次谱面转换，将确保每次得到的谱面结果保持一致性。
 -------
