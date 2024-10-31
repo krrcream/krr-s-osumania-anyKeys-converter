@@ -5,9 +5,17 @@
 
 ## Introduce 介绍
 Quickly batch convert beatmaps to your desired keys, supporting 4 to 20 keys. Simply drag and drop folders or files into the window for conversion. With preset options, even beginners can easily use it.If you encounter bugs, please [create an issue](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/issues/new/choose) or contact me. Thank you for your support!  快速，批量转换beatmaps成你想要的keys，支持4到20keys. 只需要把文件夹或者文件们拖拽入窗口即可完成转谱。有预设方法，即使不会设置的人也能轻松上手。程序可能会有 BUG，如遇到 BUG 请[提出 Issue](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/issues/new/choose) 或者用下面列出联系方式联系我，感谢您的支持！
-
+![Image1](https://raw.githubusercontent.com/krrcream/krr-s-osumania-anyKeys-converter/refs/heads/v1.0.0-ui-redesign-algorithm-opt/img/1.jpg)
 Here are some examples:  https://osu.ppy.sh/beatmapsets/2273345
--------
+<details>
+<summary>Click to expand and view images.点击展开查看图片</summary>
+![image2](https://raw.githubusercontent.com/krrcream/krr-s-osumania-anyKeys-converter/refs/heads/v1.0.0-ui-redesign-algorithm-opt/img/2.jpg)  
+![image3](https://raw.githubusercontent.com/krrcream/krr-s-osumania-anyKeys-converter/refs/heads/v1.0.0-ui-redesign-algorithm-opt/img/3.jpg)  
+![image4](https://raw.githubusercontent.com/krrcream/krr-s-osumania-anyKeys-converter/refs/heads/v1.0.0-ui-redesign-algorithm-opt/img/4.jpg)  
+![image5](https://raw.githubusercontent.com/krrcream/krr-s-osumania-anyKeys-converter/refs/heads/v1.0.0-ui-redesign-algorithm-opt/img/5.jpg)  
+![image6](https://raw.githubusercontent.com/krrcream/krr-s-osumania-anyKeys-converter/refs/heads/v1.0.0-ui-redesign-algorithm-opt/img/6.jpg)
+</details>-------
+
 ### How to use? 如何使用？
 Usage: Drag and drop your.osu file or folder containing.osu files into this program window to convert them all.
 1. Presets: Multiple preset options are provided for quick setup. If you are not familiar with detailed settings, you can directly choose a preset to operate.
@@ -146,5 +154,4 @@ V0.2 2024/4/20
 -------
 1. Change the conversion method and add the auto-add notes strategy to deal with the convert space rows.
 2. Add English support.
-
 
