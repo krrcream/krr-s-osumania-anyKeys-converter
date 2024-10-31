@@ -151,7 +151,7 @@ class Controller:
                                                   command=self.density_change)
 
         #初始化步距滑条
-        #滑条范围为1到20，初始值为10，步长为1，和step_value绑定
+        #滑条范围为1到20，初始值为15，步长为1，和step_value绑定
         self.ui.tk_scale_convert_interval.configure(from_=1, to=24, variable=self.step_value,
                                                     command=self.step_change)
 
@@ -283,7 +283,7 @@ class Controller:
             self.if_use_seed_value.set(config_data.get('if_use_seed_value', False))
             self.to_key_value.set(config_data.get('to_key_value', 10))
             self.blank_value.set(config_data.get('blank_value', 0))
-            self.step_value.set(config_data.get('step_value', 10))
+            self.step_value.set(config_data.get('step_value', 15))
 
             #设置筛选
             if self.if_sifting_value.get():
