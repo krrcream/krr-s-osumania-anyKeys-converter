@@ -9,12 +9,17 @@ Quickly batch convert beatmaps to your desired keys, supporting 4 to 20 keys. Si
 Here are some examples:  https://osu.ppy.sh/beatmapsets/2273345
 <details>
 <summary>Click to expand and view images.点击展开查看图片</summary>
-    
+
+**7K to 10KC(Gale Insertion 2blank)**
 ![image2](https://raw.githubusercontent.com/krrcream/krr-s-osumania-anyKeys-converter/refs/heads/v1.0.0-ui-redesign-algorithm-opt/img/2.jpg)  
+**7K to 10K(2Blank)(Preset)**
 ![image3](https://raw.githubusercontent.com/krrcream/krr-s-osumania-anyKeys-converter/refs/heads/v1.0.0-ui-redesign-algorithm-opt/img/3.jpg)  
+**5KDP (Preset)**
 ![image4](https://raw.githubusercontent.com/krrcream/krr-s-osumania-anyKeys-converter/refs/heads/v1.0.0-ui-redesign-algorithm-opt/img/4.jpg)  
+**4KDP TO 10K(Preset)**
 ![image5](https://raw.githubusercontent.com/krrcream/krr-s-osumania-anyKeys-converter/refs/heads/v1.0.0-ui-redesign-algorithm-opt/img/5.jpg)  
-![image6](https://raw.githubusercontent.com/krrcream/krr-s-osumania-anyKeys-converter/refs/heads/v1.0.0-ui-redesign-algorithm-opt/img/6.jpg)
+**4K TO 7K TO 10K(2Blank)(Preset)**
+![image6!](https://raw.githubusercontent.com/krrcream/krr-s-osumania-anyKeys-converter/refs/heads/v1.0.0-ui-redesign-algorithm-opt/img/6.jpg)
 </details>-------
 
 ### How to use? 如何使用？
@@ -76,7 +81,7 @@ python main.py
 -------
 ### How to find me 如何联系我
 
-[Bilibili](https://space.bilibili.com/276844), [Osu!](https://osu.ppy.sh/users/14769563)
+[Bilibili](https://space.bilibili.com/), [Osu!](https://osu.ppy.sh/users/14769563)
 
 -------
 ## Changelog 更新日志
