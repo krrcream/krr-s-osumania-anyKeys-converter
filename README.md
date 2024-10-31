@@ -15,7 +15,6 @@ Here are some examples:  https://osu.ppy.sh/beatmapsets/2273345
 ![image4](https://raw.githubusercontent.com/krrcream/krr-s-osumania-anyKeys-converter/refs/heads/v1.0.0-ui-redesign-algorithm-opt/img/4.jpg)  
 ![image5](https://raw.githubusercontent.com/krrcream/krr-s-osumania-anyKeys-converter/refs/heads/v1.0.0-ui-redesign-algorithm-opt/img/5.jpg)  
 ![image6](https://raw.githubusercontent.com/krrcream/krr-s-osumania-anyKeys-converter/refs/heads/v1.0.0-ui-redesign-algorithm-opt/img/6.jpg)
-
 </details>-------
 
 ### How to use? 如何使用？
