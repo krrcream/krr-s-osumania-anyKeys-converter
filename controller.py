@@ -939,9 +939,10 @@ class Controller:
         else:
             # 是否要修改title和artist
             old_title = METAs.get_data("Title")[0] if METAs.get_data("Title")[0] else "Unknown"
+            if len(old_title) > 15:
+                old_title = old_title[:8] + "..." + old_title[-7:]
             if self.ui.tk_input_title.get().strip():
                 METAs.set_data("Title", self.ui.tk_input_title.get().strip())
-
             if self.ui.tk_input_artist.get().strip():
                 METAs.set_data("Artist", self.ui.tk_input_artist.get().strip())
             version = version_tag + old_title + "[" + METAs.get_data("Version")[0] + "]"
