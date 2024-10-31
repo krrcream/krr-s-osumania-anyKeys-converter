@@ -9,11 +9,13 @@ Quickly batch convert beatmaps to your desired keys, supporting 4 to 20 keys. Si
 Here are some examples:  https://osu.ppy.sh/beatmapsets/2273345
 <details>
 <summary>Click to expand and view images.点击展开查看图片</summary>
+    
 ![image2](https://raw.githubusercontent.com/krrcream/krr-s-osumania-anyKeys-converter/refs/heads/v1.0.0-ui-redesign-algorithm-opt/img/2.jpg)  
 ![image3](https://raw.githubusercontent.com/krrcream/krr-s-osumania-anyKeys-converter/refs/heads/v1.0.0-ui-redesign-algorithm-opt/img/3.jpg)  
 ![image4](https://raw.githubusercontent.com/krrcream/krr-s-osumania-anyKeys-converter/refs/heads/v1.0.0-ui-redesign-algorithm-opt/img/4.jpg)  
 ![image5](https://raw.githubusercontent.com/krrcream/krr-s-osumania-anyKeys-converter/refs/heads/v1.0.0-ui-redesign-algorithm-opt/img/5.jpg)  
 ![image6](https://raw.githubusercontent.com/krrcream/krr-s-osumania-anyKeys-converter/refs/heads/v1.0.0-ui-redesign-algorithm-opt/img/6.jpg)
+
 </details>-------
 
 ### How to use? 如何使用？
