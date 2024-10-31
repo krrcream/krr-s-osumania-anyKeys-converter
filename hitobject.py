@@ -56,24 +56,22 @@ class a_HitObject:
     @classmethod
     def obj_from_line(cls, line):
         # 如果line是空行或者无法按逗号分割成6部分则不生成a_HitObject实例
-        if len(line) == "":
+        if not line:
             return None
         park = line.split(",")
-        colunm = int(park[0].split('.')[0])
+        colunm = int(float(park[0]))
         start_time = round(float(park[2]))
         if_ln = int(park[3])
 
-        if if_ln > 9:
-            hold_time = int(float(park[5].split(":")[0]))
-        else:
-            hold_time = 0
         # hs是park[5]第一个冒号及冒号之后的字符串
         # 若park[5]中没有冒号，则hs为":0:0:0:"
 
         if len(park) > 5 and ':' in park[5]:
             hs = ":" + park[5][park[5].find(":") + 1:]
+            hold_time = int(float(park[5].split(":")[0]))
         else:
             hs = ":0:0:0:"
+            hold_time = 0
         return cls(colunm, start_time, if_ln, hold_time, hs)
 
     def print_obj(self):
