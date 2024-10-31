@@ -47,9 +47,8 @@ Download the packaged .exe file from [Google Drive](https://drive.google.com/dri
 从[百度网盘](https://pan.baidu.com/share/init?surl=VBhS-RCG402KkjoX9obQNw&pwd=kr8k)或 [Google Drive](https://drive.google.com/drive/folders/15aLQ7iQLbkQ_ynVnyI92QTk3DfA7QcrP) 下载构建好的程序后运行即可
 
 #### MacOS & Linux
-
-Download the project source code and go to the project root directory. After deploying the Python environment locally, and run the following commands. You can run the project from the source code.  
-下载项目源码，然后进入到项目根目录。在本地部署 Python 环境后，运行以下指令。即可从源码运行此项目。
+This project is developed using Python 3.8.10.Download the project source code and go to the project root directory. After deploying the Python environment locally, and run the following commands. You can run the project from the source code.  
+该项目使用 Python 3.8.10 开发，下载项目源码，然后进入到项目根目录。在本地部署 Python 环境后，运行以下指令。即可从源码运行此项目。
 
 ```bash
 pip install -r requirements.txt
@@ -71,6 +70,10 @@ python main.py
 
 -------
 ## Changelog 更新日志
+V1.0.1 2024/10/31
+Fix some bug.
+
+-------
 V1.0.0 2024/10/30
 Rewritten the window using TK in version 1.0.0, optimized the code, and added preset methods so that even those who are not familiar with the setup can easily get started.
 
