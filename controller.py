@@ -20,6 +20,8 @@ bilibili_URL = "https://space.bilibili.com/276844"
 osu_URL = "https://osu.ppy.sh/users/14769563"
 program_version = "v1.0.0"
 
+#替换成你的图标文件路径
+ico_file = r"D:\mypythpon_project\krr_any_keys_converter V1.0.0\pythonProject\f.ico"
 
 class Controller:
     ui: Win
@@ -34,7 +36,7 @@ class Controller:
 
         self.language = 'zh'
 
-        self.ui.iconbitmap('f.ico')  # 替换 'your_icon_file.ico' 为你的图标文件路径
+        self.ui.iconbitmap(ico_file)
         self.ui.title("krrcream的任意keys转换器 " + program_version)
         self.ui.protocol("WM_DELETE_WINDOW", self.on_closing)
 
@@ -201,7 +203,7 @@ class Controller:
         self.ui.tk_label_About.bind("<Button-1>", self.open_about_window)
 
     def open_about_window(self, event):
-        about_window = AboutGUI(self.language)
+        about_window = AboutGUI(self.language,ico_file)
         about_window.grab_set()
 
 
@@ -497,12 +499,11 @@ class Controller:
         paths = self.ui.tk.splitlist(event.data)
 
         def process_file(file):
-            try:
+            # try:
                 if self.if_use_seed_value.get():
                     seed = int(self.ui.tk_input_seed_line.get() or 0)  # 使用 or 运算符处理空字符串
                     random.seed(seed)
                     np.random.seed(seed)
-
                 if self.selected_tab_index.get() == 0:
                     self.NtoNC(file)
                 elif self.selected_tab_index.get() == 1:
@@ -513,9 +514,8 @@ class Controller:
                     self.Jack_World(file)
                 elif self.selected_tab_index.get() == 4:
                     self.preset_convert(file)
-            #
-            except Exception as e:
-                print(f"处理文件 {file} 时发生错误: {e}")
+            # except Exception as e:
+            #     print(f"处理文件 {file} 时发生错误: {e}")
         def handle_path(path):
             path = Path(path)
             if path.exists():

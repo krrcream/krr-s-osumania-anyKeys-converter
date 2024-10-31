@@ -9,12 +9,13 @@ github_URL = "https://github.com/krrcream/krr-s-osumania-anyKeys-converter"
 bilibili_URL = "https://space.bilibili.com/276844"
 osu_URL = "https://osu.ppy.sh/users/14769563"
 
+
 class WinGUI(Toplevel):
-    def __init__(self,language):
+    def __init__(self,language,ico_file):
         super().__init__()
         self.language = language
         self.__win()
-        self.iconbitmap('f.ico')
+        self.iconbitmap(ico_file)
         self.tk_frame_buttom = self.__tk_frame_buttom(self)
         self.tk_label_conme = self.__tk_label_conme(self.tk_frame_buttom)
         self.tk_label_OSU_URL = self.__tk_label_OSU_URL(self.tk_frame_buttom)
