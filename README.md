@@ -6,6 +6,7 @@
 ## Introduce 介绍
 Quickly batch convert beatmaps to your desired keys, supporting 4 to 20 keys. Simply drag and drop folders or files into the window for conversion. With preset options, even beginners can easily use it.If you encounter bugs, please [create an issue](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/issues/new/choose) or contact me. Thank you for your support!  快速，批量转换beatmaps成你想要的keys，支持4到20keys. 只需要把文件夹或者文件们拖拽入窗口即可完成转谱。有预设方法，即使不会设置的人也能轻松上手。程序可能会有 BUG，如遇到 BUG 请[提出 Issue](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/issues/new/choose) 或者用下面列出联系方式联系我，感谢您的支持！
 
+Here are some examples:  https://osu.ppy.sh/beatmapsets/2273345
 -------
 ### How to use? 如何使用？
 Usage: Drag and drop your.osu file or folder containing.osu files into this program window to convert them all.
