@@ -76,7 +76,7 @@ python main.py
 -------
 ### How to find me 如何联系我
 
-[Bilibili](https://space.bilibili.com/), [Osu!](https://osu.ppy.sh/users/14769563)
+[Bilibili](https://space.bilibili.com/276844), [Osu!](https://osu.ppy.sh/users/14769563)
 
 -------
 ## Changelog 更新日志
