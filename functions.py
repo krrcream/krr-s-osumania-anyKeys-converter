@@ -9,6 +9,42 @@ from itertools import cycle, tee, chain
 
 import numpy as np
 
+key_value_MTX = [
+    [256],
+    [128, 384],
+    [85, 256, 426],
+    [64, 192, 320, 448],
+    [51, 153, 256, 358, 460],
+    [42, 128, 213, 298, 384, 469],
+    [36, 109, 182, 256, 329, 402, 475],
+    [32, 96, 160, 224, 288, 352, 416, 480],
+    [28, 85, 142, 199, 256, 312, 369, 426, 483],
+    [25, 76, 128, 179, 230, 281, 332, 384, 435, 486],
+    [23, 69, 116, 162, 209, 256, 302, 349, 395, 442, 488],
+    [21, 64, 106, 149, 192, 234, 277, 320, 362, 405, 448, 490],
+    [19, 59, 98, 137, 177, 256, 216, 295, 334, 374, 413, 452, 492],
+    [18, 54, 91, 128, 164, 201, 237, 274, 310, 347, 384, 420, 457, 493],
+    [17, 51, 85, 119, 153, 187, 221, 256, 290, 324, 358, 392, 426, 460, 494],
+    [16, 48, 80, 112, 144, 176, 240, 208, 272, 304, 336, 368, 400, 432, 464, 496],
+    [15, 45, 75, 135, 165, 105, 195, 225, 316, 286, 256, 376, 346, 406, 436, 466, 496],
+    [16, 48, 80, 112, 128, 144, 176, 208, 240, 272, 304, 336, 368, 384, 400, 432, 464, 496],
+    [13, 39, 66, 93, 120, 147, 174, 201, 228, 255, 282, 309, 336, 363, 390, 417, 444, 471, 498],
+    [12, 37, 63, 88, 114, 140, 165, 191, 216, 242, 268, 293, 319, 344, 370, 396, 421, 447, 472, 498],
+    [12, 36, 60, 85, 109, 133, 158, 182, 207, 231, 255, 280, 304, 328, 353, 377, 402, 426, 450, 475, 499],
+    [11, 34, 57, 80, 104, 127, 150, 173, 197, 220, 243, 267, 290, 313, 336, 360, 383, 406, 429, 453, 476, 499],
+    [11, 33, 55, 77, 100, 122, 144, 166, 189, 211, 233, 255, 278, 300, 322, 344, 367, 389, 411, 433, 456, 478, 500],
+    [10, 31, 52, 74, 95, 116, 138, 159, 180, 202, 223, 244, 266, 287, 308, 330, 351, 372, 394, 415, 436, 458, 479, 500],
+]
+
+
+def key_value(column, keys):
+    #注意这里是CS的值输入
+    return key_value_MTX[keys-1][column]
+
+
+def key_value_to_colunm(value, keys):
+    return math.floor(value * keys / 512)
+
 
 #生成种子数字
 def generate_seed():  # 生成随机种子
@@ -56,42 +92,6 @@ def if_osu_file(path):
     else:
         return False
 
-
-def key_value(column, keys):
-    if keys <= 3 or (keys > 3 and keys % 2 == 0):
-        return math.floor((column + 0.5) * 512 / keys)
-    if keys > 3 and keys % 2 == 1:
-        if column < (keys - 1) / 2:
-            return math.floor((column + 0.5) * 512 / (keys - 1))
-        if column > (keys - 1) / 2:
-            return math.floor((column - 0.5) * 512 / (keys - 1))
-        if column == (keys - 1) / 2:
-            return 256
-
-
-def key_value_to_colunm(key_value, keys):
-    if keys <= 3 or (keys > 3 and keys % 2 == 0):
-        return math.floor(key_value * keys / 512)
-    if keys > 3 and keys % 2 == 1:
-        if key_value < 256:
-            return math.floor(key_value * (keys - 1) / 512)
-        if key_value > 256:
-            return math.floor(key_value * (keys - 1) / 512) + 1
-        if key_value == 256:
-            return (keys - 1) / 2
-
-
-# def osu_file_str_split(str):
-#     str_lines = str.split("\n")
-#     mata = ""
-#     hit_obj = ""
-#     # 找到"[HitObjects]"行，把改行及前边所有行赋予mata，改行后所有行赋予hit_obj
-#     for i in range(len(str_lines)):
-#         if str_lines[i] == "[HitObjects]":
-#             mata = str_lines[:i]
-#             hit_obj = str_lines[i:]
-#             break
-#     return mata, hit_obj
 def osu_file_str_split1(input_str):
     if not isinstance(input_str, str):
         raise ValueError("输入必须是字符串类型")
@@ -225,7 +225,7 @@ def MTX_del_jack(MTX_start_time, MTX, beat_time=400):
     mask[1:, :] = different[1:, :] & no_minus_one[1:, :]
     # 根据 mask 更新 MTX
     for col in range(weight):
-        true_indices =np.where(mask[:, col])[0]
+        true_indices = np.where(mask[:, col])[0]
         for index in true_indices:
             #初始化第一次
             if MTX_start_time[index] - MTX_start_time[index - 1] < interval:
@@ -233,7 +233,7 @@ def MTX_del_jack(MTX_start_time, MTX, beat_time=400):
                 #后续
                 i = 1
                 while index + i < height - 1 and MTX_start_time[index + i] - MTX_start_time[index - 1] < interval:
-                    mask[index+i, col] = True
+                    mask[index + i, col] = True
                     i += 1
             else:
                 mask[index, col] = False
@@ -449,7 +449,8 @@ def get_in_LN_position(MTX_hold_time, MTX_start_time, flag_out_LN=False):
     MTX = np.maximum.accumulate(MTX_hold_time, axis=0)
     mask = np.zeros_like(MTX, dtype=bool)
     mask[1:] = MTX[1:] > MTX[:-1]
-    flag_in_LN = MTX + 100 > MTX_start_time[:, None]
+    flag_in_LN = np.zeros_like(MTX, dtype=bool)
+    flag_in_LN[1:] = (MTX[1:] + 10 > MTX_start_time[1:, None])
     flag_in_LN[mask & (np.roll(flag_in_LN, 1, axis=0) == False)] = False
     if flag_out_LN:
         return ~flag_in_LN

@@ -69,7 +69,7 @@ class Controller:
 
         self.blank_value = IntVar(value=0)  # 空白键数
 
-        self.step_value = IntVar(value=10)  # 步距
+        self.step_value = IntVar(value=15)  # 步距
 
         self.stap_time = DoubleVar(value=29998.8584 * math.exp(-0.3176 * self.to_key_value.get()) + 347.7248)
 
@@ -513,7 +513,7 @@ class Controller:
                     self.Jack_World(file)
                 elif self.selected_tab_index.get() == 4:
                     self.preset_convert(file)
-
+            #
             except Exception as e:
                 print(f"处理文件 {file} 时发生错误: {e}")
         def handle_path(path):
@@ -597,59 +597,7 @@ class Controller:
             #处理META
             METAs.set_data("CircleSize", to_keys)
             version_tag = "[" + str(org_keys) + "To" + str(to_keys) + "C]"
-            if self.if_save_to_org_value.get():
-                version = version_tag + METAs.get_data("Version")[0]
-                METAs.set_data("Version", version)
-                file_name_osu, file_name_audio, file_name_BG = METAs.get_save_file_name()
-                new_file_path_osu = Path(file).parent / file_name_osu
-
-            else:
-                #是否要修改title和artist
-                if self.ui.tk_input_title.get().strip():
-                    METAs.set_data("Title", self.ui.tk_input_title.get().strip())
-
-                if self.ui.tk_input_artist.get().strip():
-                    METAs.set_data("Artist", self.ui.tk_input_artist.get().strip())
-
-                old_title = METAs.get_data("Title")[0] if METAs.get_data("Title")[0] else "Unknown"
-                length = min(len(old_title), 7)
-                title_to_version = old_title[:length] + "..." + old_title[-length:]
-                version = version_tag + title_to_version + "[" + METAs.get_data("Version")[0] + "]"
-                METAs.set_data("Version", version)
-                new_file_path = self.ui.tk_input_path.get()
-                new_file_path = Path(new_file_path).resolve()
-                METAs.set_data("Artist", self.ui.tk_input_artist.get())
-                METAs.set_data("Title", self.ui.tk_input_title.get())
-                file_name_osu, file_name_audio, file_name_BG = METAs.get_save_file_name()
-                old_file_path_audio = Path(file).parent / file_name_audio
-                old_file_path_BG = Path(file).parent / file_name_BG
-                #避免文件名重复标签，不使用随机数，直接从title和virsion中截取
-                available_file_names_tag = ''.join([old_title[1], str(len(old_title)), version[-1], str(len(version)),
-                                                    old_title[-1]])
-
-                file_name_audio = available_file_names_tag + file_name_audio
-                file_name_BG = available_file_names_tag + file_name_BG
-                METAs.set_data("AudioFilename", file_name_audio)
-                METAs.set_data("Background", file_name_BG)
-
-                new_file_path_audio = Path(new_file_path) / file_name_audio
-                new_file_path_BG = Path(new_file_path) / file_name_BG
-                #验证new_file_path是否存在，不存在则创建
-                if not os.path.exists(new_file_path):
-                    os.makedirs(new_file_path)
-                try:
-                    shutil.copy(old_file_path_audio, new_file_path_audio)
-                except Exception as e:
-                    error_message = f"复制音频文件时发生错误: - {e}"
-                    print(error_message)
-
-                try:
-                    shutil.copy(old_file_path_BG, new_file_path_BG)
-                except Exception as e:
-                    error_message = f"复制背景图文件时发生错误: - {e}"
-                    print(error_message)
-
-                new_file_path_osu = Path(new_file_path) / file_name_osu
+            new_file_path_osu = self.save_files(version_tag, file, METAs)
 
             METAs_new_lines = METAs.get_new_lines()
             beat_time = float(METAs.get_data("beat_time")[0])
@@ -708,60 +656,8 @@ class Controller:
             #处理META
             METAs.set_data("CircleSize", to_keys)
             version_tag = "[" + str(org_keys) + "To" + str(to_keys) + "S]"
-            if self.if_save_to_org_value.get():
-                version = version_tag + METAs.get_data("Version")[0]
-                METAs.set_data("Version", version)
-                file_name_osu, file_name_audio, file_name_BG = METAs.get_save_file_name()
-                new_file_path_osu = Path(file).parent / file_name_osu
+            new_file_path_osu = self.save_files(version_tag, file, METAs)
 
-            else:
-                #是否要修改title和artist
-                if self.ui.tk_input_title.get().strip():
-                    METAs.set_data("Title", self.ui.tk_input_title.get().strip())
-
-                if self.ui.tk_input_artist.get().strip():
-                    METAs.set_data("Artist", self.ui.tk_input_artist.get().strip())
-
-                old_title = METAs.get_data("Title")[0] if METAs.get_data("Title")[0] else "Unknown"
-
-                length = min(len(old_title), 7)
-                title_to_version = old_title[:length] + "..." + old_title[-length:]
-                version = version_tag + title_to_version + "[" + METAs.get_data("Version")[0] + "]"
-                METAs.set_data("Version", version)
-                new_file_path = self.ui.tk_input_path.get()
-                new_file_path = Path(new_file_path).resolve()
-                METAs.set_data("Artist", self.ui.tk_input_artist.get())
-                METAs.set_data("Title", self.ui.tk_input_title.get())
-                file_name_osu, file_name_audio, file_name_BG = METAs.get_save_file_name()
-                old_file_path_audio = Path(file).parent / file_name_audio
-                old_file_path_BG = Path(file).parent / file_name_BG
-                #避免文件名重复标签，不使用随机数，直接从title和virsion中截取
-                available_file_names_tag = ''.join([old_title[1], str(len(old_title)), version[-1], str(len(version)),
-                                                    old_title[-1]])
-
-                file_name_audio = available_file_names_tag + file_name_audio
-                file_name_BG = available_file_names_tag + file_name_BG
-                METAs.set_data("AudioFilename", file_name_audio)
-                METAs.set_data("Background", file_name_BG)
-
-                new_file_path_audio = Path(new_file_path) / file_name_audio
-                new_file_path_BG = Path(new_file_path) / file_name_BG
-                #验证new_file_path是否存在，不存在则创建
-                if not os.path.exists(new_file_path):
-                    os.makedirs(new_file_path)
-                try:
-                    shutil.copy(old_file_path_audio, new_file_path_audio)
-                except Exception as e:
-                    error_message = f"复制音频文件时发生错误: - {e}"
-                    print(error_message)
-
-                try:
-                    shutil.copy(old_file_path_BG, new_file_path_BG)
-                except Exception as e:
-                    error_message = f"复制背景图文件时发生错误: - {e}"
-                    print(error_message)
-
-                new_file_path_osu = Path(new_file_path) / file_name_osu
             METAs_new_lines = METAs.get_new_lines()
             #处理HitObject
             HOBJs = NtoNC_HitObjects.from_lines(HOBJ, org_keys)
@@ -816,59 +712,8 @@ class Controller:
                 version_tag = "[EtoStream" + str(to_keys) + "K]"
             else:
                 version_tag = "[EtoJack" + str(to_keys) + "K]"
-            if self.if_save_to_org_value.get():
-                version = version_tag + METAs.get_data("Version")[0]
-                METAs.set_data("Version", version)
-                file_name_osu, file_name_audio, file_name_BG = METAs.get_save_file_name()
-                new_file_path_osu = Path(file).parent / file_name_osu
-            else:
-                #是否要修改title和artist
-                if self.ui.tk_input_title.get().strip():
-                    METAs.set_data("Title", self.ui.tk_input_title.get().strip())
 
-                if self.ui.tk_input_artist.get().strip():
-                    METAs.set_data("Artist", self.ui.tk_input_artist.get().strip())
-
-                old_title = METAs.get_data("Title")[0] if METAs.get_data("Title")[0] else "Unknown"
-
-                length = min(len(old_title), 7)
-                title_to_version = old_title[:length] + "..." + old_title[-length:]
-                version = version_tag + title_to_version + "[" + METAs.get_data("Version")[0] + "]"
-                METAs.set_data("Version", version)
-                new_file_path = self.ui.tk_input_path.get()
-                new_file_path = Path(new_file_path).resolve()
-                METAs.set_data("Artist", self.ui.tk_input_artist.get())
-                METAs.set_data("Title", self.ui.tk_input_title.get())
-                file_name_osu, file_name_audio, file_name_BG = METAs.get_save_file_name()
-                old_file_path_audio = Path(file).parent / file_name_audio
-                old_file_path_BG = Path(file).parent / file_name_BG
-                #避免文件名重复标签，不使用随机数，直接从title和virsion中截取
-                available_file_names_tag = ''.join([old_title[1], str(len(old_title)), version[-1], str(len(version)),
-                                                    old_title[-1]])
-
-                file_name_audio = available_file_names_tag + file_name_audio
-                file_name_BG = available_file_names_tag + file_name_BG
-                METAs.set_data("AudioFilename", file_name_audio)
-                METAs.set_data("Background", file_name_BG)
-
-                new_file_path_audio = Path(new_file_path) / file_name_audio
-                new_file_path_BG = Path(new_file_path) / file_name_BG
-                #验证new_file_path是否存在，不存在则创建
-                if not os.path.exists(new_file_path):
-                    os.makedirs(new_file_path)
-                try:
-                    shutil.copy(old_file_path_audio, new_file_path_audio)
-                except Exception as e:
-                    error_message = f"复制音频文件时发生错误: - {e}"
-                    print(error_message)
-
-                try:
-                    shutil.copy(old_file_path_BG, new_file_path_BG)
-                except Exception as e:
-                    error_message = f"复制背景图文件时发生错误: - {e}"
-                    print(error_message)
-
-                new_file_path_osu = Path(new_file_path) / file_name_osu
+            new_file_path_osu = self.save_files(version_tag, file, METAs)
             METAs_new_lines = METAs.get_new_lines()
             #处理HitObject
             HOBJs = NtoNC_HitObjects.from_lines(HOBJ, org_keys)
@@ -926,60 +771,7 @@ class Controller:
 
             #处理META
             version_tag = "[JackWorld]"
-            if self.if_save_to_org_value.get():
-                version = version_tag + METAs.get_data("Version")[0]
-                METAs.set_data("Version", version)
-                file_name_osu, file_name_audio, file_name_BG = METAs.get_save_file_name()
-                new_file_path_osu = Path(file).parent / file_name_osu
-
-            else:
-                #是否要修改title和artist
-                if self.ui.tk_input_title.get().strip():
-                    METAs.set_data("Title", self.ui.tk_input_title.get().strip())
-
-                if self.ui.tk_input_artist.get().strip():
-                    METAs.set_data("Artist", self.ui.tk_input_artist.get().strip())
-
-                old_title = METAs.get_data("Title")[0] if METAs.get_data("Title")[0] else "Unknown"
-
-                length = min(len(old_title), 7)
-                title_to_version = old_title[:length] + "..." + old_title[-length:]
-                version = version_tag + title_to_version + "[" + METAs.get_data("Version")[0] + "]"
-                METAs.set_data("Version", version)
-                new_file_path = self.ui.tk_input_path.get()
-                new_file_path = Path(new_file_path).resolve()
-                METAs.set_data("Artist", self.ui.tk_input_artist.get())
-                METAs.set_data("Title", self.ui.tk_input_title.get())
-                file_name_osu, file_name_audio, file_name_BG = METAs.get_save_file_name()
-                old_file_path_audio = Path(file).parent / file_name_audio
-                old_file_path_BG = Path(file).parent / file_name_BG
-                #避免文件名重复标签，不使用随机数，直接从title和virsion中截取
-                available_file_names_tag = ''.join([old_title[1], str(len(old_title)), version[-1], str(len(version)),
-                                                    old_title[-1]])
-
-                file_name_audio = available_file_names_tag + file_name_audio
-                file_name_BG = available_file_names_tag + file_name_BG
-                METAs.set_data("AudioFilename", file_name_audio)
-                METAs.set_data("Background", file_name_BG)
-
-                new_file_path_audio = Path(new_file_path) / file_name_audio
-                new_file_path_BG = Path(new_file_path) / file_name_BG
-                #验证new_file_path是否存在，不存在则创建
-                if not os.path.exists(new_file_path):
-                    os.makedirs(new_file_path)
-                try:
-                    shutil.copy(old_file_path_audio, new_file_path_audio)
-                except Exception as e:
-                    error_message = f"复制音频文件时发生错误: - {e}"
-                    print(error_message)
-
-                try:
-                    shutil.copy(old_file_path_BG, new_file_path_BG)
-                except Exception as e:
-                    error_message = f"复制背景图文件时发生错误: - {e}"
-                    print(error_message)
-
-                new_file_path_osu = Path(new_file_path) / file_name_osu
+            new_file_path_osu = self.save_files(version_tag, file, METAs)
             METAs_new_lines = METAs.get_new_lines()
             #处理HitObject
             HOBJs = NtoNC_HitObjects.from_lines(HOBJ, org_keys)
@@ -1073,59 +865,7 @@ class Controller:
                       "[4Kt7K]"
                       ]
             version_tag = labels[flag_preset]
-            if self.if_save_to_org_value.get():
-                version = version_tag + METAs.get_data("Version")[0]
-                METAs.set_data("Version", version)
-                file_name_osu, file_name_audio, file_name_BG = METAs.get_save_file_name()
-                new_file_path_osu = Path(file).parent / file_name_osu
-
-            else:
-                #是否要修改title和artist
-                if self.ui.tk_input_title.get().strip():
-                    METAs.set_data("Title", self.ui.tk_input_title.get().strip())
-
-                if self.ui.tk_input_artist.get().strip():
-                    METAs.set_data("Artist", self.ui.tk_input_artist.get().strip())
-
-                old_title = METAs.get_data("Title")[0] if METAs.get_data("Title")[0] else "Unknown"
-                length = min(len(old_title), 7)
-                title_to_version = old_title[:length] + "..." + old_title[-length:]
-                version = version_tag + title_to_version + "[" + METAs.get_data("Version")[0] + "]"
-                METAs.set_data("Version", version)
-                new_file_path = self.ui.tk_input_path.get()
-                new_file_path = Path(new_file_path).resolve()
-                METAs.set_data("Artist", self.ui.tk_input_artist.get())
-                METAs.set_data("Title", self.ui.tk_input_title.get())
-                file_name_osu, file_name_audio, file_name_BG = METAs.get_save_file_name()
-                old_file_path_audio = Path(file).parent / file_name_audio
-                old_file_path_BG = Path(file).parent / file_name_BG
-                #避免文件名重复标签，不使用随机数，直接从title和virsion中截取
-                available_file_names_tag = ''.join([old_title[1], str(len(old_title)), version[-1], str(len(version)),
-                                                    old_title[-1]])
-
-                file_name_audio = available_file_names_tag + file_name_audio
-                file_name_BG = available_file_names_tag + file_name_BG
-                METAs.set_data("AudioFilename", file_name_audio)
-                METAs.set_data("Background", file_name_BG)
-
-                new_file_path_audio = Path(new_file_path) / file_name_audio
-                new_file_path_BG = Path(new_file_path) / file_name_BG
-                #验证new_file_path是否存在，不存在则创建
-                if not os.path.exists(new_file_path):
-                    os.makedirs(new_file_path)
-                try:
-                    shutil.copy(old_file_path_audio, new_file_path_audio)
-                except Exception as e:
-                    error_message = f"复制音频文件时发生错误: - {e}"
-                    print(error_message)
-
-                try:
-                    shutil.copy(old_file_path_BG, new_file_path_BG)
-                except Exception as e:
-                    error_message = f"复制背景图文件时发生错误: - {e}"
-                    print(error_message)
-
-                new_file_path_osu = Path(new_file_path) / file_name_osu
+            new_file_path_osu = self.save_files(version_tag, file, METAs)
 
             beat_time = float(METAs.get_data("beat_time")[0])
             HOBJs_new_lines = ""
@@ -1189,12 +929,73 @@ class Controller:
             except Exception as e:
                 print(f"创建文件时发生错误: {e}")
 
+    def save_files(self, version_tag, file , METAs):
+        if self.if_save_to_org_value.get():
+            version = version_tag + METAs.get_data("Version")[0]
+            METAs.set_data("Version", version)
+            file_name_osu, _, _ = METAs.get_save_file_name()
+            return Path(file).parent / file_name_osu
+
+        else:
+            # 是否要修改title和artist
+            old_title = METAs.get_data("Title")[0] if METAs.get_data("Title")[0] else "Unknown"
+            if self.ui.tk_input_title.get().strip():
+                METAs.set_data("Title", self.ui.tk_input_title.get().strip())
+
+            if self.ui.tk_input_artist.get().strip():
+                METAs.set_data("Artist", self.ui.tk_input_artist.get().strip())
+            version = version_tag + old_title + "[" + METAs.get_data("Version")[0] + "]"
+            METAs.set_data("Version", version)
+            new_file_path = self.ui.tk_input_path.get()
+            new_file_path = Path(new_file_path).resolve()
+            METAs.set_data("Artist", self.ui.tk_input_artist.get())
+            METAs.set_data("Title", self.ui.tk_input_title.get())
+            file_name_osu, file_name_audio, file_name_BG = METAs.get_save_file_name()
+            old_file_path_audio = Path(file).parent / file_name_audio
+            old_file_path_BG = Path(file).parent / file_name_BG
+
+            # 避免文件名重复标签，不使用随机数，直接从title和version中截取
+            available_file_names_tag = ''.join([
+                old_title[1], str(len(old_title)), version[-1], str(len(version)),
+                old_title[-1]
+            ])
+
+            file_name_audio = available_file_names_tag + file_name_audio
+            file_name_BG = available_file_names_tag + file_name_BG
+            METAs.set_data("AudioFilename", file_name_audio)
+            METAs.set_data("Background", file_name_BG)
+
+            new_file_path_audio = Path(new_file_path) / file_name_audio
+            new_file_path_BG = Path(new_file_path) / file_name_BG
+
+            # 验证new_file_path是否存在，不存在则创建
+            if not os.path.exists(new_file_path):
+                os.makedirs(new_file_path)
+
+            # 复制音频文件
+            try:
+                shutil.copy(old_file_path_audio, new_file_path_audio)
+            except Exception as e:
+                error_message = f"复制音频文件时发生错误: - {e}"
+                print(error_message)
+
+            # 复制背景图文件
+            try:
+                shutil.copy(old_file_path_BG, new_file_path_BG)
+            except Exception as e:
+                error_message = f"复制背景图文件时发生错误: - {e}"
+                print(error_message)
+
+            return Path(new_file_path)/file_name_osu
+
     def change_language(self):
         if self.language == 'zh':
             self.language = 'en'
         else:
             self.language = 'zh'
         self.update_ui_text()
+
+
 
     def update_ui_text(self):
         # 更新窗口标题

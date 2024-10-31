@@ -13,7 +13,6 @@ from concurrent.futures import ThreadPoolExecutor
 def NtoNC_convert_array(keys, to_keys, blank):
     # 初始化一个 [0, 1, 2, ..., keys-1] 的数组
     keys_list = list(range(keys))
-    print("初始化完毕")
     if keys < to_keys:
         add_num = to_keys - keys
         add = random.choices(keys_list, k=add_num - blank)
