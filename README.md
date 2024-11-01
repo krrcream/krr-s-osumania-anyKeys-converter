@@ -85,6 +85,11 @@ python main.py
 
 -------
 ## Changelog 更新日志
+V1.0.2 and V1.0.3 2024/11/11
+V1.0.2 Fixed the issue where the application crashed due to the icon.修复因为图标崩溃的问题。
+V1.0.3 Now automatically saves language settings, so after switching to English, you won't need to switch again when opening next time. Fixed the issue where the default value for convert speed was displayed incorrectly.自动保存语言设置，设置成英文后下次打开不需要再次切换。修复convert speed默认值显示错误的问题。
+
+-------
 V1.0.1 2024/10/31
 Fix some bug.
 
