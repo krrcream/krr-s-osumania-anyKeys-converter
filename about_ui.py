@@ -2,20 +2,23 @@
 © Copyright 2024 krrcream
 https://github.com/krrcream/krr-s-osumania-anyKeys-converter/
 """
+import base64
+import os
 import webbrowser
 from tkinter import *
 from tkinter.ttk import *
+from f_ico import img
 github_URL = "https://github.com/krrcream/krr-s-osumania-anyKeys-converter"
 bilibili_URL = "https://space.bilibili.com/276844"
 osu_URL = "https://osu.ppy.sh/users/14769563"
 
 
 class WinGUI(Toplevel):
-    def __init__(self,language,ico_file):
+    def __init__(self,language):
         super().__init__()
         self.language = language
         self.__win()
-        self.iconbitmap(ico_file)
+        self.set_ico()
         self.tk_frame_buttom = self.__tk_frame_buttom(self)
         self.tk_label_conme = self.__tk_label_conme(self.tk_frame_buttom)
         self.tk_label_OSU_URL = self.__tk_label_OSU_URL(self.tk_frame_buttom)
@@ -153,6 +156,12 @@ class WinGUI(Toplevel):
         label.bind("<Button-1>", lambda e: webbrowser.open("https://osu.ppy.sh/users/35448136"))
         return label
 
+    def set_ico(self):
+        icon = open("icon.ico", "wb+")
+        icon.write(base64.b64decode(img))  # 写入到临时文件中
+        icon.close()
+        self.iconbitmap("icon.ico")  # 设置图标
+        os.remove("icon.ico")  # 删除临时图标
     def __tk_text_readme(self, parent):
         text = Text(parent)
         # 设置文字字体

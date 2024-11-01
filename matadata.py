@@ -34,8 +34,6 @@ class MataData:
         time_flag = False  # 标记是否在 [TimingPoints] 区块内
         for key in self.keys:
             i = 0  # 这是行数
-            title_flag = 0
-            artist_flag = 0
             for i in range(len(lines)):
                 if key in lines[i] and key != "Background" and key != "part_time":
                     try:
@@ -44,12 +42,15 @@ class MataData:
                     except IndexError:
                         print(f"{self.data['Title']} error:{key}")
                         break
-
                 if event_flag == False and "Background and Video event" in lines[i]:  #获得背景图片路径
                     event_flag = True
-                    if "0,0," in lines[i + 1] and ",0,0" in lines[i + 1]:  #背景图片路径
-                        self.data['Background'] = [lines[i + 1][5:-5], i + 1]  #lines[i + 1] 去掉前5个字符和后5个字符
-                        break
+                    jndex = 1
+                    while event_flag and jndex < 6 :
+                        if "0,0," in lines[i + jndex] and ",0,0" in lines[i + jndex]:  #背景图片路径
+                            self.data['Background'] = [lines[i + jndex][5:-5], i + jndex]  #lines[i + 1] 去掉前5个字符和后5个字符
+                            event_flag = True
+                        jndex += 1
+
                 if time_flag == False and lines[i].strip() == "[TimingPoints]":  #获得节拍时间
                     time_flag = True
                     # 获取下一行并去掉首尾空格
@@ -65,7 +66,7 @@ class MataData:
         if "krrcream converter" not in self.data['Tags'][0]:
             self.data['Tags'][0] = "krrcream converter " + self.data['Tags'][0]
         if "krr conv. & " not in self.data['Creator'][0]:
-            self.data['Creator'][0] = "krr conv. " + self.data['Creator'][0]
+            self.data['Creator'][0] = "krr conv. & " + self.data['Creator'][0]
         self.data['BeatmapSetID'][0] = -1
         self.data['BeatmapID'][0] = 0
         self.set_data("Tags", self.data['Tags'][0])

@@ -2,6 +2,7 @@
 © Copyright 2024 krrcream
 https://github.com/krrcream/krr-s-osumania-anyKeys-converter/
 """
+import base64
 import os
 import shutil
 from pathlib import Path
@@ -14,14 +15,14 @@ from NtoNC_HitObjects import NtoNC_HitObjects
 from preset_HitObjects import Preset_HitObjects
 from matadata import MataData
 from ui import Win
-
+from f_ico import img
 github_URL = "https://github.com/krrcream/krr-s-osumania-anyKeys-converter"
 bilibili_URL = "https://space.bilibili.com/276844"
 osu_URL = "https://osu.ppy.sh/users/14769563"
-program_version = "v1.0.1"
+program_version = "v1.0.2"
 
-#替换成你的图标文件路径
-ico_file = r"D:\mypythpon_project\krr_any_keys_converter V1.0.0\pythonProject\f.ico"
+# #替换成你的图标文件路径
+# ico_file = r"D:\mypythpon_project\krr_any_keys_converter V1.0.0\pythonProject\f.ico"
 
 class Controller:
     ui: Win
@@ -36,9 +37,10 @@ class Controller:
 
         self.language = 'zh'
 
-        self.ui.iconbitmap(ico_file)
+        # self.ui.iconbitmap(ico_file)
         self.ui.title("krrcream的任意keys转换器 " + program_version)
         self.ui.protocol("WM_DELETE_WINDOW", self.on_closing)
+        self.set_ico()
 
         #选项卡值
         self.selected_tab_index = IntVar(value=0)
@@ -203,7 +205,7 @@ class Controller:
         self.ui.tk_label_About.bind("<Button-1>", self.open_about_window)
 
     def open_about_window(self, event):
-        about_window = AboutGUI(self.language,ico_file)
+        about_window = AboutGUI(self.language)
         about_window.grab_set()
 
 
@@ -939,25 +941,24 @@ class Controller:
         else:
             # 是否要修改title和artist
             old_title = METAs.get_data("Title")[0] if METAs.get_data("Title")[0] else "Unknown"
-            if len(old_title) > 15:
-                old_title = old_title[:8] + "..." + old_title[-7:]
+            old_version = METAs.get_data("Version")[0]
+            if len(old_title) > 20:
+                old_title = f"{old_title[:19]}..."
             if self.ui.tk_input_title.get().strip():
                 METAs.set_data("Title", self.ui.tk_input_title.get().strip())
             if self.ui.tk_input_artist.get().strip():
                 METAs.set_data("Artist", self.ui.tk_input_artist.get().strip())
+
             version = version_tag + old_title + "[" + METAs.get_data("Version")[0] + "]"
             METAs.set_data("Version", version)
             new_file_path = self.ui.tk_input_path.get()
             new_file_path = Path(new_file_path).resolve()
-            METAs.set_data("Artist", self.ui.tk_input_artist.get())
-            METAs.set_data("Title", self.ui.tk_input_title.get())
             file_name_osu, file_name_audio, file_name_BG = METAs.get_save_file_name()
             old_file_path_audio = Path(file).parent / file_name_audio
             old_file_path_BG = Path(file).parent / file_name_BG
-
-            # 避免文件名重复标签，不使用随机数，直接从title和version中截取
+                # 避免文件名重复标签，不使用随机数，直接从title和version中截取
             available_file_names_tag = ''.join([
-                old_title[1], str(len(old_title)), version[-1], str(len(version)),
+                old_version[1], str(len(old_title)), old_version[-1], str(len(old_version)),
                 old_title[-1]
             ])
 
@@ -1048,3 +1049,10 @@ class Controller:
             text="例如① 0,1,2,4,5,6 是7k删空" if self.language == 'zh' else "e.g.① 0,1,2,4,5,6 is 7k delete space")
         self.ui.tk_label_NtoNS_desc4.configure(
             text="例如② 6,0,1,2,3,4,5,6 将7k的第7轨复制并插入为第一轨变为8k" if self.language == 'zh' else "e.g.② 6,0,1,2,3,4,5,6 insert the 7# colunm to 1#to become 8k")
+
+    def set_ico(self):
+        icon = open("icon.ico", "wb+")
+        icon.write(base64.b64decode(img))  # 写入到临时文件中
+        icon.close()
+        self.ui.iconbitmap("icon.ico")  # 设置图标
+        os.remove("icon.ico")  # 删除临时图标
