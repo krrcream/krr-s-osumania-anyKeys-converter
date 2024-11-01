@@ -200,7 +200,7 @@ class WinGUI(TkinterDnD.Tk):
         scale.place(relx=0.3480, rely=0.1350, relwidth=0.5800, relheight=0.1095)
         return scale
     def __tk_label_step_num(self,parent):
-        label = Label(parent,text="10",anchor="center", )
+        label = Label(parent,text="15",anchor="center", )
         label.place(relx=0.2181, rely=0.0146, relwidth=0.1160, relheight=0.1095)
         return label
     def __tk_label_to_key_num(self,parent):

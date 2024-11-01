@@ -16,10 +16,12 @@ from preset_HitObjects import Preset_HitObjects
 from matadata import MataData
 from ui import Win
 from f_ico import img
+
 github_URL = "https://github.com/krrcream/krr-s-osumania-anyKeys-converter"
 bilibili_URL = "https://space.bilibili.com/276844"
 osu_URL = "https://osu.ppy.sh/users/14769563"
-program_version = "v1.0.2"
+program_version = "v1.0.3"
+
 
 # #替换成你的图标文件路径
 # ico_file = r"D:\mypythpon_project\krr_any_keys_converter V1.0.0\pythonProject\f.ico"
@@ -42,7 +44,7 @@ class Controller:
         self.ui.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.set_ico()
 
-        #选项卡值
+        # 选项卡值
         self.selected_tab_index = IntVar(value=0)
         style = ttk.Style()
         style.configure("TNotebook.Tab", background="white", foreground="black")
@@ -85,13 +87,13 @@ class Controller:
         self.ui.tk_input_path.configure(state='disable', foreground='gray')
         self.ui.tk_input_title.configure(state='disable', foreground='gray')
         self.ui.tk_input_artist.configure(state='disable', foreground='gray')
-        #OD和HP输入框
+        # OD和HP输入框
         self.ui.tk_input_OD.configure(state='normal')
         self.ui.tk_input_HP.configure(state='normal')
-        #seed输入框
+        # seed输入框
         self.ui.tk_input_seed_line.configure(state='disable')
 
-        #简单矩阵控件
+        # 简单矩阵控件
         self.ui.tk_input_NToNS_num_line.configure(state='normal')
 
         # 万物系列
@@ -100,7 +102,7 @@ class Controller:
         self.density_value_EV = IntVar(value=2)
         self.noise_value_EV = DoubleVar(value=0.0)
 
-        #杰克世界
+        # 杰克世界
         self.JW_w_density = DoubleVar(value=0.0)
         self.JW_h_density = DoubleVar(value=0.2)
         self.JW_add = IntVar(value=2)
@@ -108,8 +110,8 @@ class Controller:
         # 读取配置文件
         self.load_config()
 
-        #狂风插入控件
-        #元谱筛选框
+        # 狂风插入控件
+        # 元谱筛选框
         self.ui.tk_check_button_s4mk.configure(variable=self.s4mk_value, onvalue=True, offvalue=False, state='disable')
         self.ui.tk_check_button_s4k.configure(variable=self.s4k_value, onvalue=True, offvalue=False, state='disable')
         self.ui.tk_check_button_s5k.configure(variable=self.s5k_value, onvalue=True, offvalue=False, state='disable')
@@ -120,15 +122,15 @@ class Controller:
         self.ui.tk_check_button_s10k.configure(variable=self.s10k_value, onvalue=True, offvalue=False, state='disable')
         self.ui.tk_check_button_s10pk.configure(variable=self.s10pk_value, onvalue=True, offvalue=False,
                                                 state='disable')
-        #元谱筛选框
+        # 元谱筛选框
         self.ui.tk_check_button_if_sifting.configure(variable=self.if_sifting_value, cursor='hand2', onvalue=True,
                                                      offvalue=False, command=self.if_sifting)
         # 点击元谱筛选框时，根据元谱筛选框的状态，设置元谱筛选框的状态
 
-        #是否处理子弹
+        # 是否处理子弹
         self.ui.tk_check_button_if_del_jack.configure(variable=self.if_del_jack_value, cursor='hand2', onvalue=True,
                                                       offvalue=False)
-        #是否使用种子
+        # 是否使用种子
 
         self.ui.tk_check_button_if_use_seed.configure(variable=self.if_use_seed_value, cursor='hand2', onvalue=True,
                                                       offvalue=False, command=self.if_use_seed)
@@ -138,36 +140,36 @@ class Controller:
         self.ui.tk_check_button_if_save_to_org.configure(variable=self.if_save_to_org_value, cursor='hand2',
                                                          onvalue=True, offvalue=False, command=self.if_save_to_org)
 
-        #初始化tokey滑条条
-        #滑条范围为1到24，初始值为10，步长为1，和to_key_value绑定
+        # 初始化tokey滑条条
+        # 滑条范围为1到24，初始值为10，步长为1，和to_key_value绑定
         self.ui.tk_scale_to_key_slider.configure(from_=1, to=24, variable=self.to_key_value,
                                                  command=self.to_key_change)
 
-        #初始化blank滑条
+        # 初始化blank滑条
         self.ui.tk_scale_insert_blank_slider.configure(from_=0, to=self.to_key_value.get(),
                                                        variable=self.blank_value, command=self.blank_change)
 
-        #初始化密度滑条
-        #滑条范围为1到10，初始值为10，步长为1，和density_value绑定
+        # 初始化密度滑条
+        # 滑条范围为1到10，初始值为10，步长为1，和density_value绑定
         self.ui.tk_scale_density_slider.configure(from_=0, to=10, variable=self.density_value,
                                                   command=self.density_change)
 
-        #初始化步距滑条
-        #滑条范围为1到20，初始值为15，步长为1，和step_value绑定
+        # 初始化步距滑条
+        # 滑条范围为1到20，初始值为15，步长为1，和step_value绑定
         self.ui.tk_scale_convert_interval.configure(from_=1, to=24, variable=self.step_value,
                                                     command=self.step_change)
 
-        #删除新生成的子弹
+        # 删除新生成的子弹
         self.ui.tk_check_button_if_del_jack.configure(variable=self.if_del_jack_value, cursor='hand2', onvalue=True,
                                                       offvalue=False)
 
-        #万物系列单选框
+        # 万物系列单选框
         self.ui.tk_radio_button_EtoJACK_sel.configure(variable=self.EV_jack_or_stream, value=0,
                                                       command=self.EV_jack_or_stream_change)
         self.ui.tk_radio_button_EtoStream_sel.configure(variable=self.EV_jack_or_stream, value=1,
                                                         command=self.EV_jack_or_stream_change)
 
-        #万物系列滑条
+        # 万物系列滑条
         self.ui.tk_scale_EV_to_key.configure(from_=1, to=24, variable=self.to_key_value_EV,
                                              command=self.to_key_value_EV_change)
         self.ui.tk_scale_EV_density.configure(from_=0,
@@ -176,14 +178,14 @@ class Controller:
                                               command=self.density_EV_change)
         self.ui.tk_scale_EV_noise.configure(from_=0, to=1, variable=self.noise_value_EV, command=self.noise_EV_change)
 
-        #杰克世界
+        # 杰克世界
         self.ui.tk_scale_JW_h_density_slider.configure(from_=0, to=1, variable=self.JW_h_density,
                                                        command=self.JW_h_density_change)
         self.ui.tk_scale_JW_w_density_slider.configure(from_=0, to=1, variable=self.JW_w_density,
                                                        command=self.JW_w_density_change)
         self.ui.tk_scale_JW_add_slider.configure(from_=1, to=10, variable=self.JW_add, command=self.JW_add_change)
 
-        #预设单选框
+        # 预设单选框
         self.preset_value = IntVar(value=0)
         self.ui.tk_radio_button_preset_NKDP.configure(variable=self.preset_value, value=0)
         self.ui.tk_radio_button_preset_NKDPM.configure(variable=self.preset_value, value=1)
@@ -196,18 +198,17 @@ class Controller:
         self.ui.tk_radio_button_preset_4kt7t10.configure(variable=self.preset_value, value=8)
         self.ui.tk_radio_button_preset_4kto7k.configure(variable=self.preset_value, value=9)
 
-        #给标签Github添加链接
+        # 给标签Github添加链接
         self.ui.tk_label_change.configure(cursor='hand2', foreground='blue', font=('', 10, 'underline'))
         self.ui.tk_label_change.bind("<Button-1>", lambda event: self.change_language())  # 绑定鼠标左键单击事件
         # self.ui.tk_label_Github.bind("<Button-1>", lambda e: webbrowser.open_new(github_URL))  # 绑定鼠标左键单击事件
-        #About标签
+        # About标签
         self.ui.tk_label_About.configure(cursor='hand2', foreground='blue', font=('', 10, 'underline'))
         self.ui.tk_label_About.bind("<Button-1>", self.open_about_window)
 
     def open_about_window(self, event):
         about_window = AboutGUI(self.language)
         about_window.grab_set()
-
 
     # def preset_change(self):
     #     print(self.preset_value.get())
@@ -239,7 +240,8 @@ class Controller:
             'input_artist': self.ui.tk_input_artist.get(),
             'input_OD': self.ui.tk_input_OD.get(),
             'input_HP': self.ui.tk_input_HP.get(),
-            'input_seed': self.ui.tk_input_seed_line.get()
+            'input_seed': self.ui.tk_input_seed_line.get(),
+            'language': self.language
         }
 
         with open('config.fq', 'w') as f:
@@ -286,8 +288,7 @@ class Controller:
             self.to_key_value.set(config_data.get('to_key_value', 10))
             self.blank_value.set(config_data.get('blank_value', 0))
             self.step_value.set(config_data.get('step_value', 15))
-
-            #设置筛选
+            # 设置筛选
             if self.if_sifting_value.get():
                 self.ui.tk_check_button_s4mk.configure(state='enable')
                 self.ui.tk_check_button_s4k.configure(state='enable')
@@ -309,7 +310,7 @@ class Controller:
                 self.ui.tk_check_button_s9k.configure(state='disable')
                 self.ui.tk_check_button_s10k.configure(state='disable')
 
-            #更新输入框状态
+            # 更新输入框状态
             if self.if_save_to_org_value.get():
                 self.ui.tk_input_path.configure(state='disable', foreground='gray')
                 self.ui.tk_input_title.configure(state='disable', foreground='gray')
@@ -344,6 +345,11 @@ class Controller:
             self.ui.tk_label_insert_blank_num.configure(text=str(self.blank_value.get()))
             self.ui.tk_label_step_num.configure(text=str(self.step_value.get()))
 
+            # 更换语言
+            self.language = (config_data.get('language', 'zh'))
+            if self.language == 'en':
+                self.language = 'zh'
+                self.change_language()
 
         except FileNotFoundError:
             pass  # 如果文件不存在，则不进行任何操作
@@ -358,7 +364,7 @@ class Controller:
     def if_use_seed(self):  # 是否使用种子按钮事件
         if self.if_use_seed_value.get():
             self.ui.tk_input_seed_line.configure(state='normal')
-        #如果不选中，则隐藏输入框
+        # 如果不选中，则隐藏输入框
         else:
             self.ui.tk_input_seed_line.configure(state='disable')
 
@@ -409,7 +415,7 @@ class Controller:
             self.ui.tk_input_path.configure(state='disable', foreground='gray', )
             self.ui.tk_input_title.configure(state='disable', foreground='gray')
             self.ui.tk_input_artist.configure(state='disable', foreground='gray')
-            #如果不选中，则只读输入框
+            # 如果不选中，则只读输入框
         else:
             self.ui.tk_input_path.configure(state='normal', foreground='black')
             self.ui.tk_input_title.configure(state='normal', foreground='black')
@@ -464,7 +470,7 @@ class Controller:
         self.ui.tk_label_Lab_EV_density.configure(text=temp)  # 更新标签显示
         self.density_value_EV.set(temp)  # 设置密度为0
 
-    #万物系列
+    # 万物系列
     def to_key_value_EV_change(self, value):  # 目标键数滑动条事件
         int_value = int(float(value))  # 将浮点数转为整数
         self.to_key_value_EV.set(int_value)  # 更新IntVar的值
@@ -502,22 +508,23 @@ class Controller:
 
         def process_file(file):
             # try:
-                if self.if_use_seed_value.get():
-                    seed = int(self.ui.tk_input_seed_line.get() or 0)  # 使用 or 运算符处理空字符串
-                    random.seed(seed)
-                    np.random.seed(seed)
-                if self.selected_tab_index.get() == 0:
-                    self.NtoNC(file)
-                elif self.selected_tab_index.get() == 1:
-                    self.NtoNS(file)
-                elif self.selected_tab_index.get() == 2:
-                    self.Everything_To_N(file)
-                elif self.selected_tab_index.get() == 3:
-                    self.Jack_World(file)
-                elif self.selected_tab_index.get() == 4:
-                    self.preset_convert(file)
-            # except Exception as e:
-            #     print(f"处理文件 {file} 时发生错误: {e}")
+            if self.if_use_seed_value.get():
+                seed = int(self.ui.tk_input_seed_line.get() or 0)  # 使用 or 运算符处理空字符串
+                random.seed(seed)
+                np.random.seed(seed)
+            if self.selected_tab_index.get() == 0:
+                self.NtoNC(file)
+            elif self.selected_tab_index.get() == 1:
+                self.NtoNS(file)
+            elif self.selected_tab_index.get() == 2:
+                self.Everything_To_N(file)
+            elif self.selected_tab_index.get() == 3:
+                self.Jack_World(file)
+            elif self.selected_tab_index.get() == 4:
+                self.preset_convert(file)
+
+        # except Exception as e:
+        #     print(f"处理文件 {file} 时发生错误: {e}")
         def handle_path(path):
             path = Path(path)
             if path.exists():
@@ -545,7 +552,7 @@ class Controller:
         elif selected_value == 2:
             self.ui.tk_radio_button_EtoStream_sel.configure(value=True)
 
-            #转谱
+            # 转谱
 
     def NtoNC(self, file):
         """
@@ -580,7 +587,7 @@ class Controller:
             interval = self.stap_time.get()
             OD = self.ui.tk_input_OD.get()
             HP = self.ui.tk_input_HP.get()
-            #如果HP和OD不是0.0到10.0的浮点数（包含0和10),则修改，否则不修改
+            # 如果HP和OD不是0.0到10.0的浮点数（包含0和10),则修改，否则不修改
             if HP:
                 try:
                     float_hp = round(float(HP), 1)  # 转换为浮点数
@@ -596,20 +603,20 @@ class Controller:
                 except ValueError:
                     pass  # 忽略无效输入
 
-            #处理META
+            # 处理META
             METAs.set_data("CircleSize", to_keys)
             version_tag = "[" + str(org_keys) + "To" + str(to_keys) + "C]"
             new_file_path_osu = self.save_files(version_tag, file, METAs)
 
             METAs_new_lines = METAs.get_new_lines()
             beat_time = float(METAs.get_data("beat_time")[0])
-            #处理HitObject
+            # 处理HitObject
             HOBJs = NtoNC_HitObjects.from_lines(HOBJ, org_keys)
             MTX = HOBJs.NtoNC_convert_MTX(to_keys, blank, interval, beat_time=beat_time,
                                           density=self.density_value.get(), del_jack_flag=self.if_del_jack_value.get())
             HOBJs_new_lines = HOBJs.get_to_keys_obj(MTX)
 
-            #把METAs_new_lines和HOBJs_new_lines写入文件,如果文件存在则覆盖内容，如果不存在则创建文件并写入
+            # 把METAs_new_lines和HOBJs_new_lines写入文件,如果文件存在则覆盖内容，如果不存在则创建文件并写入
             combined_content = '\n'.join(METAs_new_lines) + '\n' + '\n'.join(HOBJs_new_lines)
 
             if len(new_file_path_osu.name) > 255:
@@ -639,7 +646,7 @@ class Controller:
             to_keys = len(NToNS_array)
             OD = self.ui.tk_input_OD.get()
             HP = self.ui.tk_input_HP.get()
-            #如果HP和OD不是0.0到10.0的浮点数（包含0和10),则修改，否则不修改
+            # 如果HP和OD不是0.0到10.0的浮点数（包含0和10),则修改，否则不修改
             if HP:
                 try:
                     float_hp = round(float(HP), 1)  # 转换为浮点数
@@ -655,16 +662,16 @@ class Controller:
                 except ValueError:
                     pass  # 忽略无效输入
 
-            #处理META
+            # 处理META
             METAs.set_data("CircleSize", to_keys)
             version_tag = "[" + str(org_keys) + "To" + str(to_keys) + "S]"
             new_file_path_osu = self.save_files(version_tag, file, METAs)
 
             METAs_new_lines = METAs.get_new_lines()
-            #处理HitObject
+            # 处理HitObject
             HOBJs = NtoNC_HitObjects.from_lines(HOBJ, org_keys)
             HOBJs_new_lines = HOBJs.get_to_keys_obj_NtoNS(NToNS_array)
-            #把METAs_new_lines和HOBJs_new_lines写入文件,如果文件存在则覆盖内容，如果不存在则创建文件并写入
+            # 把METAs_new_lines和HOBJs_new_lines写入文件,如果文件存在则覆盖内容，如果不存在则创建文件并写入
             combined_content = '\n'.join(METAs_new_lines) + '\n' + '\n'.join(HOBJs_new_lines)
             if len(new_file_path_osu.name) > 255:
                 new_file_path_osu = new_file_path_osu.parent / (
@@ -692,7 +699,7 @@ class Controller:
             to_keys = self.to_key_value_EV.get()
             OD = self.ui.tk_input_OD.get()
             HP = self.ui.tk_input_HP.get()
-            #如果HP和OD不是0.0到10.0的浮点数（包含0和10),则修改，否则不修改
+            # 如果HP和OD不是0.0到10.0的浮点数（包含0和10),则修改，否则不修改
             if HP:
                 try:
                     float_hp = round(float(HP), 1)  # 转换为浮点数
@@ -708,7 +715,7 @@ class Controller:
                 except ValueError:
                     pass  # 忽略无效输入
 
-            #处理META
+            # 处理META
             METAs.set_data("CircleSize", to_keys)
             if self.EV_jack_or_stream.get() == 1:
                 version_tag = "[EtoStream" + str(to_keys) + "K]"
@@ -717,7 +724,7 @@ class Controller:
 
             new_file_path_osu = self.save_files(version_tag, file, METAs)
             METAs_new_lines = METAs.get_new_lines()
-            #处理HitObject
+            # 处理HitObject
             HOBJs = NtoNC_HitObjects.from_lines(HOBJ, org_keys)
             start_time = HOBJs.MTX_start_time
             if self.EV_jack_or_stream.get() == 1:
@@ -727,7 +734,7 @@ class Controller:
                 MTX = generate_matrix_everything_to_jack(start_time.size, self.to_key_value_EV.get(),
                                                          self.density_value_EV.get(), self.noise_value_EV.get())
             HOBJs_new_lines = HOBJs.get_to_keys_obj_if_note(MTX)
-            #把METAs_new_lines和HOBJs_new_lines写入文件,如果文件存在则覆盖内容，如果不存在则创建文件并写入
+            # 把METAs_new_lines和HOBJs_new_lines写入文件,如果文件存在则覆盖内容，如果不存在则创建文件并写入
             combined_content = '\n'.join(METAs_new_lines) + '\n' + '\n'.join(HOBJs_new_lines)
             if len(new_file_path_osu.name) > 255:
                 new_file_path_osu = new_file_path_osu.parent / (
@@ -755,7 +762,7 @@ class Controller:
             array = [i for i in range(org_keys)]
             OD = self.ui.tk_input_OD.get()
             HP = self.ui.tk_input_HP.get()
-            #如果HP和OD不是0.0到10.0的浮点数（包含0和10),则修改，否则不修改
+            # 如果HP和OD不是0.0到10.0的浮点数（包含0和10),则修改，否则不修改
             if HP:
                 try:
                     float_hp = round(float(HP), 1)  # 转换为浮点数
@@ -771,18 +778,18 @@ class Controller:
                 except ValueError:
                     pass  # 忽略无效输入
 
-            #处理META
+            # 处理META
             version_tag = "[JackWorld]"
             new_file_path_osu = self.save_files(version_tag, file, METAs)
             METAs_new_lines = METAs.get_new_lines()
-            #处理HitObject
+            # 处理HitObject
             HOBJs = NtoNC_HitObjects.from_lines(HOBJ, org_keys)
             if_note = HOBJs.MTX_if_note.copy()
             mask = update_matrix_mask(if_note, self.JW_w_density.get(), self.JW_h_density.get(), self.JW_add.get())
             if_not_in_LN = get_in_LN_position(HOBJs.MTX_hold_time, HOBJs.MTX_start_time, True)
             HOBJs.MTX_if_note = update_matrix(if_note, mask, if_not_in_LN)
             HOBJs_new_lines = HOBJs.get_to_keys_obj_NtoNS(array)
-            #把METAs_new_lines和HOBJs_new_lines写入文件,如果文件存在则覆盖内容，如果不存在则创建文件并写入
+            # 把METAs_new_lines和HOBJs_new_lines写入文件,如果文件存在则覆盖内容，如果不存在则创建文件并写入
             combined_content = '\n'.join(METAs_new_lines) + '\n' + '\n'.join(HOBJs_new_lines)
             if len(new_file_path_osu.name) > 255:
                 new_file_path_osu = new_file_path_osu.parent / (
@@ -838,7 +845,7 @@ class Controller:
             interval = self.stap_time.get()
             OD = self.ui.tk_input_OD.get()
             HP = self.ui.tk_input_HP.get()
-            #如果HP和OD不是0.0到10.0的浮点数（包含0和10),则修改，否则不修改
+            # 如果HP和OD不是0.0到10.0的浮点数（包含0和10),则修改，否则不修改
             if HP:
                 try:
                     float_hp = round(float(HP), 1)  # 转换为浮点数
@@ -854,7 +861,7 @@ class Controller:
                 except ValueError:
                     pass  # 忽略无效输入
 
-            #处理META
+            # 处理META
             labels = [f"[{org_keys}KDP]",
                       f"[{org_keys}KDPM]",
                       "[7Kt6KS]",
@@ -871,7 +878,7 @@ class Controller:
 
             beat_time = float(METAs.get_data("beat_time")[0])
             HOBJs_new_lines = ""
-            #处理HitObject
+            # 处理HitObject
             HOBJs = Preset_HitObjects.from_lines(HOBJ, org_keys)
             if flag_preset == 2:  # 7kto6k
                 METAs.set_data("CircleSize", 6)
@@ -913,9 +920,8 @@ class Controller:
                 MTX = HOBJs.preset_convert_MTX(func=HOBJs.fourK_to7, beat_time=beat_time)
                 HOBJs_new_lines = HOBJs.get_to_keys_obj(MTX)
 
-
             METAs_new_lines = METAs.get_new_lines()
-            #把METAs_new_lines和HOBJs_new_lines写入文件,如果文件存在则覆盖内容，如果不存在则创建文件并写入
+            # 把METAs_new_lines和HOBJs_new_lines写入文件,如果文件存在则覆盖内容，如果不存在则创建文件并写入
             combined_content = '\n'.join(METAs_new_lines) + '\n' + '\n'.join(HOBJs_new_lines)
 
             if len(new_file_path_osu.name) > 255:
@@ -931,7 +937,7 @@ class Controller:
             except Exception as e:
                 print(f"创建文件时发生错误: {e}")
 
-    def save_files(self, version_tag, file , METAs):
+    def save_files(self, version_tag, file, METAs):
         if self.if_save_to_org_value.get():
             version = version_tag + METAs.get_data("Version")[0]
             METAs.set_data("Version", version)
@@ -956,7 +962,7 @@ class Controller:
             file_name_osu, file_name_audio, file_name_BG = METAs.get_save_file_name()
             old_file_path_audio = Path(file).parent / file_name_audio
             old_file_path_BG = Path(file).parent / file_name_BG
-                # 避免文件名重复标签，不使用随机数，直接从title和version中截取
+            # 避免文件名重复标签，不使用随机数，直接从title和version中截取
             available_file_names_tag = ''.join([
                 old_version[1], str(len(old_title)), old_version[-1], str(len(old_version)),
                 old_title[-1]
@@ -988,7 +994,7 @@ class Controller:
                 error_message = f"复制背景图文件时发生错误: - {e}"
                 print(error_message)
 
-            return Path(new_file_path)/file_name_osu
+            return Path(new_file_path) / file_name_osu
 
     def change_language(self):
         if self.language == 'zh':
@@ -996,8 +1002,6 @@ class Controller:
         else:
             self.language = 'zh'
         self.update_ui_text()
-
-
 
     def update_ui_text(self):
         # 更新窗口标题
