@@ -85,6 +85,10 @@ python main.py
 
 -------
 ## Changelog 更新日志
+V1.0.4 2024/11/12
+
+V1.0.4 Fixed the issue 4to7to10k preset not having note in the fifth colunm, and set it to 3blank.修复4to7to10k预设第五轨道没有note的问题，并且设置成3blank. 
+
 V1.0.2 and V1.0.3 2024/11/11
 
 V1.0.2 Fixed the issue where the application crashed due to the icon.修复因为图标崩溃的问题。

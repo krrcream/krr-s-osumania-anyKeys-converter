@@ -1,7 +1,10 @@
 """
-© Copyright 2024 krrcream
-https://github.com/krrcream/krr-s-osumania-anyKeys-converter/
+本代码由[Tkinter布局助手]生成
+官网:https://www.pytk.net
+QQ交流群:905019785
+在线反馈:https://support.qq.com/product/618914
 """
+import random
 from tkinter import *
 from tkinter.ttk import *
 from tkinterdnd2 import TkinterDnD, DND_FILES
@@ -149,6 +152,10 @@ class WinGUI(TkinterDnD.Tk):
         frame = Frame(parent,)
         frame.place(relx=0.0045, rely=0.0038, relwidth=0.9841, relheight=0.9962)
         return frame
+    def __tk_canvas_BG(self,parent):
+        canvas = Canvas(parent,bg="#aaa")
+        canvas.place(relx=0.0000, rely=0.0000, relwidth=1.0162, relheight=1.0038)
+        return canvas
     def __tk_tabs_select(self,parent):
         frame = Notebook(parent)
         self.tk_tabs_select_0 = self.__tk_frame_select_0(frame)
@@ -200,11 +207,11 @@ class WinGUI(TkinterDnD.Tk):
         scale.place(relx=0.3480, rely=0.1350, relwidth=0.5800, relheight=0.1095)
         return scale
     def __tk_label_step_num(self,parent):
-        label = Label(parent,text="15",anchor="center", )
+        label = Label(parent,text="10",anchor="center", )
         label.place(relx=0.2181, rely=0.0146, relwidth=0.1160, relheight=0.1095)
         return label
     def __tk_label_to_key_num(self,parent):
-        label = Label(parent,text="10",anchor="center", )
+        label = Label(parent,text="15",anchor="center", )
         label.place(relx=0.2181, rely=0.1350, relwidth=0.1160, relheight=0.1095)
         return label
     def __tk_frame_container_if_sift(self,parent):
@@ -440,7 +447,7 @@ class WinGUI(TkinterDnD.Tk):
         rb.place(relx=0.0280, rely=0.3347, relwidth=0.3972, relheight=0.1210)
         return rb
     def __tk_radio_button_preset_7kto10k(self,parent):
-        rb = Radiobutton(parent,text="7K To 10K (2Blank reduce pinky)",)
+        rb = Radiobutton(parent,text="7K To 10K (3Blank reduce pinky)",)
         rb.place(relx=0.0280, rely=0.4758, relwidth=0.5748, relheight=0.1210)
         return rb
     def __tk_radio_button_preset_7kto6k(self,parent):
@@ -550,9 +557,9 @@ class Win(WinGUI):
         self.tk_button_gen_seed_button.bind('<Button-1>',self.ctl.gen_seed)
         self.drop_target_register(DND_FILES)  # 注册拖拽目标
         self.dnd_bind('<<Drop>>', self.ctl.on_drop)  # 绑定拖拽事件
+        pass
     def __style_config(self):
         pass
-
 if __name__ == "__main__":
     win = WinGUI()
     win.mainloop()
