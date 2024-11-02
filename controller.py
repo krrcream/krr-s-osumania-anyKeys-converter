@@ -20,7 +20,7 @@ from f_ico import img
 github_URL = "https://github.com/krrcream/krr-s-osumania-anyKeys-converter"
 bilibili_URL = "https://space.bilibili.com/276844"
 osu_URL = "https://osu.ppy.sh/users/14769563"
-program_version = "v1.0.3"
+program_version = "v1.0.4"
 
 
 # #替换成你的图标文件路径
