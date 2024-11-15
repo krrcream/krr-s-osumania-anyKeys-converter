@@ -85,6 +85,10 @@ python main.py
 
 -------
 ## Changelog 更新日志
+V1.0.5 2024/11/15
+Fixed issues with bulk file transposition and errors with BG files when saving to a new path.修复大批量文件转谱错误问题，以及保存到新路径时BG文件错误的问题。
+
+-------
 V1.0.4 2024/11/12
 
 V1.0.4 Fixed the issue 4to7to10k preset not having note in the fifth colunm, and set it to 3blank.修复4to7to10k预设第五轨道没有note的问题，并且设置成3blank. 
