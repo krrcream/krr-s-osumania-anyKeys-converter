@@ -105,7 +105,7 @@ class NtoNC_HitObjects(hitobject.HitObjects):
         time_intervals = [self.MTX_start_time[i] - self.MTX_start_time[i - 1] for i in
                           range(1, len(self.MTX_start_time))]
         time_flag = 0
-        with ThreadPoolExecutor(max_workers=min(os.cpu_count() + 4, 4)) as executor:  # 使用线程池并行处理
+        with ThreadPoolExecutor(max_workers=max(os.cpu_count() - 4, 8)) as executor:  # 使用线程池并行处理
             for i, interval_time in enumerate(time_intervals, start=1):
                 time_flag += interval_time
                 if time_flag >= Interval:

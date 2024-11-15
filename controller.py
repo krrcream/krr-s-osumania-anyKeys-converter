@@ -7,6 +7,7 @@ import os
 import shutil
 from pathlib import Path
 import threading
+import concurrent.futures
 from tkinter import BooleanVar, ttk, IntVar, DoubleVar
 from about_ui import WinGUI as AboutGUI
 from functions import *
@@ -20,7 +21,7 @@ from f_ico import img
 github_URL = "https://github.com/krrcream/krr-s-osumania-anyKeys-converter"
 bilibili_URL = "https://space.bilibili.com/276844"
 osu_URL = "https://osu.ppy.sh/users/14769563"
-program_version = "v1.0.4"
+program_version = "v1.0.5"
 
 
 # #替换成你的图标文件路径
@@ -30,7 +31,8 @@ class Controller:
     ui: Win
 
     def __init__(self):
-        pass
+        self.threads = []  # 用于存储线程
+        self.semaphore = threading.BoundedSemaphore(min(os.cpu_count() + 4, 10))
 
     def init(self, ui):
         # 实例化
@@ -507,44 +509,45 @@ class Controller:
         paths = self.ui.tk.splitlist(event.data)
 
         def process_file(file):
-            # try:
-            if self.if_use_seed_value.get():
-                seed = int(self.ui.tk_input_seed_line.get() or 0)  # 使用 or 运算符处理空字符串
-                random.seed(seed)
-                np.random.seed(seed)
-            if self.selected_tab_index.get() == 0:
-                self.NtoNC(file)
-            elif self.selected_tab_index.get() == 1:
-                self.NtoNS(file)
-            elif self.selected_tab_index.get() == 2:
-                self.Everything_To_N(file)
-            elif self.selected_tab_index.get() == 3:
-                self.Jack_World(file)
-            elif self.selected_tab_index.get() == 4:
-                self.preset_convert(file)
+            with self.semaphore:  # 限制并发线程数
+                try:
+                    if self.if_use_seed_value.get():
+                        seed = int(self.ui.tk_input_seed_line.get() or 0)  # 使用 or 运算符处理空字符串
+                        random.seed(seed)
+                        np.random.seed(seed)
+                    selected_tab_index = self.selected_tab_index.get()
+                    if selected_tab_index == 0:
+                        self.NtoNC(file)
+                    elif selected_tab_index == 1:
+                        self.NtoNS(file)
+                    elif selected_tab_index == 2:
+                        self.Everything_To_N(file)
+                    elif selected_tab_index == 3:
+                        self.Jack_World(file)
+                    elif selected_tab_index == 4:
+                        self.preset_convert(file)
+                except Exception as e:
+                    print(f"处理文件 {file} 时发生错误: {e}")
 
-        # except Exception as e:
-        #     print(f"处理文件 {file} 时发生错误: {e}")
-        def handle_path(path):
-            path = Path(path)
-            if path.exists():
-                if path.is_file():
-                    if if_osu_file(str(path)):
-                        process_file(str(path))  # 直接处理文件
-                elif path.is_dir():
-                    for root_dir, dirs, files in os.walk(path):
+        def handle_path(path_str):
+            path1 = Path(path_str)
+            if path1.exists():
+                if path1.is_file():
+                    if if_osu_file(str(path1)):
+                        process_file(str(path1))  # 直接处理文件
+                elif path1.is_dir():
+                    for root_dir, dirs, files in os.walk(path1):
                         root_dir = Path(root_dir)
                         for name in files:
                             file_path = root_dir / name
                             if if_osu_file(str(file_path)):
                                 process_file(str(file_path))  # 直接处理文件
 
-        threading.BoundedSemaphore(value=min(len(paths), os.cpu_count() + 4, 10))
-        threads = []  # 新建一个线程列表
         for path in paths:
             thread = threading.Thread(target=handle_path, args=(path,))  # 创建线程
             thread.start()  # 启动线程
-            threads.append(thread)  # 添加到线程列表
+            self.threads.append(thread)  # 添加到线程列表
+
 
     def on_radio_button_select_E(self, selected_value):
         if selected_value == 1:
@@ -962,37 +965,46 @@ class Controller:
             file_name_osu, file_name_audio, file_name_BG = METAs.get_save_file_name()
             old_file_path_audio = Path(file).parent / file_name_audio
             old_file_path_BG = Path(file).parent / file_name_BG
+            copy_bg_flag = False
+            if file_name_BG != "null":
+                copy_bg_flag = True
             # 避免文件名重复标签，不使用随机数，直接从title和version中截取
             available_file_names_tag = ''.join([
                 old_version[1], str(len(old_title)), old_version[-1], str(len(old_version)),
                 old_title[-1]
             ])
 
-            file_name_audio = available_file_names_tag + file_name_audio
-            file_name_BG = available_file_names_tag + file_name_BG
-            METAs.set_data("AudioFilename", file_name_audio)
-            METAs.set_data("Background", file_name_BG)
-
-            new_file_path_audio = Path(new_file_path) / file_name_audio
-            new_file_path_BG = Path(new_file_path) / file_name_BG
-
             # 验证new_file_path是否存在，不存在则创建
             if not os.path.exists(new_file_path):
                 os.makedirs(new_file_path)
 
+            file_name_audio = available_file_names_tag + file_name_audio
+            METAs.set_data("AudioFilename", file_name_audio)
+            new_file_path_audio = Path(new_file_path) / file_name_audio
             # 复制音频文件
-            try:
-                shutil.copy(old_file_path_audio, new_file_path_audio)
-            except Exception as e:
-                error_message = f"复制音频文件时发生错误: - {e}"
-                print(error_message)
+            if os.path.exists(new_file_path_audio):
+                pass
+            else:
+                try:
+                    shutil.copy(old_file_path_audio, new_file_path_audio)
+                except Exception as e:
+                    error_message = f"复制音频文件时发生错误: - {e}"
+                    print(error_message)
 
             # 复制背景图文件
-            try:
-                shutil.copy(old_file_path_BG, new_file_path_BG)
-            except Exception as e:
-                error_message = f"复制背景图文件时发生错误: - {e}"
-                print(error_message)
+            if copy_bg_flag:
+                file_name_BG = available_file_names_tag + file_name_BG
+                new_file_path_BG = Path(new_file_path) / file_name_BG
+                if os.path.exists(new_file_path_BG):
+                    pass
+                else:
+                    print("进来")
+                    METAs.set_data("Background", file_name_BG)
+                    try:
+                        shutil.copy(old_file_path_BG, new_file_path_BG)
+                    except Exception as e:
+                        error_message = f"复制背景图文件时发生错误: - {e}"
+                        print(error_message)
 
             return Path(new_file_path) / file_name_osu
 

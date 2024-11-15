@@ -4,6 +4,7 @@ https://github.com/krrcream/krr-s-osumania-anyKeys-converter/
 """
 from functions import *
 
+
 class MataData:
     #lines 传入按行分割好的文本
     def __init__(self, lines):
@@ -14,20 +15,20 @@ class MataData:
             "Background", "beat_time"
         ]
         # 初始化字典来存储键值对
-        self.data = {"AudioFilename": "null",
-                     "Title": "null",
-                     "Artist": "null",
-                     "Creator": "null",
-                     "Version": "null",
-                     "Source": "null",
-                     "Tags": "null",
-                     "BeatmapID": "null",
-                     "BeatmapSetID": "null",
-                     "HPDrainRate": "null",
-                     "CircleSize": "null",
-                     "OverallDifficulty": "null",
-                     "Background": "null",
-                     "beat_time": "null"  #默认bpm150
+        self.data = {"AudioFilename": ["null", 0],
+                     "Title": ["null", 0],
+                     "Artist": ["null", 0],
+                     "Creator": ["null", 0],
+                     "Version": ["null", 0],
+                     "Source": ["null", 0],
+                     "Tags": ["null", 0],
+                     "BeatmapID": ["null", 0],
+                     "BeatmapSetID": ["null", 0],
+                     "HPDrainRate": ["null", 0],
+                     "CircleSize": ["null", 0],
+                     "OverallDifficulty": ["null", 0],
+                     "Background": ["null", 0],
+                     "beat_time": ["null", 0]  #默认bpm150
                      }
 
         event_flag = False  # 标记是否在 [Events] 区块内
@@ -45,10 +46,10 @@ class MataData:
                 if event_flag == False and "Background and Video event" in lines[i]:  #获得背景图片路径
                     event_flag = True
                     jndex = 1
-                    while event_flag and jndex < 6 :
+                    while event_flag and jndex < 6:
                         if "0,0," in lines[i + jndex] and ",0,0" in lines[i + jndex]:  #背景图片路径
                             self.data['Background'] = [lines[i + jndex][5:-5], i + jndex]  #lines[i + 1] 去掉前5个字符和后5个字符
-                            event_flag = True
+                            event_flag = False
                         jndex += 1
 
                 if time_flag == False and lines[i].strip() == "[TimingPoints]":  #获得节拍时间
@@ -73,6 +74,7 @@ class MataData:
         self.set_data("Creator", self.data['Creator'][0])
         self.set_data("BeatmapSetID", self.data['BeatmapSetID'][0])
         self.set_data("BeatmapID", self.data['BeatmapID'][0])
+
     def print_data(self):
         for key, value in self.data.items():
             print(f"{key}: {value}")
@@ -81,6 +83,8 @@ class MataData:
         return self.data[key]
 
     def set_data(self, key, new_value):
+        if self.data[key][0] == 0:
+            return
         self.data[key][0] = new_value
         if key == "Background" and self.data[key][0] != "null":
             self.mata[self.data[key][1]] = f'0,0,"{new_value}",0,0'

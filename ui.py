@@ -550,7 +550,7 @@ class Win(WinGUI):
         self.tk_button_gen_seed_button.bind('<Button-1>',self.ctl.gen_seed)
         self.drop_target_register(DND_FILES)  # 注册拖拽目标
         self.dnd_bind('<<Drop>>', self.ctl.on_drop)  # 绑定拖拽事件
-        pass
+
     def __style_config(self):
         pass
 if __name__ == "__main__":
