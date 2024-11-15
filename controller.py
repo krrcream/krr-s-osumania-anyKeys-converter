@@ -7,7 +7,6 @@ import os
 import shutil
 from pathlib import Path
 import threading
-import concurrent.futures
 from tkinter import BooleanVar, ttk, IntVar, DoubleVar
 from about_ui import WinGUI as AboutGUI
 from functions import *
