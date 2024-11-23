@@ -20,6 +20,8 @@ Here are some examples:  https://osu.ppy.sh/beatmapsets/2273345
 ![image5](https://raw.githubusercontent.com/krrcream/krr-s-osumania-anyKeys-converter/refs/heads/v1.0.0-ui-redesign-algorithm-opt/img/5.jpg)  
 **4K TO 7K TO 10K(2Blank)(Preset)**
 ![image6!](https://raw.githubusercontent.com/krrcream/krr-s-osumania-anyKeys-converter/refs/heads/v1.0.0-ui-redesign-algorithm-opt/img/6.jpg)
+**Jack World**
+![image7](https://github.com/krrcream/krr-s-osumania-anyKeys-converter/blob/v1.0.0-ui-redesign-algorithm-opt/img/7.jpg)
 </details>-------
 
 ### How to use? 如何使用？
