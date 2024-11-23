@@ -85,6 +85,13 @@ python main.py
 
 -------
 ## Changelog 更新日志
+V1.1.0 2024/11/24
+Optimize the algorithm, fix the load bug for the filter, and fix the issue of ineffective Jack Verticality.
+Now Jack World can control the number of notes stacked in a column.
+优化算法，修复load对于筛选器的BUG，修复杰克世界里的纵度无效的bug。
+现在杰克世界可以控制一列中的叠最高几连。
+
+-------
 V1.0.5 2024/11/15
 Fixed issues with bulk file transposition and errors with BG files when saving to a new path.修复大批量文件转谱错误问题，以及保存到新路径时BG文件错误的问题。
 

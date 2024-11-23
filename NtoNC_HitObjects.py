@@ -104,15 +104,17 @@ class NtoNC_HitObjects(hitobject.HitObjects):
         convert_MTX.append(list1)
         time_intervals = [self.MTX_start_time[i] - self.MTX_start_time[i - 1] for i in
                           range(1, len(self.MTX_start_time))]
+        max_holdtimes = np.max(self.MTX_hold_time, axis=1)
+        processed_holdtimes = np.maximum.accumulate(max_holdtimes)
         time_flag = 0
         with ThreadPoolExecutor(max_workers=max(os.cpu_count() - 4, 8)) as executor:  # 使用线程池并行处理
             for i, interval_time in enumerate(time_intervals, start=1):
                 time_flag += interval_time
-                if time_flag >= Interval:
+                if time_flag >= Interval and self.MTX_start_time[i] > processed_holdtimes[i]+50:
                     try:
                         temp = executor.submit(NtoNC_convert_array, keys, to_keys, blank).result()  # 并行生成新列表
                         count = 0
-                        while (different_num(temp, convert_MTX[-1]) > to_keys * different_num_ratio) and (count < 4):
+                        while (different_num(temp, convert_MTX[-1]) > to_keys * different_num_ratio) and (count < 2):
                             count += 1
                             temp = executor.submit(NtoNC_convert_array, keys, to_keys, blank).result()
                     except Exception as e:
@@ -122,13 +124,12 @@ class NtoNC_HitObjects(hitobject.HitObjects):
                     temp = convert_MTX[-1][:]  # 间隔时间不够，使用上一个结果
                 convert_MTX.append(temp)
         convert_MTX = np.array(convert_MTX)
-        convert_hold_time_MTX = self.MTX_hold_time[np.arange(self.MTX_hold_time.shape[0])[:, None], convert_MTX][
-                                :]  # 更新convert_hold_time
-        convert_in_LN_MTX = get_in_LN_position(convert_hold_time_MTX, self.MTX_start_time)  # 获取面条中的位置
-        convert_MTX[convert_in_LN_MTX] = -1
+        # convert_hold_time_MTX = self.MTX_hold_time[np.arange(self.MTX_hold_time.shape[0])[:, None], convert_MTX][
+        #                         :]  # 更新convert_hold_time
+        # convert_in_LN_MTX = get_in_LN_position(convert_hold_time_MTX, self.MTX_start_time)  # 获取面条中的位置
+        # # convert_MTX[convert_in_LN_MTX] = -1
         if del_jack_flag:
             convert_MTX = MTX_del_jack(self.MTX_start_time, convert_MTX, beat_time)
-
         if 0 <= density < 10:
             MTX_density_b1(convert_MTX, density)
 

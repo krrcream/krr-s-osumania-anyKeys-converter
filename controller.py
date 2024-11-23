@@ -20,7 +20,7 @@ from f_ico import img
 github_URL = "https://github.com/krrcream/krr-s-osumania-anyKeys-converter"
 bilibili_URL = "https://space.bilibili.com/276844"
 osu_URL = "https://osu.ppy.sh/users/14769563"
-program_version = "v1.0.5"
+program_version = "v1.1.0"
 
 
 # #替换成你的图标文件路径
@@ -107,9 +107,6 @@ class Controller:
         self.JW_w_density = DoubleVar(value=0.0)
         self.JW_h_density = DoubleVar(value=0.2)
         self.JW_add = IntVar(value=2)
-
-        # 读取配置文件
-        self.load_config()
 
         # 狂风插入控件
         # 元谱筛选框
@@ -207,6 +204,9 @@ class Controller:
         self.ui.tk_label_About.configure(cursor='hand2', foreground='blue', font=('', 10, 'underline'))
         self.ui.tk_label_About.bind("<Button-1>", self.open_about_window)
 
+        # 读取配置文件
+        self.load_config()
+
     def open_about_window(self, event):
         about_window = AboutGUI(self.language)
         about_window.grab_set()
@@ -273,15 +273,6 @@ class Controller:
                 except ValueError:
                     print(f"读取时line.strip()出错:")
             # 设置变量的值
-            self.s4mk_value.set(config_data.get('s4mk_value', False))
-            self.s4k_value.set(config_data.get('s4k_value', False))
-            self.s5k_value.set(config_data.get('s5k_value', False))
-            self.s6k_value.set(config_data.get('s6k_value', False))
-            self.s7k_value.set(config_data.get('s7k_value', False))
-            self.s8k_value.set(config_data.get('s8k_value', False))
-            self.s9k_value.set(config_data.get('s9k_value', False))
-            self.s10k_value.set(config_data.get('s10k_value', False))
-            self.s10pk_value.set(config_data.get('s10pk_value', False))
             self.if_sifting_value.set(config_data.get('if_sifting_value', False))
             self.if_del_jack_value.set(config_data.get('if_del_jack_value', False))
             self.if_save_to_org_value.set(config_data.get('if_save_to_org_value', True))
@@ -291,25 +282,16 @@ class Controller:
             self.step_value.set(config_data.get('step_value', 15))
             # 设置筛选
             if self.if_sifting_value.get():
-                self.ui.tk_check_button_s4mk.configure(state='enable')
-                self.ui.tk_check_button_s4k.configure(state='enable')
-                self.ui.tk_check_button_s5k.configure(state='enable')
-                self.ui.tk_check_button_s6k.configure(state='enable')
-                self.ui.tk_check_button_s7k.configure(state='enable')
-                self.ui.tk_check_button_s8k.configure(state='enable')
-                self.ui.tk_check_button_s9k.configure(state='enable')
-                self.ui.tk_check_button_s10k.configure(state='enable')
-                self.ui.tk_check_button_s10pk.configure(state='enable')
-
-            else:
-                self.ui.tk_check_button_s4mk.configure(state='disable')
-                self.ui.tk_check_button_s4k.configure(state='disable')
-                self.ui.tk_check_button_s5k.configure(state='disable')
-                self.ui.tk_check_button_s6k.configure(state='disable')
-                self.ui.tk_check_button_s7k.configure(state='disable')
-                self.ui.tk_check_button_s8k.configure(state='disable')
-                self.ui.tk_check_button_s9k.configure(state='disable')
-                self.ui.tk_check_button_s10k.configure(state='disable')
+                self.if_sifting()
+            self.s4mk_value.set(config_data.get('s4mk_value', False))
+            self.s4k_value.set(config_data.get('s4k_value', False))
+            self.s5k_value.set(config_data.get('s5k_value', False))
+            self.s6k_value.set(config_data.get('s6k_value', False))
+            self.s7k_value.set(config_data.get('s7k_value', False))
+            self.s8k_value.set(config_data.get('s8k_value', False))
+            self.s9k_value.set(config_data.get('s9k_value', False))
+            self.s10k_value.set(config_data.get('s10k_value', False))
+            self.s10pk_value.set(config_data.get('s10pk_value', False))
 
             # 更新输入框状态
             if self.if_save_to_org_value.get():
@@ -789,7 +771,7 @@ class Controller:
             if_note = HOBJs.MTX_if_note.copy()
             mask = update_matrix_mask(if_note, self.JW_w_density.get(), self.JW_h_density.get(), self.JW_add.get())
             if_not_in_LN = get_in_LN_position(HOBJs.MTX_hold_time, HOBJs.MTX_start_time, True)
-            HOBJs.MTX_if_note = update_matrix(if_note, mask, if_not_in_LN)
+            HOBJs.MTX_if_note = limit_consecutive_ones(update_matrix(if_note, mask, if_not_in_LN), self.JW_add.get())
             HOBJs_new_lines = HOBJs.get_to_keys_obj_NtoNS(array)
             # 把METAs_new_lines和HOBJs_new_lines写入文件,如果文件存在则覆盖内容，如果不存在则创建文件并写入
             combined_content = '\n'.join(METAs_new_lines) + '\n' + '\n'.join(HOBJs_new_lines)

@@ -39,7 +39,7 @@ key_value_MTX = [
 
 def key_value(column, keys):
     #注意这里是CS的值输入
-    return key_value_MTX[keys-1][column]
+    return key_value_MTX[keys - 1][column]
 
 
 def key_value_to_colunm(value, keys):
@@ -91,6 +91,7 @@ def if_osu_file(path):
         return True
     else:
         return False
+
 
 def osu_file_str_split1(input_str):
     if not isinstance(input_str, str):
@@ -450,7 +451,7 @@ def get_in_LN_position(MTX_hold_time, MTX_start_time, flag_out_LN=False):
     mask = np.zeros_like(MTX, dtype=bool)
     mask[1:] = MTX[1:] > MTX[:-1]
     flag_in_LN = np.zeros_like(MTX, dtype=bool)
-    flag_in_LN[1:] = (MTX[1:] + 10 > MTX_start_time[1:, None])
+    flag_in_LN[1:] = (MTX[1:] > MTX_start_time[1:, None])
     flag_in_LN[mask & (np.roll(flag_in_LN, 1, axis=0) == False)] = False
     if flag_out_LN:
         return ~flag_in_LN
@@ -598,3 +599,29 @@ def format_milliseconds(milliseconds):
     # 输出格式
     formatted_time = f"{minutes:02}:{seconds:02}:{formatted_milliseconds}"
     return formatted_time
+
+
+def check_blank_row(matrix):
+    rows_with_few_ones = np.where(np.sum(matrix == 1, axis=1) == 0)[0]  # 找到所有全为0的行
+    height_MTX = matrix.shape[0]
+    result = matrix.copy()
+
+    for row in rows_with_few_ones:
+        # 寻找上下两行都是0的列重新插入
+        valid_columns = None
+        if row == 0:  # 第一行
+            valid_columns = result[row + 1, :] == 0  # 检查下方
+            ones = np.sum(matrix[row + 1] == 1)
+        elif row == height_MTX - 1:  # 最后一行
+            valid_columns = result[row - 1, :] == 0  # 检查上方
+            ones = np.sum(matrix[row - 1] == 1)
+        else:  # 中间行
+            valid_columns = (result[row - 1, :] == 0) & (result[row + 1, :] == 0)  # 上下都为0
+            ones = (np.sum(matrix[row + 1] == 1) + np.sum(matrix[row - 1] == 1)) // 2  # 两行均为1的个数
+        index = np.where(valid_columns)[0]  # 找到有效列的索引
+        if index.size > 0:
+            num_to_add = min(ones, index.size)
+            new_values = np.random.choice(index, num_to_add, replace=False)  # 随机选择可插入的位置
+            result[row, new_values] = 1  # 在指定位置插入1
+
+    return result

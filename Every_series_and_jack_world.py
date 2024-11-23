@@ -191,3 +191,29 @@ def update_matrix(matrix, mask_update, mask_no_in_LN):
     mask_update_true = np.where(mask_update & mask_no_in_LN)
     result[mask_update_true] = 1
     return result
+
+def limit_consecutive_ones(matrix, n):  # 限制连续n个1
+    # 创建一个和输入矩阵相同形状的矩阵用于存储结果
+    result = np.zeros_like(matrix)
+
+    # 获取行数和列数
+    rows, cols = matrix.shape
+
+    for col in range(cols):
+        # 对每一列进行操作
+        column_data = matrix[:, col]
+        count = 0
+
+        # 使用布尔索引来标记需要置为0的元素
+        for i in range(rows):
+            if column_data[i] == 1:
+                count += 1
+                if count > n:
+                    result[i, col] = 0
+                    count = 0# 超过n，置为0
+                else:
+                    result[i, col] = 1  # 继续保留1
+            else:
+                count = 0  # 遇到0，重置计数
+
+    return result

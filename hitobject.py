@@ -219,22 +219,41 @@ class HitObjects:
     def get_to_keys_obj(self, MTX):
         to_keys = len(MTX[0])
         obj_str = []
+        new_IF_note = np.where(MTX == -1, 0,
+                               self.MTX_if_note[np.arange(self.MTX_if_note.shape[0])[:, None], MTX * (MTX != -1)])
+        new_IF_note = check_blank_row(new_IF_note)
         for i in range(len(self.MTX_start_time)):
             for j in range(to_keys):
                 # 检查 i 是否超过 MTX 的长度
                 if i >= len(MTX):
                     break
                 else:
-                    index = i
-                    if MTX[index][j] == -1:
-                        continue
-                    elif self.MTX_if_note[i][MTX[index][j]] == 1:
+                    if new_IF_note[i][j] == 1:
                         start_time = self.MTX_start_time[i]
-                        if_ln = self.MTX_if_ln[i][MTX[index][j]]
-                        hold_time = self.MTX_hold_time[i][MTX[index][j]]
-                        hs = self.MTX_hs[i][MTX[index][j]]
+                        if_ln = self.MTX_if_ln[i][MTX[i][j]]
+                        hold_time = self.MTX_hold_time[i][MTX[i][j]]
+                        hs = self.MTX_hs[i][MTX[i][j]] if self.MTX_hs[i][MTX[i][j]] != "" else ":0:0:0:"
                         obj_str.append(f"{key_value(j, to_keys)},192,{start_time},{if_ln},0,{hold_time}{hs}")
         return obj_str
+    # def get_to_keys_obj(self, MTX):
+    #     to_keys = len(MTX[0])
+    #     obj_str = []
+    #     for i in range(len(self.MTX_start_time)):
+    #         for j in range(to_keys):
+    #             # 检查 i 是否超过 MTX 的长度
+    #             if i >= len(MTX):
+    #                 break
+    #             else:
+    #                 index = i
+    #                 if MTX[index][j] == -1:
+    #                     continue
+    #                 elif self.MTX_if_note[i][MTX[index][j]] == 1:
+    #                     start_time = self.MTX_start_time[i]
+    #                     if_ln = self.MTX_if_ln[i][MTX[index][j]]
+    #                     hold_time = self.MTX_hold_time[i][MTX[index][j]]
+    #                     hs = self.MTX_hs[i][MTX[index][j]]
+    #                     obj_str.append(f"{key_value(j, to_keys)},192,{start_time},{if_ln},0,{hold_time}{hs}")
+    #     return obj_str
 
     def get_to_keys_obj_NtoNS(self, array):
         to_keys = len(array)
