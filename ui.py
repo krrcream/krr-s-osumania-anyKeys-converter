@@ -29,6 +29,7 @@ class WinGUI(TkinterDnD.Tk):
         self.tk_check_button_s10pk = self.__tk_check_button_s10pk( self.tk_frame_container_sift)
         self.tk_check_button_s4mk = self.__tk_check_button_s4mk( self.tk_frame_container_sift)
         self.tk_check_button_if_sifting = self.__tk_check_button_if_sifting( self.tk_frame_container_if_sift)
+        self.tk_check_button_not_overlap = self.__tk_check_button_not_overlap( self.tk_frame_container_if_sift) 
         self.tk_frame_container_2 = self.__tk_frame_container_2( self.tk_tabs_select_0)
         self.tk_check_button_if_del_jack = self.__tk_check_button_if_del_jack( self.tk_frame_container_2)
         self.tk_label_lab_density = self.__tk_label_lab_density( self.tk_tabs_select_0)
@@ -252,9 +253,14 @@ class WinGUI(TkinterDnD.Tk):
         cb.place(relx=0.7012, rely=0.5077, relwidth=0.2590, relheight=0.4615)
         return cb
     def __tk_check_button_if_sifting(self,parent):
-        cb = Checkbutton(parent,text="元 谱 筛 选：",)
-        cb.place(relx=0.0070, rely=0.2000, relwidth=0.2465, relheight=0.4000)
+        cb = Checkbutton(parent,text="过 滤 器：",)
+        cb.place(relx=0.0000, rely=0.0000, relwidth=0.2465, relheight=0.4000)
         return cb
+    def __tk_check_button_not_overlap(self,parent):
+        cb = Checkbutton(parent,text="不 覆 盖",)
+        cb.place(relx=0.0000, rely=0.4533, relwidth=0.2865, relheight=0.4000)
+        return cb
+
     def __tk_frame_container_2(self,parent):
         frame = Frame(parent,)
         frame.place(relx=0.0000, rely=0.5073, relwidth=0.9838, relheight=0.1095)
@@ -528,7 +534,7 @@ class WinGUI(TkinterDnD.Tk):
         frame.place(relx=0.0000, rely=0.9426, relwidth=0.9841, relheight=0.0574)
         return frame
     def __tk_label_rights_line(self,parent):
-        label = Label(parent,text="© Copyright 2024 krrcream All Rights Reserved",anchor="center", )
+        label = Label(parent,text="© Copyright 2024 krrcream | Github",anchor="center", )
         label.place(relx=0.0069, rely=0.0000, relwidth=0.6582, relheight=0.7667)
         return label
     def __tk_label_About(self,parent):
@@ -539,6 +545,9 @@ class WinGUI(TkinterDnD.Tk):
         label = Label(parent,text="Language",anchor="center", )
         label.place(relx=0.8360, rely=0.0000, relwidth=0.1478, relheight=0.7667)
         return label
+
+
+
 class Win(WinGUI):
     def __init__(self, controller):
         self.ctl = controller

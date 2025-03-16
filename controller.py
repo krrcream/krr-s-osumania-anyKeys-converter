@@ -16,11 +16,12 @@ from preset_HitObjects import Preset_HitObjects
 from matadata import MataData
 from ui import Win
 from f_ico import img
+import webbrowser
 
 github_URL = "https://github.com/krrcream/krr-s-osumania-anyKeys-converter"
 bilibili_URL = "https://space.bilibili.com/276844"
 osu_URL = "https://osu.ppy.sh/users/14769563"
-program_version = "v1.1.0"
+program_version = "v1.1.1"
 
 
 # #替换成你的图标文件路径
@@ -32,7 +33,7 @@ class Controller:
     def __init__(self):
         self.threads = []  # 用于存储线程
         self.semaphore = threading.BoundedSemaphore(min(os.cpu_count() + 4, 10))
-
+        self.rand_lock = threading.Lock()
     def init(self, ui):
         # 实例化
         self.ui = ui
@@ -65,6 +66,7 @@ class Controller:
         self.s10pk_value = BooleanVar(value=False)
 
         self.if_sifting_value = BooleanVar(value=False)
+        self.if_overlap_value = BooleanVar(value=False)
 
         self.if_del_jack_value = BooleanVar(value=True)
 
@@ -125,6 +127,9 @@ class Controller:
                                                      offvalue=False, command=self.if_sifting)
         # 点击元谱筛选框时，根据元谱筛选框的状态，设置元谱筛选框的状态
 
+        self.ui.tk_check_button_not_overlap.configure(variable=self.if_overlap_value, cursor='hand2', onvalue=True,
+                                                       offvalue=False)
+
         # 是否处理子弹
         self.ui.tk_check_button_if_del_jack.configure(variable=self.if_del_jack_value, cursor='hand2', onvalue=True,
                                                       offvalue=False)
@@ -150,7 +155,7 @@ class Controller:
         # 初始化密度滑条
         # 滑条范围为1到10，初始值为10，步长为1，和density_value绑定
         self.ui.tk_scale_density_slider.configure(from_=0, to=10, variable=self.density_value,
-                                                  command=self.density_change)
+                                                  command=self.density_change, state='disable')
 
         # 初始化步距滑条
         # 滑条范围为1到20，初始值为15，步长为1，和step_value绑定
@@ -199,7 +204,10 @@ class Controller:
         # 给标签Github添加链接
         self.ui.tk_label_change.configure(cursor='hand2', foreground='blue', font=('', 10, 'underline'))
         self.ui.tk_label_change.bind("<Button-1>", lambda event: self.change_language())  # 绑定鼠标左键单击事件
-        # self.ui.tk_label_Github.bind("<Button-1>", lambda e: webbrowser.open_new(github_URL))  # 绑定鼠标左键单击事件
+        self.ui.tk_label_rights_line.configure(cursor='hand2', foreground='blue', font=('', 10, 'underline'))
+        self.ui.tk_label_rights_line.bind("<Button-1>", lambda e: webbrowser.open_new(github_URL))  # 绑定鼠标左键单击事件
+
+
         # About标签
         self.ui.tk_label_About.configure(cursor='hand2', foreground='blue', font=('', 10, 'underline'))
         self.ui.tk_label_About.bind("<Button-1>", self.open_about_window)
@@ -493,20 +501,36 @@ class Controller:
             with self.semaphore:  # 限制并发线程数
                 try:
                     if self.if_use_seed_value.get():
-                        seed = int(self.ui.tk_input_seed_line.get() or 0)  # 使用 or 运算符处理空字符串
-                        random.seed(seed)
-                        np.random.seed(seed)
-                    selected_tab_index = self.selected_tab_index.get()
-                    if selected_tab_index == 0:
-                        self.NtoNC(file)
-                    elif selected_tab_index == 1:
-                        self.NtoNS(file)
-                    elif selected_tab_index == 2:
-                        self.Everything_To_N(file)
-                    elif selected_tab_index == 3:
-                        self.Jack_World(file)
-                    elif selected_tab_index == 4:
-                        self.preset_convert(file)
+                        seedstr = self.ui.tk_input_seed_line.get()
+                        if len(seedstr) > 9:
+                            seedstr = seedstr[:9]
+                        seed = int(seedstr or 0)  # 使用 or 运算符处理空字符串
+
+                        with self.rand_lock:  # 使用锁保证原子操作
+
+                            # 保存原始状态
+                            original_random_state = random.getstate()
+                            original_np_state = np.random.get_state()
+
+                            random.seed(seed)
+                            np.random.seed(seed)
+
+                            selected_tab_index = self.selected_tab_index.get()
+                            if selected_tab_index == 0:
+                                self.NtoNC(file)
+                            elif selected_tab_index == 1:
+                                self.NtoNS(file)
+                            elif selected_tab_index == 2:
+                                self.Everything_To_N(file)
+                            elif selected_tab_index == 3:
+                                self.Jack_World(file)
+                            elif selected_tab_index == 4:
+                                self.preset_convert(file)
+
+                            # 恢复原始状态
+                            random.setstate(original_random_state)
+                            np.random.set_state(original_np_state)
+
                 except Exception as e:
                     print(f"处理文件 {file} 时发生错误: {e}")
 
@@ -607,12 +631,28 @@ class Controller:
                 new_file_path_osu = new_file_path_osu.parent / (
                         new_file_path_osu.stem[:255 - len(new_file_path_osu.suffix)] + new_file_path_osu.suffix)
             try:
-                if os.path.exists(new_file_path_osu):
-                    with open(new_file_path_osu, 'w', encoding='utf-8') as f:
+                if self.if_overlap_value.get():
+                    number = 1
+                    original_stem = new_file_path_osu.stem[:-1]  # 去掉最后一个字符
+                    original_suffix = new_file_path_osu.suffix
+                    parent_dir = new_file_path_osu.parent
+                    new_file_path_osu = parent_dir / f"{original_stem}_{number}]{original_suffix}"
+
+                    while os.path.exists(new_file_path_osu):
+                        number += 1
+                        new_file_path_osu = parent_dir / f"{original_stem}_{number}]{original_suffix}"
+                    oldv = METAs.get_data("Version")[0]
+                    temp = oldv + "_" + str(number)
+                    with open(new_file_path_osu, 'x', encoding='utf-8') as f:
+                        combined_content = combined_content.replace(f"Version:{oldv}", f"Version:{temp}")
                         f.write(combined_content)
                 else:
-                    with open(new_file_path_osu, 'x', encoding='utf-8') as f:
-                        f.write(combined_content)
+                    if os.path.exists(new_file_path_osu):
+                        with open(new_file_path_osu, 'w', encoding='utf-8') as f:
+                                f.write(combined_content)
+                    else:
+                        with open(new_file_path_osu, 'x', encoding='utf-8') as f:
+                            f.write(combined_content)
             except Exception as e:
                 print(f"创建文件时发生错误: {e}")
 
@@ -1004,7 +1044,8 @@ class Controller:
         # 更新其他控件的文本
         self.ui.tk_label_leb_convert_interval.configure(text="转换速度：" if self.language == 'zh' else "Conv. Speed:")
         self.ui.tk_label_leb_to_key.configure(text="目标键数：" if self.language == 'zh' else "Target Key:")
-        self.ui.tk_check_button_if_sifting.configure(text="谱面过滤：" if self.language == 'zh' else "filter:")
+        self.ui.tk_check_button_if_sifting.configure(text="过 滤 器：" if self.language == 'zh' else "Filter:")
+        self.ui.tk_check_button_not_overlap.configure(text="不 覆 盖" if self.language == 'zh' else "File not overlap")
         self.ui.tk_check_button_if_del_jack.configure(
             text="处理生成的Jack" if self.language == 'zh' else "Del Gene Jacks")
         self.ui.tk_label_lab_density.configure(text="密  度：" if self.language == 'zh' else "Density:")

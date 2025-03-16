@@ -87,6 +87,14 @@ python main.py
 
 -------
 ## Changelog 更新日志
+V1.1.1 2025/3/16
+Fixed the issue where the same seed generated inconsistent arrangements for the same osu file during batch processing.
+Added an option to prevent file not overlap, making it easier to test and compare arrangements.
+修正seed在批量处理中对同一个osu文件生成的排列仍然不一致的问题。 
+增加文件不覆盖的选项，方便测试排列。 
+
+-------
+
 V1.1.0 2024/11/24
 Optimize the algorithm, fix the load bug for the filter, and fix the issue of ineffective Jack Verticality.
 Now Jack World can control the number of notes stacked in a column.
