@@ -90,7 +90,7 @@ python main.py
 V1.1.1 2025/3/16
 Fixed the issue where the same seed generated inconsistent arrangements for the same osu file during batch processing.
 Added an option to prevent file not overlap, making it easier to test and compare arrangements.
-Disable the density option until a valuable density adjustment feature is developed. It is prone to bugs at the moment.
+Disable the density option until a valuable density adjustment feature is developed. It is prone to bugs at the moment.(You can used blank to control density)
 修正seed在批量处理中对同一个osu文件生成的排列仍然不一致的问题。 
 增加文件不覆盖的选项，方便测试排列。 
 禁用密度选项，直到开发出有价值的密度调整功能。目前容易出BUG。
