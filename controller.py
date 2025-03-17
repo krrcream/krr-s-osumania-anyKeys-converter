@@ -21,7 +21,7 @@ import webbrowser
 github_URL = "https://github.com/krrcream/krr-s-osumania-anyKeys-converter"
 bilibili_URL = "https://space.bilibili.com/276844"
 osu_URL = "https://osu.ppy.sh/users/14769563"
-program_version = "v1.1.1"
+program_version = "v1.1.2"
 
 
 # #替换成你的图标文件路径
@@ -494,6 +494,28 @@ class Controller:
         int_value = int(float(value))  # 将浮点数转为整数
         self.ui.tk_label_JW_add_lab.configure(text=str(int_value))  # 更新IntVar的值
 
+    def is_mode_3_in_content(self, content):
+        try:
+            #   使用正则表达式匹配"Mode:"和"3"，中间可以有0个或多个空格
+            pattern = r"Mode:\s*3"
+            return bool(re.search(pattern, content))
+
+        except Exception as e:
+            return False
+
+    def Do(self, file):
+        selected_tab_index = self.selected_tab_index.get()
+        if selected_tab_index == 0:
+            self.NtoNC(file)
+        elif selected_tab_index == 1:
+            self.NtoNS(file)
+        elif selected_tab_index == 2:
+            self.Everything_To_N(file)
+        elif selected_tab_index == 3:
+            self.Jack_World(file)
+        elif selected_tab_index == 4:
+            self.preset_convert(file)
+
     def on_drop(self, event):
         paths = self.ui.tk.splitlist(event.data)
 
@@ -515,22 +537,13 @@ class Controller:
                             random.seed(seed)
                             np.random.seed(seed)
 
-                            selected_tab_index = self.selected_tab_index.get()
-                            if selected_tab_index == 0:
-                                self.NtoNC(file)
-                            elif selected_tab_index == 1:
-                                self.NtoNS(file)
-                            elif selected_tab_index == 2:
-                                self.Everything_To_N(file)
-                            elif selected_tab_index == 3:
-                                self.Jack_World(file)
-                            elif selected_tab_index == 4:
-                                self.preset_convert(file)
+                            self.Do(file)
 
                             # 恢复原始状态
                             random.setstate(original_random_state)
                             np.random.set_state(original_np_state)
-
+                    else:
+                        self.Do(file)
                 except Exception as e:
                     print(f"处理文件 {file} 时发生错误: {e}")
 
@@ -568,7 +581,9 @@ class Controller:
         """
         with open(file, 'r', encoding='utf-8') as f:
             content = f.read()
-
+        if self.is_mode_3_in_content(content)==False:
+            # 结束后边所有的处理
+            return
         META, HOBJ = osu_file_str_split1(content)
         METAs = MataData(META)
         org_keys = int(METAs.get_data("CircleSize")[0])
